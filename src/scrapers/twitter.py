@@ -146,6 +146,15 @@ class TwitterScraper(BaseScraper):
 
         await self._resolve_query_ids()
 
+        # Quick connectivity check — if auth is broken (ct0 expired, etc.)
+        # skip the entire Twitter fetch instead of failing per-user.
+        if not await self._test_connectivity(bearer, ct0, cookies_str):
+            logger.warning(
+                "X API connectivity check failed (ct0 expired or endpoint blocked). "
+                "Skipping Twitter source entirely."
+            )
+            return []
+
         logger.info(f"Fetching Twitter (GraphQL) for users: {users}")
 
         all_items: List[ContentItem] = []
@@ -291,6 +300,44 @@ class TwitterScraper(BaseScraper):
         }
 
     # ------------------------------------------------------------------
+    # Connectivity check
+    # ------------------------------------------------------------------
+
+    async def _test_connectivity(
+        self, bearer: str, ct0: str, cookies_str: str
+    ) -> bool:
+        """Single lightweight request to verify auth + queryId work."""
+        try:
+            headers = self._build_headers(bearer, ct0)
+            headers["cookie"] = cookies_str
+            variables = json.dumps(
+                {"screen_name": "X", "withSafetyModeUserFields": True},
+                separators=(",", ":"),
+            )
+            features = json.dumps(
+                {
+                    "hidden_profile_subscriptions_enabled": True,
+                    "responsive_web_graphql_exclude_directive_enabled": True,
+                    "verified_phone_label_enabled": False,
+                    "responsive_web_graphql_timeline_navigation_enabled": True,
+                },
+                separators=(",", ":"),
+            )
+            resp = await self.client.get(
+                self._graphql_url("UserByScreenName"),
+                headers=headers,
+                params={"variables": variables, "features": features},
+                timeout=10.0,
+            )
+            ok = resp.status_code == 200
+            if not ok:
+                logger.warning(f"Connectivity check returned {resp.status_code}")
+            return ok
+        except Exception as exc:
+            logger.warning(f"Connectivity check failed: {exc}")
+            return False
+
+    # ------------------------------------------------------------------
     # User ID resolution
     # ------------------------------------------------------------------
 
@@ -350,7 +397,17 @@ class TwitterScraper(BaseScraper):
                     f"— credentials may be expired."
                 )
                 return None
-            resp.raise_for_status()
+            if resp.status_code == 404:
+                logger.warning(
+                    f"Got 404 resolving @{username} — queryId expired or "
+                    f"endpoint blocked. Skipping Twitter."
+                )
+                return None
+            if resp.status_code != 200:
+                logger.warning(
+                    f"Unexpected status {resp.status_code} resolving @{username}."
+                )
+                return None
 
             data = resp.json()
             result = data.get("data", {}).get("user", {}).get("result", {})
