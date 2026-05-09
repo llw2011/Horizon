@@ -1,8 +1,9 @@
 name: Daily Horizon Summary
 
 on:
-  schedule:
-    - cron: '0 0 * * *'  # UTC 00:00 = UTC+8 08:00 每天
+  # schedule 已禁用 —— 由 Hermes cron job (147579e73365) 每天触发
+  # schedule:
+  #   - cron: '0 0 * * *'  # UTC 00:00 = UTC+8 08:00 每天
   workflow_dispatch:      # Allow manual trigger
 
 jobs:
