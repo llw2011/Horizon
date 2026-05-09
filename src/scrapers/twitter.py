@@ -4,6 +4,7 @@ import asyncio
 import json
 import logging
 import os
+import re
 import time
 from datetime import datetime, timezone
 from html import unescape
@@ -18,20 +19,22 @@ logger = logging.getLogger(__name__)
 
 # ---------- GraphQL endpoint constants ----------
 
-# UserTweets queryId — this can change when X updates their frontend.
-# If requests start failing with non-200, update this value by inspecting
-# network requests in a logged-in browser session.
-_USER_TWEETS_QUERY_ID = "V7H0Ap3_Hh2FyS75OCDO3Q"
-_USER_TWEETS_URL = f"https://x.com/i/api/graphql/{_USER_TWEETS_QUERY_ID}/UserTweets"
-
-# UserByScreenName — resolves a handle to userId + rest_id
-_USER_BY_SCREEN_NAME_QUERY_ID = "G3KGOASz96M-Qu0nwmGXNg"
-_USER_BY_SCREEN_NAME_URL = (
-    f"https://x.com/i/api/graphql/{_USER_BY_SCREEN_NAME_QUERY_ID}/UserByScreenName"
-)
+# X changes queryIds on every frontend deploy.  We resolve them
+# dynamically by scraping the main JS bundle from abs.twimg.com.
+# Fallback values (will be overwritten on first successful resolve):
+_FALLBACK_QUERY_IDS: Dict[str, str] = {
+    "UserByScreenName": "IGgvgiOx4QZndDHuD3x9TQ",
+    "UserTweets": "lrMzG9qPQHpqJdP3AbM-bQ",
+    "TweetDetail": "_i0BBmP_dK_ZLFa2Y-ei9Q",
+}
 
 # SearchAdaptive — used for fetching replies (conversation_id search)
 _SEARCH_ADAPTIVE_URL = "https://x.com/i/api/2/search/adaptive.json"
+
+# Regex to extract queryId + operationName from X's JS bundles.
+_QID_RE = re.compile(
+    r'queryId:"([a-zA-Z0-9_-]{15,30})",operationName:"(\w+)"'
+)
 
 # Feature flags required by the UserTweets endpoint.
 # These are the standard set as of 2025. If the API starts returning
@@ -75,6 +78,52 @@ class TwitterScraper(BaseScraper):
         self.config: TwitterConfig = config
         self._user_id_cache: Dict[str, str] = {}
         self._last_request_time: float = 0.0
+        self._query_ids: Dict[str, str] = dict(_FALLBACK_QUERY_IDS)  # resolved lazily
+
+    # ------------------------------------------------------------------
+    # Dynamic queryId resolution
+    # ------------------------------------------------------------------
+
+    async def _resolve_query_ids(self) -> None:
+        """Fetch X's main JS bundle and extract current GraphQL queryIds."""
+        if self._query_ids.get("_resolved"):
+            return
+        try:
+            # Step 1: find the main JS bundle URL from the HTML page
+            resp = await self.client.get(
+                "https://x.com", follow_redirects=True, timeout=10.0
+            )
+            html = resp.text
+            # Extract all client-web JS URLs
+            js_urls = re.findall(
+                r'https://abs\.twimg\.com/responsive-web/client-web/main\.[a-f0-9]+\.js',
+                html,
+            )
+            if not js_urls:
+                logger.warning("Could not find X main.js bundle URL, using fallback queryIds")
+                return
+
+            # Step 2: download the main JS bundle and extract queryIds
+            js_resp = await self.client.get(js_urls[0], timeout=15.0)
+            js_text = js_resp.text
+
+            for qid, op_name in _QID_RE.findall(js_text):
+                if op_name in self._query_ids:
+                    self._query_ids[op_name] = qid
+                    logger.debug(f"Resolved queryId: {op_name} -> {qid}")
+
+            self._query_ids["_resolved"] = "true"
+            logger.info(
+                f"X queryIds resolved: UserByScreenName={self._query_ids.get('UserByScreenName')}, "
+                f"UserTweets={self._query_ids.get('UserTweets')}"
+            )
+        except Exception as exc:
+            logger.warning(f"Failed to resolve X queryIds dynamically: {exc}")
+
+    def _graphql_url(self, operation: str) -> str:
+        """Build a GraphQL URL for the given operation name."""
+        qid = self._query_ids.get(operation, "")
+        return f"https://x.com/i/api/graphql/{qid}/{operation}"
 
     # ------------------------------------------------------------------
     # Public interface
@@ -94,6 +143,8 @@ class TwitterScraper(BaseScraper):
             return []
 
         bearer, ct0, auth_token, cookies_str = creds
+
+        await self._resolve_query_ids()
 
         logger.info(f"Fetching Twitter (GraphQL) for users: {users}")
 
@@ -284,7 +335,7 @@ class TwitterScraper(BaseScraper):
         try:
             await self._rate_limit_guard()
             resp = await self.client.get(
-                _USER_BY_SCREEN_NAME_URL,
+                self._graphql_url("UserByScreenName"),
                 headers=headers,
                 params=params,
                 timeout=15.0,
@@ -368,7 +419,7 @@ class TwitterScraper(BaseScraper):
             try:
                 await self._rate_limit_guard()
                 resp = await self.client.get(
-                    _USER_TWEETS_URL,
+                    self._graphql_url("UserTweets"),
                     headers=headers,
                     params=params,
                     timeout=20.0,
