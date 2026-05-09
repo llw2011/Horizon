@@ -5,173 +5,365 @@ date: 2026-05-09
 lang: zh
 ---
 
-> From 12 items, 7 important content pieces were selected
+> From 103 items, 16 important content pieces were selected
 
 ---
 
-1. [谷歌的新 reCAPTCHA 导致去谷歌化 Android 用户无法使用](#item-1) ⭐️ 8.0/10
-2. [AI 正在打破两种漏洞文化](#item-2) ⭐️ 8.0/10
-3. [Meta 关闭 Instagram 私信端到端加密](#item-3) ⭐️ 8.0/10
-4. [Mojo 1.0 Beta 发布，引入类 Rust 所有权、编译期计算和 SIMD](#item-4) ⭐️ 8.0/10
-5. [WebRTC 低延迟音频损害 LLM 提示准确性](#item-5) ⭐️ 8.0/10
-6. [使用 Claude Code：HTML 的显著效果](#item-6) ⭐️ 8.0/10
-7. [Meshtastic 简介：基于 LoRa 的开源离网网状通信](#item-7) ⭐️ 7.0/10
+1. [AI 正在打破两种漏洞文化](#item-1) ⭐️ 8.0/10
+2. [Anthropic 研究：教导 AI 规则背后的原因](#item-2) ⭐️ 8.0/10
+3. [连续性基准测试编码 Agent 编辑过程中的一致性](#item-3) ⭐️ 8.0/10
+4. [DeepSeek 寻求 73.5 亿美元融资，计划下月发布 V4.1](#item-4) ⭐️ 8.0/10
+5. [Gemma 4 26B 在单张 RTX 5090 上达到 600 tok/s](#item-5) ⭐️ 8.0/10
+6. [DS4：专为 128GB MacBook 上的 DeepSeek 4 Flash 优化的推理引擎](#item-6) ⭐️ 8.0/10
+7. [LLM 输出应使用 HTML 而非 Markdown](#item-7) ⭐️ 7.0/10
+8. [五角大楼将避免依赖单一人工智能供应商](#item-8) ⭐️ 7.0/10
+9. [AI 模型可提前三年检测胰腺癌](#item-9) ⭐️ 7.0/10
+10. [AMD 开源 GAIA AI 新增 Gmail 集成](#item-10) ⭐️ 7.0/10
+11. [vLLM ROCm 后端作为实验性选项加入 Lemonade](#item-11) ⭐️ 7.0/10
+12. [AI2 发布 EMO：1B/14B MoE 模型，带文档级路由](#item-12) ⭐️ 7.0/10
+13. [MTP+TurboQuant 在 Qwen3.6-27B 上实现单 RTX 4090 百万文本中 80+ t/s](#item-13) ⭐️ 7.0/10
+14. [MTP 加速效果高度依赖接受率](#item-14) ⭐️ 7.0/10
+15. [Z-Lab 发布 Gemma-4-26B 的 DFlash 投机解码版本](#item-15) ⭐️ 7.0/10
+16. [通过 PCI 直通在 Apple Silicon 上运行 CUDA 推理](#item-16) ⭐️ 7.0/10
 
 ---
 
 <a id="item-1"></a>
-## [谷歌的新 reCAPTCHA 导致去谷歌化 Android 用户无法使用](https://reclaimthenet.org/google-broke-recaptcha-for-de-googled-android-users) ⭐️ 8.0/10
+## [AI 正在打破两种漏洞文化](https://www.jefftk.com/p/ai-is-breaking-two-vulnerability-cultures) ⭐️ 8.0/10
 
-谷歌推出了依赖远程认证的新 reCAPTCHA 系统，导致缺乏谷歌 Play 服务的去谷歌化 Android 用户无法通过验证。该问题在 2025 年初于 Hacker News 上引发广泛讨论。 这一变化影响了注重隐私的 GrapheneOS 等 ROM 用户，可能迫使他们要么使用谷歌服务，要么被众多网站拒之门外。这引发了关于在开放网络上防机器人功能与用户自由之间如何平衡的担忧。 新的 reCAPTCHA 使用远程认证链（从 EK 到 AIK），将设备硬件身份与验证者绑定，谷歌服务器可能记录该转换过程。它似乎需要谷歌 Play 服务，没有该服务的设备无法通过，有用户报告甚至 archive.is 也弹出二维码要求，暗示了类似 KYC 的验证方式。
+AI 辅助的漏洞利用生成正在加速已有的快速漏洞利用趋势，其驱动力是软件透明度的提高和逆向工具的改进。 这一转变破坏了传统的漏洞披露生态系统，使防御者更难领先于攻击者，尤其是对于那些无法快速修补的组织。 文章以 Log4Shell 为例，黑帽黑客在官方补丁发布之前就通过差异分析发现了修复提交。AI 使得漏洞利用生成更便宜、更快，加剧了现有的不对称性。
 
-hackernews · anonymousiam · May 8, 18:45 · [社区讨论](https://news.ycombinator.com/item?id=48067119)
+hackernews · speckx · May 8, 17:55 · [社区讨论](https://news.ycombinator.com/item?id=48066524)
 
-**背景**: 远程认证是可信计算的概念，通过 TPM 等硬件验证远程系统的完整性。去谷歌化 Android 指移除了谷歌专有服务的安卓系统，常用于隐私保护。谷歌一直通过云欺诈防御将 reCAPTCHA 转向硬件认证。
+**背景**: 新闻讨论了两种漏洞文化：一种是以禁运方式负责任地披露漏洞，另一种是攻击者快速开发并部署利用程序。软件的透明度不断提高，例如开源和更好的反编译工具，使界限变得模糊。像 LLM 这样的 AI 辅助工具现在可以根据漏洞描述生成利用代码，缩短了修补窗口。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Remote_attestation">Remote attestation</a></li>
-<li><a href="https://en.wikipedia.org/wiki/DeGoogle">DeGoogle - Wikipedia</a></li>
-<li><a href="https://confidentialcomputing.io/2024/10/02/what-is-remote-attestation-enhancing-data-governance-with-confidential-computing/">What Is Remote Attestation? Enhancing Data Governance with Confidential Computing – Confidential Computing Consortium</a></li>
+<li><a href="https://medium.com/@instatunnel/wwai-powered-attack-automation-when-machine-learning-writes-the-exploit-code-9eb00af91a51">AI-Powered Attack Automation: When Machine Learning Writes the Exploit Code - Medium</a></li>
+<li><a href="https://www.cisa.gov/resources-tools/resources/framing-software-component-transparency-2024">Framing Software Component Transparency (2024) - CISA</a></li>
 
 </ul>
 </details>
 
-**社区讨论**: HN 评论者表达了失望：coppsilgod 详解了远程认证机制和追踪可能性，dwedge 分享了迁移到 GrapheneOS 的经历，pixel_popping 批评强制 KYC，tinycommit 寻找替代验证码。整体情绪认为谷歌的此举是加强监控和用户锁定。
+**社区讨论**: 安全专家 tptacek 指出，早在 LLM 出现之前就已经预测到了这一点，催化剂是软件透明度的提高。freeqaz 详细描述了 Log4Shell 的时间线。rikafurude21 认为这是旧问题被重新包装成 AI 问题，并指出更便宜的漏洞利用生成使得协调披露更为重要。dmurray 讽刺地建议将 Linux 转为闭源开发模式。
 
-**标签**: `#reCAPTCHA`, `#de-googled Android`, `#remote attestation`, `#privacy`, `#Google`
+**标签**: `#AI`, `#vulnerability disclosure`, `#LLM security`, `#software transparency`, `#exploit generation`
 
 ---
 
 <a id="item-2"></a>
-## [AI 正在打破两种漏洞文化](https://www.jefftk.com/p/ai-is-breaking-two-vulnerability-cultures) ⭐️ 8.0/10
+## [Anthropic 研究：教导 AI 规则背后的原因](https://www.anthropic.com/research/teaching-claude-why) ⭐️ 8.0/10
 
-AI，尤其是大语言模型，正在通过更快从代码变更中识别安全漏洞和加速漏洞利用生成，重塑传统的补丁竞赛。 这一发展迫使重新评估协调漏洞披露实践，因为更快的漏洞利用生成可能需要更短的禁运期或更迅速的响应，影响各行业的软件安全。 AI 工具能快速分析补丁以定位漏洞，而开源和源码可用软件的普及使得此类分析广泛可及，削弱了通过隐匿实现安全的效果。
+Anthropic 发布了关于教导 AI 模型规则背后理由的研究，而不仅仅是规则本身，旨在提升对齐性和泛化能力。 这种方法可能带来更稳健、更灵活的 AI 系统，使其更好地理解人类价值观，减少在新型情境下奖励黑客行为和目标偏差的风险。 该研究使用合成数据和思维链推理来训练模型阐述某些规则存在的原因，并发现这改善了对分布外场景的泛化能力。
 
-hackernews · speckx · May 8, 17:55 · [社区讨论](https://news.ycombinator.com/item?id=48066524)
+hackernews · pretext · May 8, 17:59 · [社区讨论](https://news.ycombinator.com/item?id=48066592)
 
-**背景**: 历史上，存在两种主要的漏洞披露文化：开源模式，通常在发现后不久即公开披露漏洞；以及专有模式，倾向于采用禁运和协调披露，给供应商留出修补时间。‘补丁竞赛’指漏洞披露与补丁部署之间的时段，攻击者可能在此期间利用漏洞。AI 和软件透明度的提升通过使漏洞发现和利用开发更快速、更易得，正在模糊这些界限。
+**背景**: AI 对齐旨在确保 AI 系统追求预期目标。标准训练通常使用人类认可等代理目标，这可能导致奖励黑客行为。教导模型规则背后的理由有助于它们在新情境中推断出适当的行为。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://www.promptzone.com/elena_petrov_ec60f21f/ai-breaking-two-vulnerability-cultures-2bb6">AI Breaking Two Vulnerability Cultures - PromptZone</a></li>
+<li><a href="https://en.wikipedia.org/wiki/AI_alignment">AI alignment</a></li>
+<li><a href="https://www.alignmentforum.org/">AI Alignment Forum</a></li>
 
 </ul>
 </details>
 
-**社区讨论**: 评论者指出，这一现象早于 AI，软件透明度和逆向工具的改进已经加速了补丁竞赛。一些人认为，缩短禁运期对修补缓慢的组织无济于事，AI 使得协调披露更为关键。另有人强调当前全球网络冲突的背景下，AI 驱动的攻击威胁关键基础设施。
+**社区讨论**: 评论者注意到与哲学和教育的相似之处，有人质疑当前的对齐定义是否充分。其他人指出 Anthropic 已将类似研究扩展到开放权重模型，显示出更广泛的适用性。
 
-**标签**: `#cybersecurity`, `#AI`, `#vulnerability-disclosure`, `#open-source`, `#software-engineering`
+**标签**: `#AI alignment`, `#Anthropic`, `#LLM training`, `#model behavior`, `#alignment research`
 
 ---
 
 <a id="item-3"></a>
-## [Meta 关闭 Instagram 私信端到端加密](https://www.pcmag.com/news/meta-shuts-down-end-to-end-encryption-for-instagram-dms-messaging) ⭐️ 8.0/10
+## [连续性基准测试编码 Agent 编辑过程中的一致性](https://www.reddit.com/r/artificial/comments/1t7m8bg/i_built_a_benchmark_for_ai_memory_in_coding/) ⭐️ 8.0/10
 
-Meta 以用户启用率低为由，移除了 Instagram 私信中的可选端到端加密功能。目前所有 Instagram 私信均不加密，Meta 可访问。 此举削弱了 Instagram 超 20 亿用户的隐私，使其面临数据挖掘、监控和泄露风险。这一做法违背了 WhatsApp 和 Signal 等默认加密的行业趋势。 Meta 以‘极少用户选择加入’为由辩解，但批评者指出可效仿 WhatsApp 将加密设为默认。此举也可能与政府施压要求削弱加密以协助执法有关。
+Alienfader 发布了一个名为'continuity-benchmarks'的新基准测试，用于评估编码代理在代码编辑过程中保持与项目规则一致性的能力，而不仅仅是事后检查。早期结果显示，动作对齐提高了约 3 倍，且检索时机的关键性远超单纯具备检索能力。 现有 AI 记忆基准侧重于语义回忆，但编码代理在任务执行过程中常常破坏自己之前的决策。该基准揭示了一个关键失败模式，并提供了一种标准化方法来比较记忆系统，有望提高生产环境中 AI 编码代理的可靠性。 基准测试仓库包含完整的评估框架、数据集和评分机制。它通过在会话之间注入噪声来测试多会话一致性，作者邀请其他人运行他们的代理记忆系统——如 LangChain、LlamaIndex 和自定义 RAG 堆栈——来与之比较。
 
-hackernews · tcp_handshaker · May 8, 21:47 · [社区讨论](https://news.ycombinator.com/item?id=48069192)
+rss · r/artificial RSS · May 8, 22:05
 
-**背景**: 端到端加密 (E2EE) 确保只有发送方和接收方能阅读消息，服务提供商和第三方无法访问。Instagram 于 2023 年推出名为‘秘密对话’的可选 E2EE 功能，但未被广泛采用。Meta 旗下的 WhatsApp 自 2016 年起默认开启 E2EE，这使得 Instagram 的决策在政府要求加密后门的全球争议中尤为引发争议。
+**背景**: 编码代理是自主编写或编辑代码的 AI 助手。它们通常使用检索增强生成（RAG）来获取相关项目上下文，但在多步编辑过程中可能会失去与早期架构决策的一致性。大多数基准测试在任务完成后检查记忆，而非在执行过程中。这个新基准通过在编辑过程中测量一致性来填补这一空白。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/End-to-end_encryption">End-to-end encryption</a></li>
+<li><a href="https://arxiv.org/html/2603.25764v2">Consistency Amplifies: How Behavioral Variance Shapes Agent ...</a></li>
+<li><a href="https://github.com/Abelo9996/agent-consistency">GitHub - Abelo9996/ agent - consistency : How consistent are LLM...</a></li>
+<li><a href="https://dataworkers.io/resources/consistency-of-ai-data-agents/">Consistency Of Ai Data Agents | Dataworkers</a></li>
 
 </ul>
 </details>
 
-**社区讨论**: 社区反应普遍负面，嘲笑 Meta 以‘选择加入少’为借口，指出本应默认加密。用户对比 Apple 对隐私的重视和 Meta 对数据的渴求，部分人认为此举是集中化、围墙花园平台广泛趋势的一部分。
-
-**标签**: `#privacy`, `#encryption`, `#Meta`, `#Instagram`, `#centralization`
+**标签**: `#AI Agent benchmarks`, `#coding agents`, `#LLM orchestration`, `#agent evaluation`
 
 ---
 
 <a id="item-4"></a>
-## [Mojo 1.0 Beta 发布，引入类 Rust 所有权、编译期计算和 SIMD](https://mojolang.org/) ⭐️ 8.0/10
+## [DeepSeek 寻求 73.5 亿美元融资，计划下月发布 V4.1](https://www.reddit.com/r/LocalLLaMA/comments/1t7bfpw/reports_suggest_deepseek_is_seeking_735_billion/) ⭐️ 8.0/10
 
-Mojo 1.0 Beta 版本引入了借鉴 Rust 的所有权模型以实现内存安全，强大的编译期元编程（comptime）以及一流 SIMD 支持用于高性能计算，同时承诺在 2026 年秋季开源该语言。 该版本是在弥合 Python 易用性与底层性能之间差距的重要里程碑，可能通过允许开发者用单一语言编写 CPU 和 GPU 代码，重塑人工智能和科学计算领域。 Mojo 利用 MLIR 编译器框架实现高级优化和跨加速器执行，其 comptime 系统允许在编译时运行任意代码，所有权模型在不使用垃圾回收的情况下确保内存安全。
+据报道，DeepSeek 正在筹集高达 73.5 亿美元（500 亿元人民币）的首轮融资，创始人梁文峰将贡献其允许的最大金额。该公司还计划于 6 月发布其 V4 模型的更新版本 V4.1。 这笔创纪录的中国 AI 公司融资轮表明 DeepSeek 正在积极推动商业化和盈利化，可能重塑开源权重 LLM 的竞争格局。快速迭代至 V4.1 也表明其发布节奏加快，可能加大对手 OpenAI 和 Meta 的压力。 本轮融资可能达到 500 亿元人民币（73.5 亿美元），成为中国 AI 史上最大单笔融资。V4.1 更新预计于 6 月发布，此前 V4 Preview 已于 2026 年 4 月发布，支持 100 万上下文长度且具有高性价比性能。
 
-hackernews · sbt567 · May 8, 02:49 · [社区讨论](https://news.ycombinator.com/item?id=48057901)
+rss · r/LocalLLaMA RSS · May 8, 15:34
 
-**背景**: Mojo 是由 Modular 公司创建的系统编程语言，旨在将 Python 开发友好的语法与 C++和 Rust 等语言的性能相结合。它使用现代编译器基础设施 MLIR，为 CPU、GPU 和其他加速器生成高效代码。所有权模型通过强制执行严格的变量使用规则来防止内存错误，类似于 Rust。编译期元编程（comptime）允许在编译期间执行代码，从而提高运行时效率。
+**背景**: DeepSeek 是一家领先的开源权重 AI 公司，以其低成本且媲美专有系统的大型语言模型而闻名。其 V4 模型于 2026 年 4 月以预览版发布，提供 100 万 token 的上下文窗口和强大的智能体能力。该公司因其性价比高的方法和开源贡献而受到关注。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Mojo_(programming_language)">Mojo (programming language)</a></li>
-<li><a href="https://www.modular.com/open-source/mojo">Mojo 🔥: Powerful CPU+GPU Programming</a></li>
-<li><a href="https://docs.modular.com/mojo/reference/mojo-expressions/">Mojo expression reference | Modular</a></li>
+<li><a href="https://api-docs.deepseek.com/news/news260424">DeepSeek V4 Preview Release</a></li>
 
 </ul>
 </details>
 
-**社区讨论**: 社区反应热烈，突出强调所有权模型、comptime 和 SIMD 作为强大特性。然而，一些开发者对不完整的 Python 兼容性、陌生的语法以及推迟到 2026 年秋季的开源时间表表示担忧，质疑这些因素是否会令 Python 社区望而却步。
-
-**标签**: `#mojo`, `#programming-languages`, `#AI`, `#performance`, `#open-source`
+**标签**: `#DeepSeek`, `#Funding`, `#V4.1`, `#LLM`, `#Open-Source`
 
 ---
 
 <a id="item-5"></a>
-## [WebRTC 低延迟音频损害 LLM 提示准确性](https://simonwillison.net/2026/May/9/luke-curley/#atom-everything) ⭐️ 8.0/10
+## [Gemma 4 26B 在单张 RTX 5090 上达到 600 tok/s](https://www.reddit.com/r/LocalLLaMA/comments/1t796qe/gemma_4_26b_hits_600_toks_on_one_rtx_5090/) ⭐️ 8.0/10
 
-Luke Curley 指出 WebRTC 强制性的低延迟音频传输会丢弃数据包且不进行重传，从而在网络状况不佳时降低 LLM 提示的准确性。 随着 AI 语音接口的普及，WebRTC 的设计缺陷可能导致提示失真，进而产生不准确的 LLM 回复，损害用户信任和实时 AI 应用的效能。 关键细节：WebRTC 的浏览器实现硬性规定了严格的延迟要求，导致无法重传丢失的音频数据包——Discord 的尝试也未能成功。使用 UDP 传输且音频通道缺乏可配置的可靠性，加剧了这一问题。
+一项基准测试显示，Gemma 4 26B 量化模型在使用 vLLM 0.19.2rc1 中的 DFlash 投机解码时，在单张 RTX 5090 上达到了每秒 578 个输出 token，相比无投机基线实现了 2.56 倍加速。 这一结果凸显了投机解码作为一种实用技术的潜力，能够显著加速消费级 GPU 上的大模型推理，使更大模型更适用于本地应用并降低延迟。 该基准测试使用了 4 位 AWQ 量化的主模型和专用的 DFlash 草稿模型，在 num_speculative_tokens=13 和 max_num_batched_tokens=8192 时获得最佳性能，达到约 578 tok/s 和约 1738 ms 平均端到端延迟。
 
-rss · Simon Willison · May 9, 01:03
+rss · r/LocalLLaMA RSS · May 8, 14:13
 
-**背景**: WebRTC（Web 实时通信）是一种用于浏览器音视频通话的协议，其设计目标是通过 UDP 传输和丢弃数据包来最小化延迟，而不进行重传。虽然 WebRTC 的数据通道支持前向纠错和重传等技术，但音频通道为了实时性而牺牲了可靠性，这与 AI 应用的需求相悖，因为提示中的每一个字都至关重要。
+**背景**: 投机解码是一种加速自回归大模型生成的技术，通过使用小型草稿模型在每一步提出多个 token，然后由主模型并行验证。DFlash 是一个块扩散框架，通过对 draft 序列进行连贯生成，进一步提升效率。vLLM 是一个开源推理引擎，支持包括投机解码在内的多种优化方法。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/WebRTC">WebRTC - Wikipedia</a></li>
-<li><a href="https://bloggeek.me/webrtcglossary/packet-loss/">Packet Loss in WebRTC: Causes, Effects & How to Fix It • BlogGeek.me</a></li>
+<li><a href="https://github.com/z-lab/dflash">DFlash: Block Diffusion for Flash Speculative Decoding - GitHub</a></li>
+<li><a href="https://arxiv.org/abs/2602.06036">DFlash: Block Diffusion for Flash Speculative Decoding</a></li>
+<li><a href="https://github.com/vllm-project/vllm">GitHub - vllm-project/vllm: A high-throughput and memory-efficient inference and serving engine for LLMs · GitHub</a></li>
 
 </ul>
 </details>
 
-**标签**: `#WebRTC`, `#real-time communication`, `#packet loss`, `#LLM`, `#audio processing`
+**标签**: `#vLLM`, `#speculative decoding`, `#Gemma 4`, `#RTX 5090`, `#inference optimization`
 
 ---
 
 <a id="item-6"></a>
-## [使用 Claude Code：HTML 的显著效果](https://simonwillison.net/2026/May/8/unreasonable-effectiveness-of-html/#atom-everything) ⭐️ 8.0/10
+## [DS4：专为 128GB MacBook 上的 DeepSeek 4 Flash 优化的推理引擎](https://www.reddit.com/r/LocalLLaMA/comments/1t72tk9/ds4_a_deepseek_4_flash_specific_inference_engine/) ⭐️ 8.0/10
 
-Anthropic 公司 Claude Code 团队的 Thariq Shihipar 主张要求 AI 模型输出 HTML 而非 Markdown，认为这样能获得更丰富、交互性更强的展示效果。 这一洞见可能改变开发者和内容创作者的提示词实践，利用现代大语言模型更大的上下文窗口，直接生成更具吸引力和信息量的 HTML 技术说明。 文章提供了具体提示词和示例集合；Simon Willison 用 GPT-5.5 进行了实验，生成了一个交互式 HTML 页面来解释一个 Linux 漏洞利用，但 AI 更侧重于 Python 包装代码而非漏洞本身。
+Redis 的创建者 antirez 发布了 DS4，一个专为 DeepSeek V4 Flash 设计的推理引擎，利用 Metal 加速在 128GB MacBook 上高效运行。 这一进展大幅降低了在消费级硬件上本地运行最先进 LLM 的门槛，使开发者和研究人员无需依赖云服务即可部署 DeepSeek V4 Flash。 DS4 是一个基于 C 的小型引擎，仅使用作者提供的特定 GGUF 文件，并在不同上下文大小下针对官方 logits 进行了测试。
 
-rss · Simon Willison · May 8, 21:00
+rss · r/LocalLLaMA RSS · May 8, 09:26
 
-**背景**: Claude Code 是 Anthropic 公司集成 Claude 语言模型的智能编程工具。开发者传统上要求 AI 输出 Markdown，因为其节省 token，但 HTML 可以嵌入 SVG、CSS 样式和 JavaScript 以实现交互性。随着上下文窗口增大，HTML 的 token 开销不再那么难以承受。
+**背景**: DeepSeek V4 Flash 是 DeepSeek V4 模型的轻量级变体，旨在提供更快的推理速度和更低的成本，同时接近 Pro 级别的能力。由于内存和计算限制，在 MacBook 上本地运行此类模型一直具有挑战性。DS4 利用 Apple 的 Metal 框架，在 128GB MacBook 的统一内存架构上优化性能。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Claude_Code">Claude Code</a></li>
-<li><a href="https://claude.com/product/claude-code">Claude Code by Anthropic | AI Coding Agent, Terminal, IDE</a></li>
+<li><a href="https://github.com/antirez/ds4">GitHub - antirez/ ds 4 : DeepSeek 4 Flash local inference engine for Metal</a></li>
+<li><a href="https://api-docs.deepseek.com/news/news260424">DeepSeek V4 Preview Release | DeepSeek API Docs</a></li>
+<li><a href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash">deepseek-ai/DeepSeek-V4-Flash · Hugging Face</a></li>
 
 </ul>
 </details>
 
-**标签**: `#AI`, `#HTML`, `#Markdown`, `#Claude`, `#prompt engineering`
+**标签**: `#LLM inference`, `#DeepSeek`, `#MacBook optimization`, `#open-source`, `#local LLM`
 
 ---
 
 <a id="item-7"></a>
-## [Meshtastic 简介：基于 LoRa 的开源离网网状通信](https://meshtastic.org/docs/introduction/) ⭐️ 7.0/10
+## [LLM 输出应使用 HTML 而非 Markdown](https://simonwillison.net/2026/May/8/unreasonable-effectiveness-of-html/#atom-everything) ⭐️ 7.0/10
 
-Meshtastic 开源项目利用 LoRa 无线网状网络实现离网文本通信，近期因其无需基础设施、无需执照的特性而受到广泛关注和讨论，实际应用日益增多。 Meshtastic 提供了一种不依赖蜂窝网络或互联网的去中心化通信方式，在紧急情况、偏远探险或社区自建网络场景中极具价值，赋予用户自主建立通信网络的能力。 Meshtastic 运行在无需执照的 ISM 频段，采用 LoRa 调制技术，支持端到端加密，通过节点转发形成网状网络；但数据速率较低，发射功率受当地法规限制。
+Anthropic 的 Claude Code 团队成员 Thariq Shihipar 主张向 Claude 请求 HTML 格式而非 Markdown，以获得更丰富、更结构化的输出，并提供了示例和提示建议。Simon Willison 呼应了该观点，指出 HTML 可以嵌入 SVG 图表、交互式小部件和页面内导航，这是 Markdown 无法做到的。 从 Markdown 转向 HTML 作为 LLM 输出格式，可以显著提高生成解释的清晰度和交互性，使开发者、技术写作者以及任何使用 LLM 生成复杂文档的人受益。这也反映了在代理工作流和提示工程中充分发挥 HTML 全部能力的更广泛趋势。 文章包含具体的提示示例，例如要求 Claude 通过创建带有内联边距注释和按严重程度颜色编码的 HTML 工件来审查拉取请求。Simon Willison 还使用 GPT-5.5 针对 copy.fail 上的 Linux 安全漏洞测试了该方法，生成了交互式 HTML 解释。
 
-hackernews · ColinWright · May 8, 11:22 · [社区讨论](https://news.ycombinator.com/item?id=48061566)
+rss · Simon Willison · May 8, 21:00
 
-**背景**: LoRa（长距离）是一种扩频无线电技术，针对低功耗、远距离、小数据量通信进行了优化，常用于物联网。在网状网络中，每个设备都可中继消息，从而在没有中心基础设施的情况下扩大覆盖范围。Meshtastic 于 2020 年由 Kevin Hester 创建，旨在利用 LoRa 进行离网文本通信，现已发展成一个由社区驱动的开源项目，在全球范围内得到应用。
+**背景**: Markdown 一直是 LLM 流行的输出格式，因为它具有令牌效率，这在 GPT-4 时代（具有 8,192 个令牌限制）至关重要。HTML 虽然令牌效率较低，但提供了更丰富的格式化能力，如表、嵌入图片、CSS 样式和交互式 JavaScript 组件。Claude Code 是 Anthropic 的代理编码工具，帮助开发者理解代码库、编辑文件和运行命令。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Meshtastic">Meshtastic</a></li>
-<li><a href="https://en.wikipedia.org/wiki/LoRa">LoRa</a></li>
+<li><a href="https://claude.com/product/claude-code">Claude Code by Anthropic | AI Coding Agent, Terminal, IDE</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Claude_Code">Claude Code</a></li>
+<li><a href="https://grokipedia.com/page/Claude_Code">Claude Code</a></li>
 
 </ul>
 </details>
 
-**社区讨论**: 社区反响总体积极，许多人是初次听说并对其离网通信潜力感到兴奋。有人分享在帆船上使用太阳能中继节点的实际案例，也有人指出该技术目前主要限于文本通信，并对项目方在名称保护上的法律行为表示担忧。
+**标签**: `#prompt engineering`, `#HTML`, `#Claude`, `#LLM output`, `#agent interaction`
 
-**标签**: `#meshtastic`, `#lora`, `#mesh-networking`, `#decentralization`, `#off-grid-communication`
+---
+
+<a id="item-8"></a>
+## [五角大楼将避免依赖单一人工智能供应商](https://www.nextgov.com/artificial-intelligence/2026/05/pentagon-will-never-again-rely-single-ai-provider-official-says/413399/) ⭐️ 7.0/10
+
+一位五角大楼官员宣布，国防部将“再也不”依赖单一人工智能供应商，标志着向多供应商解决方案和开放标准的战略转变。 这一政策转变可能加速 MCP 和 A2A 等互操作性标准的采用，降低供应商锁定风险，并促进更具竞争力的人工智能生态系统，有利于国家安全和创新。 该声明是在五角大楼更广泛的人工智能战略背景下作出的，强调需要模块化、可互换的人工智能组件，以避免过去过度依赖单一供应商的错误。
+
+rss · Hacker News - AI & Agents · May 8, 21:26
+
+**背景**: 五角大楼历史上曾面临供应商锁定问题，特别是在大型防务合同中。通过强制采用多供应商人工智能，国防部旨在提高灵活性、韧性和竞争性，同时促进开放架构和数据互操作性。
+
+**标签**: `#AI policy`, `#Pentagon`, `#multi-provider`, `#AI agents`, `#interoperability`
+
+---
+
+<a id="item-9"></a>
+## [AI 模型可提前三年检测胰腺癌](https://www.reddit.com/r/artificial/comments/1t7au63/new_ai_model_spots_pancreatic_cancer_up_to_3/) ⭐️ 7.0/10
+
+梅奥诊所开发的新型 AI 模型 REDMOD，能够在常规 CT 扫描中检测出胰腺癌，比临床诊断提前三年，相关研究发表在《Gut》期刊上。 胰腺癌五年生存率仅约 13%，很大程度上是因为发现过晚；提前检测有望大幅提高生存率，并改变治疗模式。 REDMOD 模型利用影像组学识别标准 CT 图像中胰腺导管腺癌的亚视觉细微特征，其验证工作属于梅奥诊所正在进行的 AI-PACED 前瞻性临床试验的一部分。
+
+rss · r/artificial RSS · May 8, 15:12
+
+**背景**: 胰腺癌早期极难发现，因为症状通常只在晚期才出现，且常规影像可能漏掉癌前病变。像 REDMOD 这样的 AI 模型，通过从大量 CT 扫描数据中学习人眼无法识别的模式，旨在克服这一难题。
+
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://gut.bmj.com/content/early/2026/04/22/gutjnl-2025-337266">Next-generation AI for visually occult pancreatic cancer ...</a></li>
+<li><a href="https://www.goodnewsnetwork.org/mayo-clinic-creates-ai-that-can-detect-pancreatic-cancer-up-to-3-years-before-diagnosis/">Mayo Clinic’s AI Can Detect Pancreatic Cancer up to 3 Years ...</a></li>
+<li><a href="https://www.insideprecisionmedicine.com/topics/oncology/mayo-clinics-redmod-ai-doubles-early-detection-sensitivity-in-pancreatic-cancer/">Mayo Clinic's REDMOD AI Doubles Early Detection Sensitivity ...</a></li>
+
+</ul>
+</details>
+
+**标签**: `#AI`, `#healthcare`, `#pancreatic cancer`, `#medical AI`
+
+---
+
+<a id="item-10"></a>
+## [AMD 开源 GAIA AI 新增 Gmail 集成](https://www.reddit.com/r/artificial/comments/1t77n9a/amds_local_opensource_ai_can_now_easily_interact/) ⭐️ 7.0/10
+
+AMD 的开源 GAIA AI 助手新增了 Gmail 集成功能，使其能够在 AMD Ryzen AI PC 上本地读取和处理电子邮件。 这一集成为日常任务展示了实用且保护隐私的 AI 代理工具使用，减少了对云服务的依赖并将数据保留在本地。 GAIA 基于 AMD 的开源框架构建，完全在本地 AMD Ryzen AI 硬件上运行，核心 AI 操作无需互联网连接。
+
+rss · r/artificial RSS · May 8, 13:15
+
+**背景**: GAIA 是 AMD 的开源软件开发套件（SDK），用于在 Ryzen AI PC 上构建本地运行的 AI 代理。它使开发者能够创建私密、离线的 AI 助手，通过工具调用 API（如 Gmail）与应用程序和服务交互。
+
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://github.com/amd/gaia">GitHub - amd/gaia: Build AI agents for your PC · GitHub</a></li>
+
+</ul>
+</details>
+
+**标签**: `#AI agents`, `#open-source`, `#tool use`, `#AMD`, `#email integration`
+
+---
+
+<a id="item-11"></a>
+## [vLLM ROCm 后端作为实验性选项加入 Lemonade](https://www.reddit.com/r/LocalLLaMA/comments/1t7g70j/vllm_rocm_has_been_added_to_lemonade_as_an/) ⭐️ 7.0/10
+
+AMD 已在 Lemonade 本地 AI 运行时中添加了对 vLLM ROCm 后端的实验性支持，用户可以通过 `lemonade backends install vllm:rocm` 等简单命令在 AMD GPU 上运行 safetensors 格式的 LLM。 这一整合填补了 AMD GPU 生态中的空白，提供了一种简便方式，无需将模型转换为 GGUF 格式即可利用 vLLM 的高性能推理来运行 safetensors 模型。它扩大了 LLM 用户的硬件选择，可能加速 AMD GPU 在本地 AI 工作负载中的采用。 该后端被视为实验性功能，支持首发模型、多 GPU 并发以及自包含的捆绑包。目前仅支持 Linux，欢迎用户反馈已知的不足之处。
+
+rss · r/LocalLLaMA RSS · May 8, 18:21
+
+**背景**: vLLM 是一种用于大型语言模型的高性能推理引擎，最初为 NVIDIA CUDA 构建，后来扩展到 AMD ROCm。Lemonade 是 AMD 赞助的开源本地 AI 运行时，提供统一的接口来在不同后端上运行模型。Safetensors 是一种安全存储模型权重的格式，而 GGUF 则是将所有内容打包到一个文件中的另一种格式。这项新增功能允许 Lemonade 用户在 AMD GPU 上使用 vLLM 运行 safetensors 格式的 LLM，而无需转换为 GGUF 以用于 llama.cpp。
+
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://lemonade-server.ai/news/vllm-rocm.html">vLLM ROCm now in Lemonade - Lemonade Server</a></li>
+<li><a href="https://rocm.docs.amd.com/en/latest/how-to/rocm-for-ai/inference-optimization/vllm-optimization.html">vLLM V1 performance optimization — ROCm Documentation</a></li>
+
+</ul>
+</details>
+
+**标签**: `#vLLM`, `#ROCm`, `#AMD`, `#Lemonade`, `#LLM inference`
+
+---
+
+<a id="item-12"></a>
+## [AI2 发布 EMO：1B/14B MoE 模型，带文档级路由](https://www.reddit.com/r/LocalLLaMA/comments/1t7kgy4/new_moe_from_ai2_emo/) ⭐️ 7.0/10
+
+AI2（艾伦人工智能研究所）发布了 EMO，一种新的混合专家（MoE）语言模型，具有 10 亿活跃参数和 140 亿总参数，在 1 万亿个 token 上训练。关键创新在于文档级路由，专家专注于健康、新闻等广泛领域，而非 token 级模式。 EMO 通过文档级路由实现的涌现模块化，可以带来更高效的推理和更好的领域专业化，使大型模型更实用。这一开源贡献推进了 MoE 架构研究，可能激发专家专业化方面的进一步工作。 该模型使用文档级路由机制，按领域（如健康、新闻）而非 token 级表面模式聚类专家。EMO 作为 allenai/emo 系列的一部分在 Hugging Face 上可用，并且在没有人类先验定义专家专业化的条件下进行了端到端预训练。
+
+rss · r/LocalLLaMA RSS · May 8, 20:57
+
+**背景**: 混合专家（MoE）是一种神经网络架构，使用多个专门的子网络（专家）和路由机制，只为每个输入激活部分专家，从而提高效率。传统的 MoE 模型使用 token 级路由，每个 token 被发送到 top-k 专家，可能导致碎片化的专业化。文档级路由则将整个文档路由到特定专家，鼓励更广泛的领域级专业化。
+
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://huggingface.co/blog/allenai/emo">EMO: Pretraining mixture of experts for emergent modularity</a></li>
+<li><a href="https://x.com/allen_ai/status/2052784995710681180">Ai2 on X: "Today we’re releasing EMO, a new mixture-of-experts (MoE) model trained so modular structure emerges directly from data without human-defined priors. EMO can use a small subset of its experts for a given task while keeping near full-model performance. 🧵 https://t.co/xXcWsYh50D" / X</a></li>
+
+</ul>
+</details>
+
+**标签**: `#MoE`, `#AI2`, `#EMO`, `#LLM architecture`, `#document routing`
+
+---
+
+<a id="item-13"></a>
+## [MTP+TurboQuant 在 Qwen3.6-27B 上实现单 RTX 4090 百万文本中 80+ t/s](https://www.reddit.com/r/LocalLLaMA/comments/1t7kyju/got_mtp_turboquant_running_qwen3627b_80_ts_at/) ⭐️ 7.0/10
+
+一位用户结合了多令牌预测（MTP）和 TurboQuant 的无损 KV 缓存压缩（TBQ4_0），在修改后的 llama.cpp 分支上，以单个 RTX 4090 在 262K 上下文下运行 Qwen3.6-27B，达到每秒 80-87 个 token。 这表明大型长上下文模型可以在消费级硬件上高效运行，可能使更易获取和更快的本地 LLM 推理成为可能，适用于复杂任务。 该设置使用 Qwen3.6-27B-Heretic-v2 量化至 Q4_K_M，嫁接 MTP 头部和 TurboQuant 的 TBQ4_0 KV 缓存量化，MTP 草稿接受率约 73%。代码作为 llama.cpp 的一个分支托管在 GitHub 上。
+
+rss · r/LocalLLaMA RSS · May 8, 21:15
+
+**背景**: 多令牌预测（MTP）是一种让 LLM 同时预测多个未来 token 的技术，通过推测解码加速推理。TurboQuant 是一种针对 KV 缓存的无损量化方法，在降低内存使用的同时不牺牲输出质量。两者结合使得拥有大上下文窗口的模型能在有限 GPU 内存上运行。
+
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://github.com/Firmamento-Technologies/TurboQuant">GitHub - Firmamento-Technologies/ TurboQuant : Near-optimal vector...</a></li>
+<li><a href="https://sebastianraschka.com/llm-architecture-gallery/mtp/">Multi - Token Prediction ( MTP ) | Sebastian Raschka, PhD</a></li>
+
+</ul>
+</details>
+
+**社区讨论**: 该 Reddit 帖子得分 7.0，表明反响积极。用户表示自己并非专业人士并欢迎反馈，鼓励社区测试该分支。
+
+**标签**: `#LLM inference`, `#MTP`, `#TurboQuant`, `#llama.cpp`, `#local LLM`
+
+---
+
+<a id="item-14"></a>
+## [MTP 加速效果高度依赖接受率](https://www.reddit.com/r/LocalLLaMA/comments/1t7mdrl/mtp_is_all_about_acceptance_rate/) ⭐️ 7.0/10
+
+一名用户使用 mlx-vlm 对 Gemma4 上的多令牌预测（MTP）进行了基准测试，发现接受率因工作负载差异巨大：代码生成获得 1.53 倍加速（接受率 66%），而 JSON 输出反而慢了一半（接受率 8%）。 这表明 MTP 并非普遍有益，其效果取决于草稿接受率。开发人员必须针对自己的具体用例评估 MTP 的性价比，尤其是在结构输出任务中接受率可能极低。 基准测试在 M4 Max Studio 上使用 Gemma4-26b-a4b 模型和 mlx-vlm 进行，且 mlx-vlm 在推测解码时不支持 json_schema。用户观察到，一旦令牌接受率低于 50%，验证开销就会抵消加速收益。
+
+rss · r/LocalLLaMA RSS · May 8, 22:11
+
+**背景**: 多令牌预测（MTP）是一种推测解码技术：轻量级草稿模型一次前向预测多个未来令牌，然后目标模型并行验证它们。接受率——目标模型接受的草稿令牌比例——决定了实际加速效果。如果草稿预测经常被拒绝，生成和验证草稿的开销反而会拖累整体性能。
+
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://blog.google/innovation-and-ai/technology/developers-tools/multi-token-prediction-gemma-4/">Accelerating Gemma 4: faster inference with multi-token prediction drafters - Google Blog</a></li>
+<li><a href="https://ai.google.dev/gemma/docs/mtp/mtp">Gemma 4 Multi-Token Prediction (MTP) using Hugging Face Transformers</a></li>
+<li><a href="https://www.generalcompute.com/blog/draft-model-selection-for-speculative-decoding">Draft Model Selection for Speculative Decoding | General ...</a></li>
+
+</ul>
+</details>
+
+**标签**: `#MTP`, `#speculative decoding`, `#LLM inference`, `#localLLaMA`, `#optimization`
+
+---
+
+<a id="item-15"></a>
+## [Z-Lab 发布 Gemma-4-26B 的 DFlash 投机解码版本](https://www.reddit.com/r/LocalLLaMA/comments/1t79ayh/zlab_released_gemma426ba4bitdflash_anybody_tried/) ⭐️ 7.0/10
+
+Z-lab 发布了 Gemma-4-26B 的 DFlash 版本，这是一种使用块扩散草稿（block diffusion drafting）并行生成多个 token 的投机解码技术。该模型声称在长上下文场景下比多 token 预测（MTP）方法生成速度更快。 DFlash 可以显著提高大语言模型的推理效率，实现高达 6 倍的无损加速。它为 MTP 提供了一个有前途的替代方案，特别是对于 Gemma-4-26B 和 Qwen-3.6-35B 等稀疏模型，其有状态设计减少了长会话中的 KV 缓存开销。 DFlash 使用一个轻量级块扩散模型作为草稿模型，以目标模型的隐藏状态为条件，实现并行块草稿。目前它仅支持 vLLM 推理引擎，社区有兴趣将其移植到 llama.cpp。
+
+rss · r/LocalLLaMA RSS · May 8, 14:18
+
+**背景**: 投机解码通过使用一个小的“草稿”模型提出多个 token，然后由大目标模型验证，从而加速 LLM 推理。DFlash 是一种新方法，其草稿模型是一个块扩散模型，一次性预测整个 token 块，而不是自回归地生成。相比之下，MTP 是在目标模型本身上训练一个多 token 预测头。DFlash 设计为轻量级，并维护跨迭代的持久状态，从而减少重复计算。
+
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://arxiv.org/abs/2602.06036">[2602.06036] DFlash: Block Diffusion for Flash Speculative Decoding - arXiv</a></li>
+<li><a href="https://github.com/z-lab/dflash">DFlash: Block Diffusion for Flash Speculative Decoding - GitHub</a></li>
+<li><a href="https://z-lab.ai/projects/dflash/">DFlash: Block Diffusion for Flash Speculative Decoding - Z Lab</a></li>
+
+</ul>
+</details>
+
+**标签**: `#inference`, `#speculative decoding`, `#gemma-4`, `#dflash`, `#open-source`
+
+---
+
+<a id="item-16"></a>
+## [通过 PCI 直通在 Apple Silicon 上运行 CUDA 推理](https://www.reddit.com/r/LocalLLaMA/comments/1t7cqg9/you_can_do_cuda_inference_on_an_apple_silicon_mac/) ⭐️ 7.0/10
+
+一位用户通过 QEMU 的 PCI 直通功能，将外部 NVIDIA GPU 直接分配给 Linux 虚拟机，从而在 Apple Silicon Mac 上实现了 CUDA 推理。该方案包含了 AI 基准测试，证明了此前仅限 Metal 框架的 Mac 硬件也能运行 GPU 加速的 LLM 推理。 这一变通方法打破了 Apple Silicon Mac 长期无法运行 CUDA 的限制，为 Mac 用户使用 NVIDIA GPU 进行本地 AI 推理和开发打开了大门。它凸显了 Apple 生态系统中对 GPU 直通解决方案日益增长的需求，并可能影响未来的虚拟化或驱动程序支持。 该方法需要一个通过 Thunderbolt 连接的外部 GPU 扩展坞，并依赖 macOS 上仍处于实验阶段的 QEMU PCI 直通实现。基准测试主要针对游戏，但也包含了 AI 推理结果，但由于虚拟化开销，性能可能低于原生 x86 系统。
+
+rss · r/LocalLLaMA RSS · May 8, 16:20
+
+**背景**: Apple Silicon Mac 使用苹果自研的 GPU 架构，不支持 NVIDIA CUDA（GPU 加速 AI 工作负载的主流框架）。PCI 直通是一种虚拟化技术，允许虚拟机直接控制物理 PCI 设备（如 GPU）。传统上，由于苹果对 I/O 虚拟化的支持有限，在 macOS 上实现 PCI 直通非常困难，但近期的努力已使其对外部 GPU 成为可能。
+
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://pve.proxmox.com/wiki/PCI(e)_Passthrough">PCI(e) Passthrough - Proxmox VE</a></li>
+<li><a href="https://appleinsider.com/articles/26/04/04/amd-or-nvidia-egpus-can-work-on-apple-silicon-macs-but-not-for-graphic-acceleration">AMD or Nvidia eGPUs can work on Apple Silicon Macs, but not for graphic acceleration</a></li>
+<li><a href="https://wiki.archlinux.org/title/QEMU/Guest_graphics_acceleration">QEMU /Guest graphics acceleration - ArchWiki</a></li>
+
+</ul>
+</details>
+
+**标签**: `#Apple Silicon`, `#CUDA`, `#PCI Passthrough`, `#LLM Inference`, `#QEMU`
 
 ---
