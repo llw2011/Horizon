@@ -2,7 +2,7 @@
   "version": "1.0",
   "ai": {
     "provider": "openai",
-    "model": "deepseek-v4-pro",
+    "model": "deepseek-v4-flash",
     "base_url": "https://api.deepseek.com",
     "api_key_env": "OPENAI_API_KEY",
     "temperature": 0.3,
@@ -15,8 +15,63 @@
   "sources": {
     "github": [
       {
-        "type": "user_events",
-        "username": "karpathy",
+        "type": "repo_releases",
+        "owner": "langchain-ai",
+        "repo": "langchain",
+        "enabled": true
+      },
+      {
+        "type": "repo_releases",
+        "owner": "langchain-ai",
+        "repo": "langgraph",
+        "enabled": true
+      },
+      {
+        "type": "repo_releases",
+        "owner": "openai",
+        "repo": "openai-agents-python",
+        "enabled": true
+      },
+      {
+        "type": "repo_releases",
+        "owner": "crewAIInc",
+        "repo": "crewAI",
+        "enabled": true
+      },
+      {
+        "type": "repo_releases",
+        "owner": "pydantic",
+        "repo": "pydantic-ai",
+        "enabled": true
+      },
+      {
+        "type": "repo_releases",
+        "owner": "microsoft",
+        "repo": "autogen",
+        "enabled": true
+      },
+      {
+        "type": "repo_releases",
+        "owner": "modelcontextprotocol",
+        "repo": "python-sdk",
+        "enabled": true
+      },
+      {
+        "type": "repo_releases",
+        "owner": "modelcontextprotocol",
+        "repo": "servers",
+        "enabled": true
+      },
+      {
+        "type": "repo_releases",
+        "owner": "google",
+        "repo": "A2A",
+        "enabled": true
+      },
+      {
+        "type": "repo_releases",
+        "owner": "astral-sh",
+        "repo": "uv",
         "enabled": true
       },
       {
@@ -30,20 +85,20 @@
         "owner": "sgl-project",
         "repo": "sglang",
         "enabled": true
-      },
-      {
-        "type": "repo_releases",
-        "owner": "triton-lang",
-        "repo": "triton",
-        "enabled": true
       }
     ],
     "hackernews": {
       "enabled": true,
-      "fetch_top_stories": 30,
-      "min_score": 150
+      "fetch_top_stories": 50,
+      "min_score": 100
     },
     "rss": [
+      {
+        "name": "GitHub Trending - Daily",
+        "url": "https://mshibanami.github.io/GitHubTrendingRSS/daily/all.xml",
+        "enabled": true,
+        "category": "github-trending"
+      },
       {
         "name": "Simon Willison",
         "url": "https://simonwillison.net/atom/everything/",
@@ -51,32 +106,39 @@
         "category": "ai-tools"
       },
       {
-        "name": "GitHub Trending - Daily",
-        "url": "https://mshibanami.github.io/GitHubTrendingRSS/daily/all.xml",
+        "name": "Hacker News - AI & Agents",
+        "url": "https://hnrss.org/newest?q=AI+agent+OR+LLM+OR+MCP+OR+agentic&count=30",
         "enabled": true,
-        "category": "github-trending"
+        "category": "ai-agents"
+      },
+      {
+        "name": "The Batch - Andrew Ng",
+        "url": "https://www.deeplearning.ai/the-batch/feed/",
+        "enabled": true,
+        "category": "ai-industry"
+      },
+      {
+        "name": "TechCrunch AI",
+        "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+        "enabled": true,
+        "category": "ai-industry"
+      },
+      {
+        "name": "r/artificial RSS",
+        "url": "https://www.reddit.com/r/artificial/.rss",
+        "enabled": true,
+        "category": "ai-reddit"
+      },
+      {
+        "name": "r/LocalLLaMA RSS",
+        "url": "https://www.reddit.com/r/LocalLLaMA/.rss",
+        "enabled": true,
+        "category": "ai-reddit"
       }
     ],
     "reddit": {
-      "enabled": true,
-      "subreddits": [
-        {
-          "subreddit": "MachineLearning",
-          "enabled": true,
-          "sort": "hot",
-          "time_filter": "day",
-          "fetch_limit": 15,
-          "min_score": 60
-        },
-        {
-          "subreddit": "LocalLLaMA",
-          "enabled": true,
-          "sort": "hot",
-          "time_filter": "day",
-          "fetch_limit": 15,
-          "min_score": 60
-        }
-      ],
+      "enabled": false,
+      "subreddits": [],
       "users": [],
       "fetch_comments": 10
     },
@@ -85,9 +147,22 @@
       "channels": []
     },
     "twitter": {
-      "enabled": false,
-      "users": [],
-      "fetch_limit": 10,
+      "enabled": true,
+      "apify_token_env": "APIFY_TOKEN",
+      "actor_id": "altimis~scweet",
+      "users": [
+        "AndrewYNg",
+        "kaboroevich",
+        "swyx",
+        "Laboradoodle",
+        "alexalbert__",
+        "sama",
+        "ylecun",
+        "goodabith",
+        "araborchardt",
+        "emaborevkov"
+      ],
+      "fetch_limit": 20,
       "fetch_reply_text": false,
       "max_replies_per_tweet": 3,
       "max_tweets_to_expand": 10,
@@ -95,7 +170,7 @@
     }
   },
   "filtering": {
-    "ai_score_threshold": 7.0,
+    "ai_score_threshold": 6.5,
     "time_window_hours": 24
   },
   "webhook": {
