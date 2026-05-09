@@ -9,174 +9,321 @@ lang: en
 
 ---
 
-1. [Anthropic Teaches Claude to Understand Its Own Reasoning](#item-1) ⭐️ 9.0/10
-2. [OpenAI Agents SDK v0.17.0: Default model change and sandbox fix](#item-2) ⭐️ 8.0/10
-3. [Why HTML Beats Markdown for Claude Code Prompts](#item-3) ⭐️ 8.0/10
-4. [Agentic Coding Tools Analysis: Claude Code and Codex](#item-4) ⭐️ 8.0/10
-5. [AI detects pancreatic cancer 3 years earlier than doctors](#item-5) ⭐️ 8.0/10
-6. [MTP + TurboQuant on Qwen3.6-27B: 80+ t/s on RTX 4090](#item-6) ⭐️ 8.0/10
-7. [DeepSeek Seeks $7.35B Funding, Plans V4.1 Launch](#item-7) ⭐️ 8.0/10
-8. [Gemma 4 26B Achieves 2.56x Speedup to 578 tok/s on RTX 5090 with DFlash](#item-8) ⭐️ 8.0/10
-9. [AI is breaking two vulnerability cultures](#item-9) ⭐️ 7.0/10
-10. [New Benchmark Tests AI Coding Agent Memory Consistency](#item-10) ⭐️ 7.0/10
-11. [AMD's GAIA open-source AI now integrates with Gmail](#item-11) ⭐️ 7.0/10
-12. [Asian AI Strategies: Vietnam's Law, Japan's No Penalties, Korea's Naver Exclusion](#item-12) ⭐️ 7.0/10
-13. [Qwen 35B-A3B MoE Runs Well on 12GB GPU](#item-13) ⭐️ 7.0/10
-14. [AI2 Releases EMO: 1B/14B MoE with Document-Level Routing](#item-14) ⭐️ 7.0/10
-15. [DS4: Custom Inference Engine for DeepSeek 4 Flash on 128GB MacBooks](#item-15) ⭐️ 7.0/10
+1. [Teaching Claude Why: LLMs Learn to Reason About Instructions](#item-1) ⭐️ 9.0/10
+2. [ChatGPT 5.5 Pro Can Solve 'Gentle' Math Problems, Says Gowers](#item-2) ⭐️ 8.0/10
+3. [MTP + TurboQuant Achieves 80+ t/s on RTX 4090 for Qwen3.6-27B](#item-3) ⭐️ 8.0/10
+4. [DeepSeek Seeks $7.35B, Plans V4.1 Release Next Month](#item-4) ⭐️ 8.0/10
+5. [CUDA inference on Apple Silicon via PCI passthrough](#item-5) ⭐️ 8.0/10
+6. [DS4: A DeepSeek 4 Flash Inference Engine for MacBooks](#item-6) ⭐️ 8.0/10
+7. [UUID v4 Collision Reported in Production with 15k Records](#item-7) ⭐️ 7.0/10
+8. [AI detects pancreatic cancer up to 3 years earlier than doctors](#item-8) ⭐️ 7.0/10
+9. [New benchmark tests AI coding agents' consistency during edits](#item-9) ⭐️ 7.0/10
+10. [AMD's open-source GAIA AI now integrates with Gmail](#item-10) ⭐️ 7.0/10
+11. [Qwen 35B-A3B Runs Well on 12GB VRAM with Tuning](#item-11) ⭐️ 7.0/10
+12. [AI2 Releases EMO: 1B-Active MoE with Document-Level Domain Routing](#item-12) ⭐️ 7.0/10
+13. [MTP acceptance rate determines inference speedup](#item-13) ⭐️ 7.0/10
+14. [Gemma 4 26B Hits 600 tok/s on Single RTX 5090 with DFlash](#item-14) ⭐️ 7.0/10
+15. [Ring 2.6 1T Model Free on OpenRouter; Open-Weight Hopes](#item-15) ⭐️ 7.0/10
 
 ---
 
 <a id="item-1"></a>
-## [Anthropic Teaches Claude to Understand Its Own Reasoning](https://www.anthropic.com/research/teaching-claude-why) ⭐️ 9.0/10
+## [Teaching Claude Why: LLMs Learn to Reason About Instructions](https://www.anthropic.com/research/teaching-claude-why) ⭐️ 9.0/10
 
-Anthropic has published new research exploring how to train Claude to understand its own internal reasoning, aiming to improve AI alignment and transparency. This work could lead to safer and more controllable AI agents, as models that can explain their reasoning are easier to audit and align with human values. The research focuses on teaching models to introspect on their reasoning chains, potentially generalizing beyond Claude to other open-weight models as shown in related work like Model Spec Midtraining.
+Anthropic's 'Teaching Claude Why' research introduces a method to train large language models to reason about the purpose behind instructions, improving both alignment and capability. This approach could significantly improve AI safety by making models less likely to follow harmful instructions when they understand the underlying intent, and the method generalizes beyond Claude to open-weight models. The research builds on Anthropic's earlier case study on agentic misalignment and includes fine-tuned open models (Llama 3.1 8B, Qwen 2.5 32B, Qwen 3 32B) trained for toy values. A related paper 'Model Spec Midtraining' (arXiv:2605.02087) discusses similar results.
 
 hackernews · pretext · May 8, 17:59 · [Discussion](https://news.ycombinator.com/item?id=48066592)
 
-**Background**: AI alignment aims to encode human values and goals into large language models to make them helpful, safe, and reliable. Understanding how models reason is a key challenge, as current LLMs often lack transparency in their decision-making processes.
+**Background**: Large language models are typically trained to follow instructions literally, which can lead to misaligned behavior when instructions conflict with ethical guidelines. Reinforcement learning from human feedback (RLHF) is a common alignment technique, but it often fails to capture reasoning about intent. 'Teaching Claude Why' aims to imbue models with the ability to infer the purpose of instructions, akin to teaching them 'why' rather than just 'what'. This aligns with research on reasoning models and chain-of-thought prompting.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://research.ibm.com/blog/what-is-alignment-ai">What is AI alignment ? - IBM Research</a></li>
-<li><a href="https://serokell.io/blog/what-is-ai-alignment">What Is AI Alignment ?</a></li>
-<li><a href="https://news.mit.edu/2025/large-language-models-reason-about-diverse-data-general-way-0219">Like human brains, large language models reason about diverse data in a general way | MIT News | Massachusetts Institute of Technology</a></li>
+<li><a href="https://www.anthropic.com/research/teaching-claude-why">Teaching Claude why \ Anthropic</a></li>
 
 </ul>
 </details>
 
-**Discussion**: Comments reflect a mix of philosophical alignment concerns and technical interest. Users question whether aligned models could still cause societal harm, while others see alignment as a pedagogical challenge. Some point to related open-weight research as complementary.
+**Discussion**: Community commenters engaged in broader discussions about alignment definitions, pedagogical parallels, and philosophical implications. Some praised the research's generalizability to open models and its distinctive art style.
 
-**Tags**: `#AI alignment`, `#Anthropic`, `#LLM reasoning`, `#AI safety`, `#agentic AI`
+**Tags**: `#AI alignment`, `#Claude`, `#model reasoning`, `#Anthropic`, `#agent alignment`
 
 ---
 
 <a id="item-2"></a>
-## [OpenAI Agents SDK v0.17.0: Default model change and sandbox fix](https://github.com/openai/openai-agents-python/releases/tag/v0.17.0) ⭐️ 8.0/10
+## [ChatGPT 5.5 Pro Can Solve 'Gentle' Math Problems, Says Gowers](https://gowers.wordpress.com/2026/05/08/a-recent-experience-with-chatgpt-5-5-pro/) ⭐️ 8.0/10
 
-OpenAI released v0.17.0 of its openai-agents-python SDK, changing the default model for RealtimeAgent from previous versions to gpt-realtime-2. The release also tightens sandbox local source materialization to prevent files outside the base directory from being copied unless explicitly granted. This update is significant because gpt-realtime-2 offers GPT-5-class reasoning and improved audio understanding, enhancing voice agent capabilities. The sandbox security fix closes a potential vulnerability where host files could be unintentionally exposed to sandbox environments. The gpt-realtime-2 model supports 128K context, five reasoning levels, and parallel tool calling, with significant benchmark improvements over its predecessor. The sandbox change requires developers to use SandboxPathGrant with read-only access for host paths outside the SDK process current working directory.
+Timothy Gowers, a Fields Medalist and Cambridge mathematician, reports that ChatGPT 5.5 Pro successfully solved a series of 'gentle' research-level math problems, a capability he previously thought would take decades. This suggests that large language models are approaching the ability to automate parts of mathematical research, particularly routine or 'gentle' problems, which could fundamentally alter how PhD students are trained and what tasks remain for human mathematicians. Gowers notes that the model's performance on a 'gentle' problem from his own research was so thorough that he could have written the paper himself based on the LLM's output, though he emphasizes that the model still fails on more difficult problems and requires careful prompting.
 
-github · seratch · May 8, 08:09
+hackernews · _alternator_ · May 9, 02:41 · [Discussion](https://news.ycombinator.com/item?id=48071262)
 
-**Background**: The OpenAI Agents SDK is a Python toolkit for building AI agents with features like tool use, handoffs, and sandbox environments. RealtimeAgent is a specialized agent for low-latency voice interactions via the Realtime API using WebSocket transport. Sandbox materialization refers to copying local files into a sandbox environment for agent tasks.
+**Background**: "Gentle problems" are research-level math problems that are approachable for beginners but not trivial; they often serve as starting points for PhD students. Gowers has been a prominent voice on the impact of AI on mathematics, previously organizing the Polymath project to crowdsource problem-solving and predicting a shift in mathematical practice.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://openai.github.io/openai-agents-python/ref/realtime/agent/">RealtimeAgent - OpenAI Agents SDK</a></li>
-<li><a href="https://openai.github.io/openai-agents-python/sandbox/guide/">Concepts - OpenAI Agents SDK</a></li>
-<li><a href="https://awesomeagents.ai/models/gpt-realtime-2/">GPT - Realtime - 2 | Awesome Agents</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Timothy_Gowers">Timothy Gowers - Wikipedia</a></li>
+<li><a href="https://numberwarrior.wordpress.com/2009/03/25/a-gentle-introduction-to-the-polymath-project/">A gentle introduction to the Polymath project | The Number Warrior</a></li>
 
 </ul>
 </details>
 
-**Tags**: `#OpenAI`, `#agents-sdk`, `#release`, `#AI agents`
+**Discussion**: Commenters expressed a mix of awe and concern: some noted the financial barrier to accessing such models in academia, especially in Eastern Europe, while others reflected on the emotional and philosophical implications for mathematicians' sense of purpose and immortality through their work.
+
+**Tags**: `#AI`, `#LLM`, `#mathematical reasoning`, `#OpenAI`, `#ChatGPT`
 
 ---
 
 <a id="item-3"></a>
-## [Why HTML Beats Markdown for Claude Code Prompts](https://simonwillison.net/2026/May/8/unreasonable-effectiveness-of-html/#atom-everything) ⭐️ 8.0/10
+## [MTP + TurboQuant Achieves 80+ t/s on RTX 4090 for Qwen3.6-27B](https://www.reddit.com/r/LocalLLaMA/comments/1t7kyju/got_mtp_turboquant_running_qwen3627b_80_ts_at/) ⭐️ 8.0/10
 
-Thariq Shihipar from Anthropic's Claude Code team advocates for requesting HTML output instead of Markdown when prompting Claude, providing concrete examples and prompt templates. Simon Willison tested this approach with GPT-5.5 to explain a Linux exploit, producing a rich HTML page with interactive elements. This shift in prompt engineering can significantly improve the quality of AI-generated explanations by enabling richer formatting, inline diagrams, and interactive widgets, especially beneficial for agentic coding workflows. It challenges the long-held preference for Markdown due to token efficiency, offering a more effective way to convey complex information. The article recommends prompts like 'Help me review this PR by creating an HTML artifact that describes it' and includes a dedicated site with examples. Simon's test with GPT-5.5 on the copy.fail exploit produced an HTML page with a yellow-bordered safety callout and numbered steps, but the output focused more on the Python harness than the exploit itself, highlighting the need for precise instructions.
+A developer achieved 80-87 tokens per second on a single RTX 4090 for the Qwen3.6-27B model with 262K context by combining Multi-Token Prediction (MTP) with TurboQuant KV cache quantization (TBQ4_0). The implementation is open-sourced on GitHub and includes technical blog details. This demonstrates that near-lossless KV cache compression (TurboQuant) and speculative decoding (MTP) can dramatically accelerate local LLM inference on consumer hardware, making large models with long contexts practical for real-time agent applications. It achieves nearly double the typical throughput for this class of models. The model used is Qwen3.6-27B-Heretic-v2 Q4_K_M with grafted MTP heads, running on Ubuntu 24.04 with CUDA 12.x. The MTP draft acceptance rate was around 73% with 3 draft tokens. The fork is based on llama.cpp and the code is buildable for reproduction.
 
-rss · Simon Willison · May 8, 21:00
+rss · r/LocalLLaMA RSS · May 8, 21:15
 
-**Background**: Claude Code is Anthropic's agentic coding tool for developers, allowing AI to understand codebases, edit files, and run commands. Historically, Markdown has been preferred for LLM outputs due to its token efficiency, especially during the GPT-4 era with limited context windows. HTML, while more token-heavy, offers far richer formatting capabilities such as SVG diagrams, in-page navigation, and interactive widgets, making it more effective for complex explanations.
+**Background**: Multi-Token Prediction (MTP) is a speculative decoding technique where a small draft model predicts multiple future tokens in parallel, then the main model verifies them, achieving speedups by processing multiple tokens per forward pass. TurboQuant is a Google DeepMind algorithm that compresses KV cache to 3 bits per value with negligible accuracy loss, drastically reducing memory usage for long context lengths. Combining both allows running a 27B parameter model with 262K context on a single 24GB GPU with high throughput.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Claude_Code">Claude Code</a></li>
-<li><a href="https://claude.com/product/claude-code">Claude Code by Anthropic | AI Coding Agent, Terminal, IDE</a></li>
+<li><a href="https://github.com/0xSero/turboquant">GitHub - 0xSero/ turboquant : TurboQuant : Near-optimal KV cache ...</a></li>
+<li><a href="https://blog.google/innovation-and-ai/technology/developers-tools/multi-token-prediction-gemma-4/">Accelerating Gemma 4: faster inference with multi-token prediction drafters</a></li>
+<li><a href="https://docs.vllm.ai/projects/ascend/en/main/user_guide/feature_guide/Multi_Token_Prediction.html">Multi Token Prediction (MTP) — vllm-ascend</a></li>
 
 </ul>
 </details>
 
-**Tags**: `#Claude Code`, `#LLM prompting`, `#HTML`, `#agentic workflows`, `#prompt engineering`
+**Tags**: `#LLM inference`, `#quantization`, `#Multi-Token Prediction`, `#llama.cpp`, `#TurboQuant`
 
 ---
 
 <a id="item-4"></a>
-## [Agentic Coding Tools Analysis: Claude Code and Codex](https://thezvi.substack.com/p/claude-code-codex-and-agentic-coding-f54) ⭐️ 8.0/10
+## [DeepSeek Seeks $7.35B, Plans V4.1 Release Next Month](https://www.reddit.com/r/LocalLLaMA/comments/1t7bfpw/reports_suggest_deepseek_is_seeking_735_billion/) ⭐️ 8.0/10
 
-This article analyzes Claude Code, Codex, and other agentic coding tools, discussing their impact on AI-assisted software development, including their capabilities, limitations, and implications for developers. As agentic coding tools become more sophisticated, they have the potential to significantly boost developer productivity and change the software development workflow, making this analysis valuable for understanding the current state and future direction of AI in coding. The article provides a detailed comparison of Claude Code (by Anthropic) and Codex (by OpenAI), covering their underlying models, code editing and execution capabilities, and how they integrate into developer environments. It also addresses potential risks and limitations of these tools.
+DeepSeek is reportedly seeking to raise up to $7.35 billion (RMB 50 billion) in its first funding round, with founder Liang Wenfeng contributing the maximum allowable amount. The company also plans to release the V4.1 update of its large language model in June. If completed, this would be the largest single fundraising round in Chinese AI history, signaling DeepSeek's rapid push toward commercialization and profitability. The accelerated model release pace (V4.1 in June) intensifies competition with both domestic and global AI leaders. DeepSeek's V4 series includes the flagship V4-Pro with 1.6 trillion total parameters (49B activated) and supports a 1-million-token context window. The company's shift to faster iteration aligns with mainstream industry practices as it pursues revenue generation.
 
-rss · Hacker News - AI & Agents · May 8, 21:23
+rss · r/LocalLLaMA RSS · May 8, 15:34
 
-**Background**: Claude Code is an agentic coding tool developed by Anthropic that understands codebases, edits files, and runs commands. Codex is OpenAI's software engineering agent designed to help with coding, debugging, and code review. Both tools represent a new paradigm of AI-assisted programming where the agent actively collaborates with developers.
+**Background**: DeepSeek is a Chinese AI startup founded in 2023 in Hangzhou, gaining global attention in early 2025 with competitive open-source models. The company has been known for efficient training and low costs, challenging US big tech. This funding round aims to accelerate commercialization, as DeepSeek seeks to generate revenue from its models.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Claude_Code">Claude Code</a></li>
-<li><a href="https://openai.com/index/running-codex-safely/">Running Codex safely at OpenAI | OpenAI</a></li>
+<li><a href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Pro">deepseek-ai/DeepSeek-V4-Pro · Hugging Face</a></li>
+<li><a href="https://www.pbs.org/newshour/science/what-is-deepseek-heres-a-quick-guide-to-the-chinese-ai-company">What is DeepSeek? Here's a quick guide to the Chinese AI company</a></li>
 
 </ul>
 </details>
 
-**Tags**: `#AI Agents`, `#Agentic Coding`, `#Claude Code`, `#Codex`, `#LLM Tools`
+**Tags**: `#DeepSeek`, `#funding`, `#LLM`, `#AI industry`, `#open-source`
 
 ---
 
 <a id="item-5"></a>
-## [AI detects pancreatic cancer 3 years earlier than doctors](https://www.reddit.com/r/artificial/comments/1t7au63/new_ai_model_spots_pancreatic_cancer_up_to_3/) ⭐️ 8.0/10
+## [CUDA inference on Apple Silicon via PCI passthrough](https://www.reddit.com/r/LocalLLaMA/comments/1t7cqg9/you_can_do_cuda_inference_on_an_apple_silicon_mac/) ⭐️ 8.0/10
 
-A new AI model has demonstrated the ability to detect pancreatic cancer up to three years earlier than human doctors in a clinical test, potentially allowing for earlier intervention. Pancreatic cancer is notoriously difficult to detect early and has a low survival rate; earlier detection could significantly improve patient outcomes and reduce mortality. The AI model analyzes medical imaging data, such as CT scans or MRIs, to identify subtle indicators of pancreatic cancer that may be missed by the human eye. The test showed a 3-year lead time over standard diagnosis.
+A project modifies QEMU on macOS to enable PCI passthrough of an external GPU to a Linux VM, allowing CUDA inference on Apple Silicon Macs. Benchmarks show competitive performance for LLM inference. This enables Apple Silicon users to harness NVIDIA GPUs for CUDA-accelerated LLM inference, closing a major gap in the Mac ecosystem. It expands options for local AI workloads on Macs. The QEMU patch focuses on PCI passthrough on macOS host, using Thunderbolt-connected eGPUs. The post includes benchmarks comparing LLM token generation speeds against native Linux setups.
 
-rss · r/artificial RSS · May 8, 15:12
+rss · r/LocalLLaMA RSS · May 8, 16:20
 
-**Background**: Pancreatic cancer often presents no symptoms until advanced stages, making early detection challenging. AI models trained on large datasets can learn to recognize patterns associated with early-stage disease, offering a promising tool for screening high-risk populations.
-
-**Tags**: `#AI`, `#healthcare`, `#pancreatic cancer`, `#machine learning`, `#medical imaging`
-
----
-
-<a id="item-6"></a>
-## [MTP + TurboQuant on Qwen3.6-27B: 80+ t/s on RTX 4090](https://www.reddit.com/r/LocalLLaMA/comments/1t7kyju/got_mtp_turboquant_running_qwen3627b_80_ts_at/) ⭐️ 8.0/10
-
-A Reddit user successfully integrated Multi-Token Prediction (MTP) with TurboQuant KV cache quantization (TBQ4_0) on the Qwen3.6-27B model, achieving 80-87 tokens per second with 262K context on a single RTX 4090. This demonstrates that combining MTP speculative decoding with extreme KV cache quantization can dramatically increase inference throughput on consumer hardware, making long-context local LLM inference far more practical for developers and enthusiasts. The setup uses Qwen3.6-27B-Heretic-v2 in Q4_K_M quantization with grafted MTP heads, running on Ubuntu 24.04 with CUDA 12.x. The user reported an MTP draft acceptance rate of about 73% and has released a fork of llama.cpp with the integration.
-
-rss · r/LocalLLaMA RSS · May 8, 21:15
-
-**Background**: Multi-Token Prediction (MTP) is a speculative decoding technique where a lightweight drafter predicts multiple future tokens in parallel, while TurboQuant is a method for near-lossless quantization of the KV cache to very low bit widths (e.g., 4.25 bits per value). Combining these can reduce memory bandwidth and computational overhead, enabling faster inference at long contexts on limited hardware.
+**Background**: Apple Silicon Macs do not natively support NVIDIA GPUs due to driver restrictions. CUDA is NVIDIA's parallel computing platform used for AI workloads. PCI passthrough allows a hypervisor like QEMU to assign a physical device directly to a guest VM, enabling GPU acceleration in virtualized environments.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://blog.google/innovation-and-ai/technology/developers-tools/multi-token-prediction-gemma-4/">Accelerating Gemma 4: faster inference with multi-token prediction drafters</a></li>
-<li><a href="https://en.wikipedia.org/wiki/TurboQuant">TurboQuant - Wikipedia</a></li>
-<li><a href="https://github.com/ggml-org/llama.cpp/discussions/20969">TurboQuant - Extreme KV Cache Quantization · ggml-org/llama.cpp · Discussion #20969</a></li>
+<li><a href="https://github.com/foxlet/macOS-Simple-KVM/blob/master/docs/guide-passthrough.md">macOS -Simple-KVM/docs/guide- passthrough .md at master...</a></li>
+<li><a href="https://superuser.com/questions/1726305/how-to-passthrough-gpu-pci-e-with-qemu-7-0-on-macos-host-to-windows-guest">virtual machine - How to passthrough GPU/ PCI -e with QEMU 7.0 on...</a></li>
+<li><a href="https://ai-manual.ru/article/kak-zapustit-cuda-inferens-na-apple-silicon-mac-polnyij-gajd-po-pci-passthrough/">CUDA на Mac через PCI Passthrough: гайд для Apple Silicon (2026)</a></li>
 
 </ul>
 </details>
 
-**Tags**: `#LLM inference`, `#quantization`, `#MTP`, `#llama.cpp`, `#local LLM`
+**Tags**: `#LLM Inference`, `#GPU Passthrough`, `#Apple Silicon`, `#CUDA`, `#QEMU`
+
+---
+
+<a id="item-6"></a>
+## [DS4: A DeepSeek 4 Flash Inference Engine for MacBooks](https://www.reddit.com/r/LocalLLaMA/comments/1t72tk9/ds4_a_deepseek_4_flash_specific_inference_engine/) ⭐️ 8.0/10
+
+Antirez, a respected developer, has open-sourced DS4, a dedicated inference engine designed specifically for DeepSeek V4 Flash models on 128GB MacBooks. This enables running a powerful 284B-parameter MoE model locally on consumer hardware, bridging the gap between cloud-based and desktop AI inference. DS4 is specifically optimized for DeepSeek V4 Flash's architecture, which has 284B total parameters but only 13B activated per token, fitting within 128GB unified memory.
+
+rss · r/LocalLLaMA RSS · May 8, 09:26
+
+**Background**: DeepSeek V4 Flash is a Mixture-of-Experts (MoE) language model preview with 284B total parameters and a 1M-token context window. Running such large models locally requires efficient inference engines that manage memory and compute. DS4 joins other inference engines like vLLM and TensorRT-LLM but is tailored for this specific model and Mac hardware.
+
+<details><summary>References</summary>
+<ul>
+<li><a href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash">deepseek -ai/ DeepSeek -V 4 - Flash · Hugging Face</a></li>
+<li><a href="https://build.nvidia.com/deepseek-ai/deepseek-v4-flash">deepseek -v 4 - flash Model by Deepseek -ai | NVIDIA NIM</a></li>
+<li><a href="https://ollama.com/library/deepseek-v4-flash">deepseek -v 4 - flash</a></li>
+
+</ul>
+</details>
+
+**Tags**: `#LLM inference`, `#DeepSeek`, `#open-source`, `#macOS`, `#local LLM`
 
 ---
 
 <a id="item-7"></a>
-## [DeepSeek Seeks $7.35B Funding, Plans V4.1 Launch](https://www.reddit.com/r/LocalLLaMA/comments/1t7bfpw/reports_suggest_deepseek_is_seeking_735_billion/) ⭐️ 8.0/10
+## [UUID v4 Collision Reported in Production with 15k Records](https://news.ycombinator.com/item?id=48060054) ⭐️ 7.0/10
 
-DeepSeek is reportedly seeking to raise up to $7.35 billion (RMB 50 billion) in its first funding round and plans to release an updated V4.1 model in June. This would be the largest single fundraising round by a Chinese AI company, signaling DeepSeek's push to accelerate commercialization and compete with major LLM providers. Founder Liang Wenfeng plans to contribute the maximum allowable amount in this round. The company intends to speed up model release cadence to align with industry practices.
+A developer reported a UUID v4 collision in a production database with only 15,000 records, using the npm 'uuid' package, where a UUID generated a year ago matched a newly generated one. This incident challenges the widespread belief that UUID v4 collisions are practically impossible, highlighting the critical importance of high-quality entropy sources and proper PRNG seeding in UUID generation, especially for production systems relying on uniqueness. The collision involved the exact UUID 'b6133fd6-70fe-4fe3-bed6-8ca8fc9386cd'. The developer used the standard uuidv4() call and confirmed it was not a double-insert bug; community analysis points to insufficient entropy or PRNG seeding as likely causes.
 
-rss · r/LocalLLaMA RSS · May 8, 15:34
+hackernews · Hacker News - AI & Agents · May 8, 07:57
 
-**Background**: DeepSeek is a Chinese AI startup known for its large language models, including the V4 series. The V4 model has gained attention for its competitive performance. This funding round aims to support revenue-generation plans and rapid iteration.
+**Background**: UUID v4 uses 122 bits of randomness from a cryptographically secure random number generator, making collisions mathematically improbable. However, the actual randomness relies on the entropy source provided by the system; poor seeding, hardware defects, or buggy PRNG implementations can drastically increase collision probability. Many developers assume UUID v4 uniqueness is guaranteed, but real-world incidents show that assumption can be fragile when entropy quality degrades.
 
-**Tags**: `#DeepSeek`, `#funding`, `#LLM`, `#AI industry news`, `#V4.1`
+<details><summary>References</summary>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Universally_unique_identifier">Universally unique identifier - Wikipedia</a></li>
+<li><a href="https://bugzilla.mozilla.org/show_bug.cgi?id=335549">335549 - [FIX]UUID generator is nonrandom on x86-64</a></li>
+
+</ul>
+</details>
+
+**Discussion**: Commenters like jandrewrogers note that UUID v4 collisions are 'surprisingly common' due to broken entropy sources, while others share anecdotes of companies creating dedicated UUID generation microservices, reflecting widespread misunderstanding. Some discuss how frontend environments are fundamentally unreliable for UUID generation compared to well-configured backends.
+
+**Tags**: `#UUID`, `#randomness`, `#developer-tools`, `#bugs`, `#serverless`
 
 ---
 
 <a id="item-8"></a>
-## [Gemma 4 26B Achieves 2.56x Speedup to 578 tok/s on RTX 5090 with DFlash](https://www.reddit.com/r/LocalLLaMA/comments/1t796qe/gemma_4_26b_hits_600_toks_on_one_rtx_5090/) ⭐️ 8.0/10
+## [AI detects pancreatic cancer up to 3 years earlier than doctors](https://www.reddit.com/r/artificial/comments/1t7au63/new_ai_model_spots_pancreatic_cancer_up_to_3/) ⭐️ 7.0/10
 
-A benchmark by a Reddit user showed that using DFlash speculative decoding in vLLM on a single RTX 5090, the Gemma 4 26B model reached 578 output tokens per second, a 2.56x speedup over the 228 tok/s baseline without speculative decoding. This demonstrates that advanced speculative decoding techniques can drastically improve inference throughput on consumer-grade GPUs, making large language models more practical for local deployment and real-time applications. The optimal setting was num_speculative_tokens=13 and max_num_batched_tokens=8192, with mean latency dropping from 4455 ms to 1738 ms. Notably, the fastest average setting was not always the best for serving, as a larger batch size (8192 vs 4096) improved tail latency.
+A new AI model demonstrated the ability to detect pancreatic cancer up to three years earlier than human doctors in a test, as reported by Live Science. Pancreatic cancer is notoriously difficult to detect early, leading to a five-year survival rate of less than 9%. This AI breakthrough could significantly improve early diagnosis and patient outcomes. The study used non-contrast CT scans and a deep learning approach similar to PANDA (pancreatic cancer detection with artificial intelligence), which was trained on a large dataset.
 
-rss · r/LocalLLaMA RSS · May 8, 14:13
+rss · r/artificial RSS · May 8, 15:12
 
-**Background**: Speculative decoding is a technique where a small, fast draft model proposes multiple tokens that a larger target model then verifies in parallel, enabling up to 2-3x speedups without loss of quality. DFlash is a novel block diffusion model designed specifically for lightweight speculative drafting. vLLM is a high-throughput inference engine that supports various speculative decoding methods, including DFlash.
+**Background**: Pancreatic cancer is one of the deadliest cancers, often diagnosed at late stages when treatment is difficult. AI models like convolutional neural networks have been explored to analyze medical images for early signs of disease. The PANDA model, for instance, can detect pancreatic lesions with high accuracy via non-contrast CT.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://z-lab.ai/projects/dflash/">DFlash : Block Diffusion for Flash Speculative Decoding - Z Lab</a></li>
-<li><a href="https://github.com/z-lab/dflash">z-lab/ dflash : DFlash : Block Diffusion for Flash Speculative Decoding ...</a></li>
-<li><a href="https://docs.vllm.ai/en/latest/features/speculative_decoding/">Speculative Decoding - vLLM</a></li>
+<li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC12534903/">Early detection of pancreatic cancer on computed tomography...</a></li>
+
+</ul>
+</details>
+
+**Tags**: `#AI`, `#healthcare`, `#cancer detection`
+
+---
+
+<a id="item-9"></a>
+## [New benchmark tests AI coding agents' consistency during edits](https://www.reddit.com/r/artificial/comments/1t7m8bg/i_built_a_benchmark_for_ai_memory_in_coding/) ⭐️ 7.0/10
+
+A developer created a benchmark called 'continuity-benchmarks' that measures how well AI coding agents maintain consistency with project rules throughout the editing process, not just after the fact. The benchmark evaluates action alignment, multi-session consistency, and retrieval timing, finding a 3x improvement in action alignment over baseline RAG setups. This benchmark addresses a critical, overlooked failure mode in coding agents: breaking earlier decisions during modifications. It provides a standardized evaluation method for memory systems, enabling comparison of tools like LangChain and custom RAG stacks in mutation-heavy workflows. The benchmark checks whether edits respect earlier architectural decisions, if behavior stays consistent across multiple sessions with added noise, and whether retrieval is triggered at the right moment. Early results show approximately 3× better action alignment and stronger multi-session consistency compared to typical RAG-based memory setups.
+
+rss · r/artificial RSS · May 8, 22:05
+
+**Background**: Most existing AI memory benchmarks focus on semantic recall—the ability to retrieve facts from memory. However, coding agents often fail differently: they break their own earlier decisions while editing code, leading to inconsistencies. This benchmark targets that specific failure mode by simulating editing workflows and measuring consistency in real time.
+
+<details><summary>References</summary>
+<ul>
+<li><a href="https://mastra.ai/docs/memory/semantic-recall">Semantic recall | Memory | Mastra Docs</a></li>
+<li><a href="https://hindsight.vectorize.io/blog/2026/03/23/agent-memory-benchmark">Agent Memory Benchmark : A Manifesto | Hindsight</a></li>
+
+</ul>
+</details>
+
+**Tags**: `#AI Agents`, `#Benchmark`, `#Coding Agents`, `#Agent Evaluation`
+
+---
+
+<a id="item-10"></a>
+## [AMD's open-source GAIA AI now integrates with Gmail](https://www.reddit.com/r/artificial/comments/1t77n9a/amds_local_opensource_ai_can_now_easily_interact/) ⭐️ 7.0/10
+
+AMD's open-source GAIA framework has added Gmail integration, enabling users to perform email tasks locally via a personal AI agent running on Ryzen AI hardware. This demonstrates local AI agents gaining practical integration with widely-used cloud services, enhancing privacy by keeping email processing on-device. It signals growing ecosystem maturity for open-source local AI frameworks. The integration uses GAIA's tool-calling capabilities to interact with Gmail's API, and the entire agent runs locally on Ryzen AI PCs without cloud dependencies.
+
+rss · r/artificial RSS · May 8, 13:15
+
+**Background**: GAIA (pronounced "Guy-uh") is AMD's open-source framework for building AI agents that run locally on Ryzen AI hardware, leveraging the NPU for efficient LLM inference. It supports tools, document search, and task automation. This Gmail integration is a new extension showcasing its ability to interact with external services.
+
+<details><summary>References</summary>
+<ul>
+<li><a href="https://github.com/amd/gaia">GitHub - amd/gaia: Build AI agents for your PC · GitHub</a></li>
+<li><a href="https://amd-gaia.ai/docs">Welcome - GAIA SDK</a></li>
+<li><a href="https://www.amd.com/en/developer/resources/technical-articles/gaia-an-open-source-project-from-amd-for-running-local-llms-on-ryzen-ai.html">GAIA: An Open-Source Project from AMD for Running Local LLMs on Ryzen™ AI</a></li>
+
+</ul>
+</details>
+
+**Tags**: `#AI Agents`, `#Open Source`, `#Local AI`, `#Email Integration`, `#AMD`
+
+---
+
+<a id="item-11"></a>
+## [Qwen 35B-A3B Runs Well on 12GB VRAM with Tuning](https://www.reddit.com/r/LocalLLaMA/comments/1t7l56a/qwen_35ba3b_is_very_usable_with_12gb_of_vram/) ⭐️ 7.0/10
+
+A Reddit user successfully ran the Qwen 35B-A3B model (IQ4_XS quantization) on an RTX 3060 12GB GPU, achieving ~46.8 tokens/s decoding and ~914 tokens/s prefill using llama.cpp with MoE block offloading and optimal KV cache settings. This demonstrates that large MoE models like 35B are practically usable on widely available consumer GPUs with 12GB VRAM, lowering the barrier for local LLM inference. The detailed tuning guide provides actionable advice for the community to maximize performance on such hardware. The user tested the Qwen3.6-35B-A3B-MTP-IQ4_XS.gguf model with llama.cpp, using the -ncmoe flag to control MoE block offloading and found that q8_0 KV cache performed best. MTP speculative decoding provided only a 2% generation speedup over well-tuned plain decoding.
+
+rss · r/LocalLLaMA RSS · May 8, 21:22
+
+**Background**: Qwen 35B-A3B is a Mixture-of-Experts (MoE) model with 35 billion total parameters but only about 3 billion active per token, making it more efficient than dense models of similar size. MoE block offloading allows parts of the model to reside in system RAM, reducing GPU memory usage. IQ4_XS is an importance-weighted 4-bit quantization method that offers better quality than standard Q4. llama-bench is a benchmarking tool included in llama.cpp for measuring prompt processing and token generation speeds.
+
+<details><summary>References</summary>
+<ul>
+<li><a href="https://huggingface.co/Ex0bit/Elbaz-NVIDIA-Nemotron-3-Nano-30B-A3B-PRISM">Ex0bit/Elbaz-NVIDIA-Nemotron-3-Nano-30B-A3B-PRISM · Hugging Face</a></li>
+<li><a href="https://deepwiki.com/ModelTC/lightx2v/5.5-mixture-of-experts-models-(wan-2.2-moe)">Mixture-of-Experts Models (Wan 2.2 MoE ) | ModelTC/lightx2v | DeepWiki</a></li>
+<li><a href="https://github.com/ggml-org/llama.cpp/blob/master/tools/llama-bench/README.md">llama.cpp/ tools / llama - bench /README.md at master...</a></li>
+
+</ul>
+</details>
+
+**Tags**: `#LLM`, `#local inference`, `#quantization`, `#MoE`, `#Qwen`
+
+---
+
+<a id="item-12"></a>
+## [AI2 Releases EMO: 1B-Active MoE with Document-Level Domain Routing](https://www.reddit.com/r/LocalLLaMA/comments/1t7kgy4/new_moe_from_ai2_emo/) ⭐️ 7.0/10
+
+AI2 has released EMO, a Mixture-of-Experts model with 1 billion activated parameters out of 14 billion total, trained on 1 trillion tokens. It introduces document-level routing, where experts naturally cluster by domain (e.g., health, news) instead of surface linguistic patterns. This routing approach could lead to more interpretable and specialized expert usage, improving efficiency and domain adaptation in large language models. It represents a notable architectural innovation in MoE research, potentially influencing future model designs. The model is available as a Hugging Face collection (allenai/emo), with checkpoints and inference code. EMO's document-level routing processes entire documents before assigning them to experts, unlike token-level routing used in most MoE models.
+
+rss · r/LocalLLaMA RSS · May 8, 20:57
+
+**Background**: Mixture of Experts (MoE) is a neural network architecture that uses multiple specialized sub-models (experts) and a routing mechanism to activate only a subset for each input, improving efficiency. Traditional MoE routes each token independently, often capturing syntactic patterns. EMO's document-level routing instead considers the entire document context, leading to domain-specific expert clusters that align with semantic topics.
+
+<details><summary>References</summary>
+<ul>
+<li><a href="https://www.nvidia.com/en-us/glossary/mixture-of-experts/">What Is Mixture of Experts (MoE) and How It Works? | NVIDIA Glossary</a></li>
+<li><a href="https://www.ibm.com/think/topics/mixture-of-experts">What is mixture of experts? | IBM</a></li>
+
+</ul>
+</details>
+
+**Tags**: `#MoE`, `#AI2`, `#LLM`, `#routing`, `#model release`
+
+---
+
+<a id="item-13"></a>
+## [MTP acceptance rate determines inference speedup](https://www.reddit.com/r/LocalLLaMA/comments/1t7mdrl/mtp_is_all_about_acceptance_rate/) ⭐️ 7.0/10
+
+A user benchmarked multi-token prediction (MTP) on Gemma4-26b-a4b using mlx-vlm on an M4 Max Studio, finding a 1.53× speedup for code generation, negligible gain for long-form prose (0.95×), and a 0.50× slowdown for JSON output. Token acceptance rates were 66%, 31%, and 8% respectively. This demonstrates that MTP's benefit is highly workload-dependent, with speedups only materializing when the draft acceptance rate exceeds roughly 50%. It informs practitioners when to enable speculative decoding in local LLM inference. The test used Gemma4-26b-a4b with structured output disabled, as mlx-vlm does not support spec-decode with JSON schema. The author notes that Gemma's JSON instruction following is good, and disabling structured output reduces the generation penalty, but MTP overhead still dominates at low acceptance rates.
+
+rss · r/LocalLLaMA RSS · May 8, 22:11
+
+**Background**: Multi-token prediction (MTP) is a form of speculative decoding where a smaller draft model generates multiple candidate tokens ahead, and the main model verifies them in parallel. The acceptance rate—fraction of drafted tokens accepted—is the key metric determining speedup. Below ~50% acceptance, the overhead of drafting and verification outweighs the gains.
+
+<details><summary>References</summary>
+<ul>
+<li><a href="https://ai.google.dev/gemma/docs/mtp/mtp">Gemma 4 Multi-Token Prediction ( MTP ) using Hugging Face...</a></li>
+<li><a href="https://huggingface.co/nebius/MTP-DeepSeek-V3-0324">nebius/ MTP -DeepSeek-V3-0324 · Hugging Face</a></li>
+<li><a href="https://github.com/Blaizzy/mlx-vlm">GitHub - Blaizzy/ mlx - vlm : MLX - VLM is a package for inference and...</a></li>
+
+</ul>
+</details>
+
+**Tags**: `#LLM`, `#inference`, `#speculative decoding`, `#MTP`, `#performance`
+
+---
+
+<a id="item-14"></a>
+## [Gemma 4 26B Hits 600 tok/s on Single RTX 5090 with DFlash](https://www.reddit.com/r/LocalLLaMA/comments/1t796qe/gemma_4_26b_hits_600_toks_on_one_rtx_5090/) ⭐️ 7.0/10
+
+A user benchmarked Gemma 4 26B (4-bit AWQ) using DFlash speculative decoding in vLLM 0.19.2rc1, achieving up to 578 output tokens per second (2.56x speedup) on a single RTX 5090 with 32GB VRAM. This benchmark demonstrates that speculative decoding can dramatically accelerate LLM inference on consumer hardware, making high-quality models like Gemma 4 practical for real-time agent and chatbot applications at low cost. The optimal configuration used num_speculative_tokens=13 and max_num_batched_tokens=8192; increasing batched tokens improved tail latency despite slightly higher mean latency. The draft model was z-lab/gemma-4-26B-A4B-it-DFlash, a lightweight companion to the main model.
+
+rss · r/LocalLLaMA RSS · May 8, 14:13
+
+**Background**: Speculative decoding is an inference optimization where a small draft model proposes token sequences that a larger target model verifies in one forward pass, preserving output distribution while accelerating generation. vLLM is a high-performance inference engine for LLMs, and AWQ (Activation-aware Weight Quantization) reduces memory footprint with minimal quality loss.
+
+<details><summary>References</summary>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Speculative_decoding">Speculative decoding</a></li>
+<li><a href="https://huggingface.co/docs/inference-endpoints/engines/vllm">vLLM · Hugging Face</a></li>
+<li><a href="https://arxiv.org/abs/2306.00978">[2306.00978] AWQ : Activation-aware Weight Quantization for LLM...</a></li>
 
 </ul>
 </details>
@@ -185,151 +332,15 @@ rss · r/LocalLLaMA RSS · May 8, 14:13
 
 ---
 
-<a id="item-9"></a>
-## [AI is breaking two vulnerability cultures](https://www.jefftk.com/p/ai-is-breaking-two-vulnerability-cultures) ⭐️ 7.0/10
-
-AI is accelerating the generation of exploit code and reshaping vulnerability disclosure practices, exposing pre-existing tensions between full disclosure and coordinated patching. This could shorten disclosure windows, making it harder for smaller organizations to patch in time, and may fundamentally alter the open-source security ecosystem. The article argues that AI enables rapid exploit generation from patches or descriptions, effectively eliminating the protective window of coordinated disclosure and forcing a reckoning between transparency and security.
-
-hackernews · speckx · May 8, 17:55 · [Discussion](https://news.ycombinator.com/item?id=48066524)
-
-**Background**: Coordinated vulnerability disclosure (CVD) is a model where researchers privately notify vendors and allow time for a patch before public disclosure. Full disclosure releases details immediately. AI's ability to generate working exploits from minimal information undermines the coordination model, as attackers can now exploit vulnerabilities before patches are deployed.
-
-<details><summary>References</summary>
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Coordinated_vulnerability_disclosure">Coordinated vulnerability disclosure</a></li>
-
-</ul>
-</details>
-
-**Discussion**: tptacek noted this shift has been long anticipated, driven by software transparency and reversing tools, not just LLMs. freeqaz cited Log4Shell as a case where commit monitoring led to attacks. rikafurude21 argued this is an old problem reframed, and cheaper exploit generation may actually make coordinated disclosure more important. dmurray sarcastically suggested Linux move to a closed-source model.
-
-**Tags**: `#AI security`, `#vulnerability disclosure`, `#open source`, `#cybersecurity`, `#LLM impact`
-
----
-
-<a id="item-10"></a>
-## [New Benchmark Tests AI Coding Agent Memory Consistency](https://www.reddit.com/r/artificial/comments/1t7m8bg/i_built_a_benchmark_for_ai_memory_in_coding/) ⭐️ 7.0/10
-
-A developer has released a new benchmark called Continuity Benchmarks that evaluates how consistently AI coding agents follow project rules during task execution, rather than just measuring semantic recall. Early results show approximately 3× better action alignment and significantly stronger multi-session consistency compared to baseline RAG-style memory setups. Existing AI agent benchmarks overlook a critical failure mode: coding agents often violate their own earlier decisions while working. This benchmark fills that gap and provides a standardized way to compare memory systems for agents, which is essential for building reliable long-running coding agents. The benchmark checks whether edits respect earlier architectural decisions, whether behavior stays consistent across multiple sessions with noise, and whether retrieval kicks in at the right moment. The full harness, dataset, and scoring method are available on GitHub at github.com/Alienfader/continuity-benchmarks.
-
-rss · r/artificial RSS · May 8, 22:05
-
-**Background**: AI coding agents use large language models to generate and modify code over multiple steps. Most existing memory benchmarks test semantic recall, which is essentially RAG-based search for relevant information, but they do not test whether an agent can maintain consistency with its own past decisions during active development. This new benchmark focuses on action consistency—a dimension that has been largely ignored.
-
-<details><summary>References</summary>
-<ul>
-<li><a href="https://blog.cloudflare.com/introducing-agent-memory/">Agents that remember: introducing Agent Memory</a></li>
-<li><a href="https://www.letta.com/blog/benchmarking-ai-agent-memory">Benchmarking AI Agent Memory: Is a Filesystem All You Need? | Letta</a></li>
-
-</ul>
-</details>
-
-**Tags**: `#coding agents`, `#memory benchmark`, `#AI agents`, `#consistency`, `#evaluation`
-
----
-
-<a id="item-11"></a>
-## [AMD's GAIA open-source AI now integrates with Gmail](https://www.reddit.com/r/artificial/comments/1t77n9a/amds_local_opensource_ai_can_now_easily_interact/) ⭐️ 7.0/10
-
-AMD's GAIA framework version 0.15 now includes Gmail integration via an agentic tool, enabling local AI to read and send emails while keeping data private. This enables privacy-preserving email automation on local hardware, reducing reliance on cloud AI and giving AMD's Ryzen AI PCs a unique selling point. GAIA is an open-source SDK for building AI PC agents, running large language models locally on the Ryzen AI NPU. The Gmail integration uses GAIA's agent framework to interact with the Gmail API while keeping all processing on-device.
-
-rss · r/artificial RSS · May 8, 13:15
-
-**Background**: GAIA is an open-source project by AMD designed to run large language models locally on Ryzen AI PCs using the Neural Processing Unit (NPU). Initially focused on LLM inference, GAIA evolved into an agent framework with tool-use capabilities. Version 0.15, released in January 2026 alongside CES announcements, added the Gmail integration as part of its improved agent user experience.
-
-<details><summary>References</summary>
-<ul>
-<li><a href="https://grokipedia.com/page/amd-gaia">AMD GAIA</a></li>
-<li><a href="https://www.amd.com/en/developer/resources/technical-articles/gaia-an-open-source-project-from-amd-for-running-local-llms-on-ryzen-ai.html">GAIA : An Open-Source Project from AMD for Running Local LLMs on...</a></li>
-
-</ul>
-</details>
-
-**Tags**: `#AI agents`, `#open-source`, `#AMD`, `#local AI`, `#email integration`
-
----
-
-<a id="item-12"></a>
-## [Asian AI Strategies: Vietnam's Law, Japan's No Penalties, Korea's Naver Exclusion](https://www.reddit.com/r/artificial/comments/1t7h9gt/compiled_every_national_ai_strategy_in_asia/) ⭐️ 7.0/10
-
-A Reddit post compiles national AI strategies across Asia, highlighting Vietnam's standalone AI law (effective March 2026), Japan's AI Promotion Act without penalties, and Korea's exclusion of Naver from sovereign LLM competition for using Qwen weights. The post notes that most Asian governments take promotional approaches rather than punitive ones. This overview reveals a distinct Asian AI governance paradigm focused on incentives and sovereign capability rather than heavy regulation, which could influence global AI policy direction. The exclusion of Naver over Qwen weights highlights tensions between open-source models and national sovereignty in AI development. Vietnam's AI law has 36 articles with three-tier risk classification and fines up to 2% of annual revenue. Japan's act has no penalties and aims to close adoption gaps (only 9% of individuals use gen AI). China's open-source-as-industrial-policy has led to over 100,000 Qwen derivatives on Hugging Face.
-
-rss · r/artificial RSS · May 8, 19:00
-
-**Background**: Sovereign LLMs are national AI models built with domestic infrastructure to ensure strategic autonomy. Qwen is Alibaba's open-weight model family, which has been widely fine-tuned and adopted. The EU AI Act uses an ex-ante risk-based approach with penalties, contrasting with Asia's promotional stance.
-
-<details><summary>References</summary>
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Qwen">Qwen - Wikipedia</a></li>
-
-</ul>
-</details>
-
-**Tags**: `#AI Policy`, `#National AI Strategy`, `#Asia`, `#Regulation`, `#Open Source`
-
----
-
-<a id="item-13"></a>
-## [Qwen 35B-A3B MoE Runs Well on 12GB GPU](https://www.reddit.com/r/LocalLLaMA/comments/1t7l56a/qwen_35ba3b_is_very_usable_with_12gb_of_vram/) ⭐️ 7.0/10
-
-A Reddit user shared detailed benchmarks showing that the Qwen 35B-A3B mixture-of-experts model (quantized to 4-bit IQ4_XS) runs practically on a 12GB RTX 3060, achieving about 914 tokens per second for prefill and 46.8 tokens per second for plain decoding, with support for 32k context. This demonstrates that large Mixture-of-Experts models with 35B total parameters can be run on consumer-grade GPUs with as little as 12GB VRAM, making high-quality local LLM inference more accessible for developers and enthusiasts without expensive hardware. The model uses IQ4_XS quantization and requires careful tuning of the `-ncmoe` parameter to keep enough MoE experts on GPU; the sweet spot was `-ncmoe 18` for safe decoding and `-ncmoe 20` for 32k context, with `-ctk q8_0 -ctv q8_0` KV cache quantization providing nearly free performance.
-
-rss · r/LocalLLaMA RSS · May 8, 21:22
-
-**Background**: Mixture-of-Experts (MoE) is a neural network architecture where only a subset of 'expert' sub-networks are activated per token, reducing computation. The Qwen 35B-A3B model has 35B total parameters but only about 3B active per token, making it efficient. Quantization reduces model size by using fewer bits per weight; IQ4_XS is a 4-bit format with importance matrices to maintain accuracy. llama.cpp is an inference engine that supports various quantization and offloading strategies, including the `-ncmoe` flag to control how many MoE layers are offloaded to GPU.
-
-<details><summary>References</summary>
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Mixture_of_experts">Mixture of experts - Wikipedia</a></li>
-<li><a href="https://github.com/ggml-org/llama.cpp/issues/15263">Feature Request: --n-cpu-moe option for multi GPU? · Issue #15263 · ggml-org/llama.cpp</a></li>
-<li><a href="https://huggingface.co/blog/Doctor-Shotgun/llamacpp-moe-offload-guide">Performant local mixture-of-experts CPU inference with GPU acceleration in llama.cpp</a></li>
-
-</ul>
-</details>
-
-**Tags**: `#LLM inference`, `#Qwen`, `#MoE`, `#VRAM`, `#local deployment`
-
----
-
-<a id="item-14"></a>
-## [AI2 Releases EMO: 1B/14B MoE with Document-Level Routing](https://www.reddit.com/r/LocalLLaMA/comments/1t7kgy4/new_moe_from_ai2_emo/) ⭐️ 7.0/10
-
-AI2 has released EMO, a mixture-of-experts model with 1 billion active parameters and 14 billion total parameters, trained on 1 trillion tokens. It introduces document-level routing, where experts are clustered by domain (e.g., health, news) rather than by surface patterns. This work demonstrates a novel approach to expert specialization in MoE models, potentially improving efficiency and interpretability by grouping experts semantically. It could influence future MoE designs for large language models, especially in domain-specific applications. EMO uses a top-2 routing with a capacity factor, and the document-level routing operates by assigning entire documents to the same set of experts. The model is open-source and available on Hugging Face, with checkpoints and code.
-
-rss · r/LocalLLaMA RSS · May 8, 20:57
-
-**Background**: Mixture-of-Experts (MoE) is a neural network architecture that uses multiple 'expert' sub-networks and a routing mechanism to activate only a subset of experts per input, allowing large model capacity with lower computational cost. Traditional MoE routing operates per token and often clusters experts around syntactic patterns. Document-level routing, as in EMO, aims to learn more semantic expert specializations by routing entire documents consistently.
-
-<details><summary>References</summary>
-<ul>
-<li><a href="https://huggingface.co/blog/moe">Mixture of Experts Explained</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Mixture_of_experts">Mixture of experts - Wikipedia</a></li>
-
-</ul>
-</details>
-
-**Tags**: `#LLM`, `#MoE`, `#AI2`, `#routing`, `#open-source`
-
----
-
 <a id="item-15"></a>
-## [DS4: Custom Inference Engine for DeepSeek 4 Flash on 128GB MacBooks](https://www.reddit.com/r/LocalLLaMA/comments/1t72tk9/ds4_a_deepseek_4_flash_specific_inference_engine/) ⭐️ 7.0/10
+## [Ring 2.6 1T Model Free on OpenRouter; Open-Weight Hopes](https://www.reddit.com/r/LocalLLaMA/comments/1t7bvmq/ring_26_1t/) ⭐️ 7.0/10
 
-Antirez, creator of Redis, released DS4, an open-source inference engine specifically optimized to run DeepSeek V4 Flash on 128GB MacBooks with Apple Silicon. DS4 makes it practical to run a 284B-parameter MoE model locally on consumer hardware, democratizing access to large-scale AI and reducing reliance on cloud services. DeepSeek V4 Flash has 284B total parameters but only 13B activated per token, and supports a 1M-token context window. DS4 is tailored for the 128GB unified memory of high-end MacBooks, leveraging their CPU-GPU shared memory architecture.
+A new 1 trillion parameter model named Ring 2.6 has been listed for free on OpenRouter, with community members hoping for an open-weight release following the precedent of Ring 2.5 and Ling 2.6. If released as open-weights, this 1T model could significantly advance open-source AI capabilities, offering a rare opportunity for researchers and developers to access a model of this scale without cost. The model is currently only available via OpenRouter's free tier, and its open-weight status remains unconfirmed. The previous version, Ring 2.5, was open-weights, fueling optimism.
 
-rss · r/LocalLLaMA RSS · May 8, 09:26
+rss · r/LocalLLaMA RSS · May 8, 15:50
 
-**Background**: Large language models typically require high-end GPUs with ample VRAM, but models like DeepSeek V4 Flash use a Mixture-of-Experts (MoE) architecture to reduce active parameters. MacBooks with Apple Silicon use unified memory, allowing the CPU and GPU to access the same RAM pool, which is capable of holding large models entirely in memory. A specialized inference engine is needed to efficiently load and run the model on this architecture, as general-purpose frameworks may not fully exploit the hardware.
+**Background**: Large language models (LLMs) with 1 trillion parameters (1T) are extremely large and typically require vast computational resources. OpenRouter is a platform that provides access to various AI models, often with free tiers. 'Open weights' means the model's trained parameters are publicly released, allowing local deployment and fine-tuning.
 
-<details><summary>References</summary>
-<ul>
-<li><a href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash">deepseek -ai/ DeepSeek -V 4 - Flash · Hugging Face</a></li>
-<li><a href="https://ollama.com/library/deepseek-v4-flash">deepseek -v 4 - flash</a></li>
-<li><a href="https://build.nvidia.com/deepseek-ai/deepseek-v4-flash">deepseek -v 4 - flash Model by Deepseek -ai | NVIDIA NIM</a></li>
-
-</ul>
-</details>
-
-**Tags**: `#LLM inference`, `#DeepSeek`, `#Mac`, `#local AI`, `#open-source`
+**Tags**: `#LLM`, `#inference`, `#open-source`, `#large model`, `#OpenRouter`
 
 ---
