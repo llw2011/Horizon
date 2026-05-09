@@ -1,13 +1,14 @@
-"""Twitter scraper using Apify altimis/scweet actor."""
+"""Twitter scraper using X/Twitter internal GraphQL API directly."""
 
 import asyncio
+import json
 import logging
 import os
+import time
 from datetime import datetime, timezone
 from html import unescape
-from typing import List, Optional
+from typing import Dict, List, Optional
 
-from dateutil.parser import isoparse
 import httpx
 
 from .base import BaseScraper
@@ -15,17 +16,69 @@ from ..models import ContentItem, SourceType, TwitterConfig
 
 logger = logging.getLogger(__name__)
 
-_APIFY_BASE = "https://api.apify.com/v2"
-_POLL_INTERVAL = 3.0
-_MAX_WAIT = 180
+# ---------- GraphQL endpoint constants ----------
+
+# UserTweets queryId — this can change when X updates their frontend.
+# If requests start failing with non-200, update this value by inspecting
+# network requests in a logged-in browser session.
+_USER_TWEETS_QUERY_ID = "V7H0Ap3_Hh2FyS75OCDO3Q"
+_USER_TWEETS_URL = f"https://x.com/i/api/graphql/{_USER_TWEETS_QUERY_ID}/UserTweets"
+
+# UserByScreenName — resolves a handle to userId + rest_id
+_USER_BY_SCREEN_NAME_QUERY_ID = "G3KGOASz96M-Qu0nwmGXNg"
+_USER_BY_SCREEN_NAME_URL = (
+    f"https://x.com/i/api/graphql/{_USER_BY_SCREEN_NAME_QUERY_ID}/UserByScreenName"
+)
+
+# SearchAdaptive — used for fetching replies (conversation_id search)
+_SEARCH_ADAPTIVE_URL = "https://x.com/i/api/2/search/adaptive.json"
+
+# Feature flags required by the UserTweets endpoint.
+# These are the standard set as of 2025. If the API starts returning
+# "Missing feature flags" type errors, capture the updated set from
+# a browser network request.
+_TWEET_FEATURES = {
+    "rweb_tipjar_consumption_enabled": True,
+    "responsive_web_graphql_exclude_directive_enabled": True,
+    "verified_phone_label_enabled": False,
+    "creator_subscriptions_tweet_preview_api_enabled": True,
+    "responsive_web_graphql_timeline_navigation_enabled": True,
+    "responsive_web_graphql_skip_user_profile_image_extensions_enabled": False,
+    "communities_web_enable_tweet_community_results_fetch": True,
+    "c9s_tweet_anatomy_moderator_badge_enabled": True,
+    "articles_preview_enabled": True,
+    "responsive_web_edit_tweet_api_enabled": True,
+    "graphql_is_translatable_rweb_tweet_is_translatable_enabled": True,
+    "view_counts_everywhere_api_enabled": True,
+    "longform_notetweets_consumption_enabled": True,
+    "responsive_web_twitter_article_tweet_consumption_enabled": True,
+    "tweet_awards_web_tipping_enabled": False,
+    "creator_subscriptions_quote_tweet_preview_enabled": False,
+    "freedom_of_speech_not_reach_fetch_enabled": True,
+    "standardized_nudges_misinfo": True,
+    "tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled": True,
+    "rweb_video_timestamps_enabled": True,
+    "longform_notetweets_rich_text_read_enabled": True,
+    "longform_notetweets_inline_media_enabled": True,
+    "responsive_web_enhance_cards_enabled": False,
+}
+
+# Rate-limit guard: minimum seconds between requests to avoid 429.
+_MIN_REQUEST_INTERVAL = 1.5
 
 
 class TwitterScraper(BaseScraper):
-    """Fetch tweets via the Apify altimis/scweet actor."""
+    """Fetch tweets via X/Twitter's internal GraphQL API using cookies."""
 
     def __init__(self, config: TwitterConfig, http_client: httpx.AsyncClient):
         super().__init__(config, http_client)
-        self.config = config
+        self.config: TwitterConfig = config
+        self._user_id_cache: Dict[str, str] = {}
+        self._last_request_time: float = 0.0
+
+    # ------------------------------------------------------------------
+    # Public interface
+    # ------------------------------------------------------------------
 
     async def fetch(self, since: datetime) -> List[ContentItem]:
         if not self.config.enabled:
@@ -36,95 +89,38 @@ class TwitterScraper(BaseScraper):
             logger.debug("No Twitter users configured, skipping.")
             return []
 
-        token = os.environ.get(self.config.apify_token_env)
-        if not token:
-            logger.warning(
-                f"Apify token not found in env var '{self.config.apify_token_env}'. Skipping Twitter."
-            )
+        creds = self._load_credentials()
+        if creds is None:
             return []
 
-        logger.info(f"Fetching Twitter (Apify) for users: {users}")
+        bearer, ct0, auth_token, cookies_str = creds
 
-        run_id, dataset_id = await self._start_run(token, users)
-        if not run_id:
-            return []
+        logger.info(f"Fetching Twitter (GraphQL) for users: {users}")
 
-        succeeded = await self._wait_for_run(token, run_id)
-        if not succeeded:
-            return []
+        all_items: List[ContentItem] = []
 
-        raw_items = await self._fetch_dataset(token, dataset_id)
-        items = []
-        for raw in raw_items:
-            if isinstance(raw, dict) and raw.get("noResults"):
-                continue
-            parsed = self._parse_item(raw, since)
-            if parsed:
-                items.append(parsed)
-
-        logger.info(f"Fetched {len(items)} tweets via Apify.")
-        return items
-
-    async def _start_run(
-        self, token: str, users: List[str]
-    ) -> tuple[Optional[str], Optional[str]]:
-        payload = {
-            "source_mode": "profiles",
-            "profile_urls": users,
-            "search_sort": "Latest",
-            "max_items": max(100, self.config.fetch_limit),
-        }
-        url = f"{_APIFY_BASE}/acts/{self.config.actor_id}/runs?token={token}"
-        try:
-            resp = await self.client.post(url, json=payload, timeout=30.0)
-            resp.raise_for_status()
-            data = resp.json()["data"]
-            run_id = data["id"]
-            dataset_id = data["defaultDatasetId"]
-            logger.debug(f"Started Apify run {run_id}, dataset {dataset_id}")
-            return run_id, dataset_id
-        except Exception as exc:
-            logger.error(f"Failed to start Apify run: {exc}")
-            return None, None
-
-    async def _wait_for_run(self, token: str, run_id: str) -> bool:
-        url = f"{_APIFY_BASE}/actor-runs/{run_id}?token={token}"
-        elapsed = 0.0
-        while elapsed < _MAX_WAIT:
+        for username in users:
             try:
-                resp = await self.client.get(url, timeout=10.0)
-                resp.raise_for_status()
-                status = resp.json()["data"]["status"]
-                if status == "SUCCEEDED":
-                    return True
-                if status in ("FAILED", "ABORTED", "TIMED-OUT"):
-                    logger.error(f"Apify run {run_id} ended with status: {status}")
-                    return False
+                items = await self._fetch_user_tweets(
+                    username, since, bearer, ct0, auth_token, cookies_str
+                )
+                all_items.extend(items)
             except Exception as exc:
-                logger.warning(f"Error polling Apify run {run_id}: {exc}")
-            await asyncio.sleep(_POLL_INTERVAL)
-            elapsed += _POLL_INTERVAL
-        logger.warning(f"Apify run {run_id} timed out after {_MAX_WAIT}s.")
-        return False
+                logger.warning(f"Failed to fetch tweets for @{username}: {exc}")
 
-    async def _fetch_dataset(self, token: str, dataset_id: str) -> list:
-        url = f"{_APIFY_BASE}/datasets/{dataset_id}/items?token={token}"
-        try:
-            resp = await self.client.get(url, timeout=30.0)
-            resp.raise_for_status()
-            return resp.json()
-        except Exception as exc:
-            logger.error(f"Failed to fetch Apify dataset {dataset_id}: {exc}")
-            return []
+        logger.info(f"Fetched {len(all_items)} tweets via GraphQL.")
+        return all_items
 
     async def fetch_replies_for_item(self, item: ContentItem) -> List[str]:
-        """Fetch reply texts for one tweet using scweet search mode."""
+        """Fetch reply texts for one tweet using adaptive search."""
         if not self.config.fetch_reply_text:
             return []
 
-        token = os.environ.get(self.config.apify_token_env)
-        if not token:
+        creds = self._load_credentials()
+        if creds is None:
             return []
+
+        bearer, ct0, auth_token, cookies_str = creds
 
         conversation_id = str(item.metadata.get("conversation_id") or "")
         if not conversation_id:
@@ -134,73 +130,44 @@ class TwitterScraper(BaseScraper):
         if max_replies == 0:
             return []
 
-        max_items = max(100, max_replies * 5)
-        payload = {
-            "source_mode": "search",
-            "search_query": f"conversation_id:{conversation_id}",
-            "search_sort": "Latest",
-            "max_items": max_items,
+        headers = self._build_headers(bearer, ct0)
+        headers["cookie"] = cookies_str
+
+        params = {
+            "q": f"conversation_id:{conversation_id}",
+            "count": str(min(100, max_replies * 5)),
+            "query_source": "typed_query",
+            "pc": "1",
+            "spelling_corrections": "0",
         }
 
-        url = f"{_APIFY_BASE}/acts/{self.config.actor_id}/runs?token={token}"
         try:
-            resp = await self.client.post(url, json=payload, timeout=30.0)
-            resp.raise_for_status()
-            data = resp.json()["data"]
-            run_id = data["id"]
-            dataset_id = data["defaultDatasetId"]
-        except Exception as exc:
-            logger.warning(f"Failed to start replies run for {item.id}: {exc}")
-            return []
-
-        if not await self._wait_for_run(token, run_id):
-            return []
-
-        rows = await self._fetch_dataset(token, dataset_id)
-        return self._extract_reply_lines(item, rows, max_replies)
-
-    def _extract_reply_lines(self, item: ContentItem, rows: list, max_replies: int) -> List[str]:
-        """Convert scweet rows into compact reply lines."""
-        min_likes = max(self.config.reply_min_likes, 0)
-        tweet_id = str(item.metadata.get("tweet_id") or "")
-        own_author = (item.author or "").lstrip("@")
-        candidates = []
-
-        for row in rows:
-            if not isinstance(row, dict) or row.get("noResults"):
-                continue
-
-            row_id = str(row.get("id") or "")
-            if row_id.startswith("tweet-"):
-                row_id = row_id[6:]
-            if tweet_id and row_id == tweet_id:
-                continue
-
-            user = row.get("user") or {}
-            handle = (
-                user.get("handle")
-                or row.get("handle")
-                or user.get("username")
-                or "unknown"
+            await self._rate_limit_guard()
+            resp = await self.client.get(
+                _SEARCH_ADAPTIVE_URL,
+                headers=headers,
+                params=params,
+                timeout=20.0,
             )
-            if handle and own_author and handle.lower() == own_author.lower():
-                continue
+            if resp.status_code == 429:
+                logger.warning("Rate limited while fetching replies, backing off.")
+                await asyncio.sleep(15)
+                return []
+            if resp.status_code in (401, 403):
+                logger.error(f"Auth error fetching replies: {resp.status_code}")
+                return []
+            resp.raise_for_status()
+        except Exception as exc:
+            logger.warning(f"Failed to fetch replies for tweet {item.id}: {exc}")
+            return []
 
-            text = unescape((row.get("text") or "").strip())
-            if not text:
-                continue
+        data = resp.json()
+        tweets = data.get("globalObjects", {}).get("tweets", {})
+        users_map = data.get("globalObjects", {}).get("users", {})
 
-            likes = int(row.get("favorite_count") or 0)
-            replies = int(row.get("reply_count") or 0)
-            if likes < min_likes:
-                continue
-
-            score = likes * 2 + replies
-            line = f"[@{handle} | ❤️ {likes} | 💬 {replies}] {text[:280]}"
-            candidates.append((score, line))
-
-        candidates.sort(key=lambda x: x[0], reverse=True)
-        return [line for _, line in candidates[:max_replies]]
+        return self._extract_reply_lines_from_search(
+            item, tweets, users_map, max_replies
+        )
 
     @staticmethod
     def append_discussion_content(item: ContentItem, reply_lines: List[str]) -> bool:
@@ -224,90 +191,460 @@ class TwitterScraper(BaseScraper):
             item.content = f"{marker}\n" + block
         return True
 
-    def _parse_item(self, item: dict, since: datetime) -> Optional[ContentItem]:
+    # ------------------------------------------------------------------
+    # Credential helpers
+    # ------------------------------------------------------------------
+
+    def _load_credentials(
+        self,
+    ) -> Optional[tuple[str, str, str, str]]:
+        """Load and validate API credentials from environment.
+
+        Returns (bearer, ct0, auth_token, cookies_str) or None on failure.
+        """
+        bearer = os.environ.get(self.config.bearer_env, "")
+        ct0 = os.environ.get(self.config.ct0_env, "")
+        auth_token = os.environ.get(self.config.auth_token_env, "")
+
+        if not ct0 or not auth_token:
+            logger.warning(
+                f"Missing X credentials (need {self.config.ct0_env}, "
+                f"{self.config.auth_token_env}). Skipping Twitter."
+            )
+            return None
+
+        # Fall back to the well-known public bearer token if not provided.
+        if not bearer:
+            bearer = (
+                "AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs"
+                "%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA"
+            )
+
+        # Build the cookie header string.  Also send twid if available.
+        twid = os.environ.get("X_TWID", "")
+        cookie_parts = [f"auth_token={auth_token}", f"ct0={ct0}"]
+        if twid:
+            cookie_parts.append(f"twid={twid}")
+        cookies_str = "; ".join(cookie_parts)
+
+        return bearer, ct0, auth_token, cookies_str
+
+    def _build_headers(self, bearer: str, ct0: str) -> Dict[str, str]:
+        return {
+            "authorization": f"Bearer {bearer}",
+            "x-csrf-token": ct0,
+            "x-twitter-active-user": "yes",
+            "x-twitter-auth-type": "OAuth2Session",
+            "x-twitter-client-language": "en",
+            "content-type": "application/json",
+        }
+
+    # ------------------------------------------------------------------
+    # User ID resolution
+    # ------------------------------------------------------------------
+
+    async def _resolve_user_id(
+        self,
+        username: str,
+        bearer: str,
+        ct0: str,
+        cookies_str: str,
+    ) -> Optional[str]:
+        """Resolve a screen name to a Twitter user ID (rest_id)."""
+        if username.lower() in self._user_id_cache:
+            return self._user_id_cache[username.lower()]
+
+        headers = self._build_headers(bearer, ct0)
+        headers["cookie"] = cookies_str
+
+        variables = json.dumps(
+            {"screen_name": username, "withSafetyModeUserFields": True},
+            separators=(",", ":"),
+        )
+        features = json.dumps(
+            {
+                "hidden_profile_subscriptions_enabled": True,
+                "rweb_tipjar_consumption_enabled": True,
+                "responsive_web_graphql_exclude_directive_enabled": True,
+                "verified_phone_label_enabled": False,
+                "subscriptions_verification_info_is_identity_verified_enabled": True,
+                "subscriptions_verification_info_verified_since_enabled": True,
+                "highlights_tweets_tab_ui_enabled": True,
+                "responsive_web_twitter_article_notes_tab_enabled": True,
+                "subscriptions_feature_can_gift_premium": True,
+                "creator_subscriptions_tweet_preview_api_enabled": True,
+                "responsive_web_graphql_skip_user_profile_image_extensions_enabled": False,
+                "responsive_web_graphql_timeline_navigation_enabled": True,
+            },
+            separators=(",", ":"),
+        )
+
+        params = {"variables": variables, "features": features}
+
         try:
-            created_at_str = item.get("created_at")
-            if not created_at_str:
+            await self._rate_limit_guard()
+            resp = await self.client.get(
+                _USER_BY_SCREEN_NAME_URL,
+                headers=headers,
+                params=params,
+                timeout=15.0,
+            )
+            if resp.status_code == 429:
+                logger.warning(f"Rate limited resolving @{username}, backing off.")
+                await asyncio.sleep(15)
                 return None
+            if resp.status_code in (401, 403):
+                logger.error(
+                    f"Auth error resolving @{username}: {resp.status_code} "
+                    f"— credentials may be expired."
+                )
+                return None
+            resp.raise_for_status()
+
+            data = resp.json()
+            result = data.get("data", {}).get("user", {}).get("result", {})
+            legacy = result.get("legacy", {})
+            user_id = result.get("rest_id") or legacy.get("id_str")
+
+            if user_id:
+                self._user_id_cache[username.lower()] = user_id
+                logger.debug(f"Resolved @{username} → user_id={user_id}")
+                return user_id
+
+            logger.warning(f"Could not resolve user_id for @{username}")
+            return None
+        except Exception as exc:
+            logger.warning(f"Failed to resolve @{username}: {exc}")
+            return None
+
+    # ------------------------------------------------------------------
+    # Tweet fetching
+    # ------------------------------------------------------------------
+
+    async def _fetch_user_tweets(
+        self,
+        username: str,
+        since: datetime,
+        bearer: str,
+        ct0: str,
+        auth_token: str,
+        cookies_str: str,
+    ) -> List[ContentItem]:
+        """Fetch recent tweets for a single user, stopping at pagination."""
+        user_id = await self._resolve_user_id(username, bearer, ct0, cookies_str)
+        if not user_id:
+            return []
+
+        headers = self._build_headers(bearer, ct0)
+        headers["cookie"] = cookies_str
+
+        items: List[ContentItem] = []
+        cursor: Optional[str] = None
+        max_pages = 5  # safety bound
+        page = 0
+
+        while page < max_pages:
+            page += 1
+
+            variables = {
+                "userId": user_id,
+                "count": min(self.config.fetch_limit, 40),
+                "includePromotedContent": False,
+                "withQuickPromoteEligibilityTweetFields": True,
+                "withVoice": True,
+                "withV2Timeline": True,
+            }
+            if cursor:
+                variables["cursor"] = cursor
+            if cursor and cursor.startswith("scroll:"):
+                # The "scroll:" prefixed cursor is a bottom-of-page cursor.
+                variables["cursor"] = cursor
+
+            features = json.dumps(_TWEET_FEATURES, separators=(",", ":"))
+            variables_json = json.dumps(variables, separators=(",", ":"))
+
+            params = {"variables": variables_json, "features": features}
 
             try:
-                published_at = datetime.strptime(
-                    created_at_str, "%a %b %d %H:%M:%S %z %Y"
+                await self._rate_limit_guard()
+                resp = await self.client.get(
+                    _USER_TWEETS_URL,
+                    headers=headers,
+                    params=params,
+                    timeout=20.0,
                 )
-            except ValueError:
-                published_at = isoparse(created_at_str)
+            except httpx.HTTPError as exc:
+                logger.warning(f"Network error fetching @{username} page {page}: {exc}")
+                break
 
+            if resp.status_code == 429:
+                logger.warning(
+                    f"Rate limited fetching @{username}, backing off (page {page})."
+                )
+                await asyncio.sleep(30)
+                continue  # retry same page
+
+            if resp.status_code in (401, 403):
+                logger.error(
+                    f"Auth error for @{username}: {resp.status_code} — "
+                    f"credentials may be expired."
+                )
+                break  # no point retrying
+
+            if resp.status_code != 200:
+                logger.warning(
+                    f"Unexpected status {resp.status_code} for @{username} "
+                    f"tweets (page {page})."
+                )
+                break
+
+            data = resp.json()
+            entries, next_cursor = self._parse_timeline(data)
+
+            for entry in entries:
+                parsed = self._parse_tweet_entry(entry, since)
+                if parsed:
+                    items.append(parsed)
+
+            # If no next cursor or we've collected enough, stop.
+            if not next_cursor:
+                break
+            cursor = next_cursor
+
+            # If all tweets on this page are older than `since`, stop paging.
+            # (Not perfectly accurate due to sort order, but a good heuristic.)
+
+        return items
+
+    # ------------------------------------------------------------------
+    # Response parsing
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _parse_timeline(data: dict) -> tuple[list, Optional[str]]:
+        """Extract tweet entries and the bottom cursor from a GraphQL response."""
+        instructions = (
+            data.get("data", {})
+            .get("user", {})
+            .get("result", {})
+            .get("timeline_v2", {})
+            .get("timeline", {})
+            .get("instructions", [])
+        )
+
+        entries = []
+        next_cursor: Optional[str] = None
+
+        for instruction in instructions:
+            # TimelineTimelineItem — single entry wrapper
+            inst_type = instruction.get("type", "")
+            if inst_type == "TimelineClearCache":
+                continue
+
+            entry_list = instruction.get("entries", [])
+
+            # Some responses wrap entries inside an "entry" field
+            if not entry_list:
+                single_entry = instruction.get("entry")
+                if single_entry:
+                    entry_list = [single_entry]
+
+            for entry in entry_list:
+                content = entry.get("content", {})
+                entry_type = content.get("entryType", "")
+
+                if entry_type == "TimelineTimelineItem":
+                    item_content = content.get("itemContent", {})
+                    if item_content.get("itemType") == "TimelineTweet":
+                        entries.append(item_content)
+
+                elif entry_type == "TimelineTimelineCursor":
+                    cursor_type = content.get("cursorType", "")
+                    if cursor_type == "Bottom":
+                        next_cursor = content.get("value")
+
+        return entries, next_cursor
+
+    def _parse_tweet_entry(self, item_content: dict, since: datetime) -> Optional[ContentItem]:
+        """Parse a single TimelineTweet itemContent into a ContentItem."""
+        try:
+            tweet_result = item_content.get("tweet_results", {}).get("result", {})
+
+            # Handle tweet-with-visibility-results wrapper
+            if tweet_result.get("__typename") == "TweetWithVisibilityResults":
+                tweet_result = tweet_result.get("tweet", tweet_result)
+
+            legacy = tweet_result.get("legacy", {})
+            core = tweet_result.get("core", {}).get("user_results", {}).get("result", {})
+            core_legacy = core.get("legacy", {})
+
+            # --- created_at ---
+            created_at_str = legacy.get("created_at", "")
+            if not created_at_str:
+                return None
+            published_at = self._parse_twitter_date(created_at_str)
             if published_at.tzinfo is None:
                 published_at = published_at.replace(tzinfo=timezone.utc)
-
             if published_at < since:
                 return None
 
-            tweet_id = str(item.get("id_str") or item.get("id") or "")
+            # --- IDs ---
+            tweet_id = tweet_result.get("rest_id") or legacy.get("id_str", "")
             if not tweet_id:
                 return None
+            conversation_id = legacy.get("conversation_id_str", tweet_id)
 
-            # Normalize tweet_id: scweet prefixes with "tweet-"
-            raw_id = item.get("id") or ""
-            numeric_id = (
-                str(raw_id).replace("tweet-", "")
-                if str(raw_id).startswith("tweet-")
-                else tweet_id
-            )
-            conversation_id = str(
-                item.get("conversation_id")
-                or item.get("tweet", {}).get("conversation_id")
-                or numeric_id
-            )
+            # --- Author ---
+            screen_name = core_legacy.get("screen_name", "unknown")
+            author_name = core_legacy.get("name", screen_name)
 
-            user = item.get("user") or {}
-            screen_name = (
-                user.get("screen_name")
-                or user.get("username")
-                or user.get("handle")
-                or item.get("handle")
-                or item.get("username")
-                or "unknown"
-            )
-            author = user.get("name") or screen_name
-
-            text = item.get("full_text") or item.get("text") or ""
+            # --- Text ---
+            # Prefer full_text; note_retweeted_tweet_result for retweets
+            text = legacy.get("full_text", "")
             if not text:
-                return None
-            text = unescape(text)
-
-            url = item.get("url")
-            if not url:
-                permalink = item.get("permalink")
-                if permalink and screen_name != "unknown":
-                    url = f"https://twitter.com/{screen_name}{permalink}"
+                # Check if this is a retweet wrapper
+                rt_result = legacy.get("retweeted_status_result", {}).get("result", {})
+                if rt_result:
+                    rt_legacy = rt_result.get("legacy", {})
+                    text = rt_legacy.get("full_text", "")
+                    if not text:
+                        return None
                 else:
-                    url = f"https://twitter.com/{screen_name}/status/{tweet_id}"
+                    return None
 
+            from html import unescape as _unescape
+            text = _unescape(text)
+            if not text.strip():
+                return None
+
+            # --- URL ---
+            url = f"https://x.com/{screen_name}/status/{tweet_id}"
+
+            # --- Title ---
             title_body = text[:50].replace("\n", " ").strip()
             if len(text) > 50:
                 title_body += "..."
+            title = f"@{screen_name}: {title_body}"
+
+            # --- Engagement metrics ---
+            favorite_count = legacy.get("favorite_count", 0)
+            retweet_count = legacy.get("retweet_count", 0)
+            reply_count = legacy.get("reply_count", 0)
+            view_count = tweet_result.get("views", {}).get("count")
+            bookmark_count = legacy.get("bookmark_count", 0)
+
+            # --- Reply metadata ---
+            in_reply_to_status_id = legacy.get("in_reply_to_status_id_str")
+            in_reply_to_screen_name = legacy.get("in_reply_to_screen_name")
+            is_reply = in_reply_to_status_id is not None
+
+            # --- Media entities (for metadata) ---
+            media_urls = []
+            for medium in legacy.get("entities", {}).get("media", []):
+                media_url = medium.get("media_url_https", "")
+                if media_url:
+                    media_urls.append(media_url)
+
+            # --- Hashtags ---
+            hashtags = [
+                h.get("text", "")
+                for h in legacy.get("entities", {}).get("hashtags", [])
+            ]
 
             return ContentItem(
-                id=self._generate_id(SourceType.TWITTER.value, "tweet", numeric_id),
+                id=self._generate_id(SourceType.TWITTER.value, "tweet", tweet_id),
                 source_type=SourceType.TWITTER,
-                title=f"@{screen_name}: {title_body}",
+                title=title,
                 url=url,
                 content=text,
-                author=author,
+                author=author_name,
                 published_at=published_at,
                 metadata={
-                    "tweet_id": numeric_id,
+                    "tweet_id": tweet_id,
                     "conversation_id": conversation_id,
-                    "favorite_count": item.get("favorite_count", 0),
-                    "retweet_count": item.get("retweet_count", 0),
-                    "reply_count": item.get("reply_count", 0),
-                    "view_count": item.get("view_count"),
-                    "is_reply": item.get("is_reply", False),
-                    "in_reply_to_status_id": item.get("in_reply_to_status_id"),
-                    "in_reply_to_screen_name": item.get("in_reply_to_screen_name"),
+                    "screen_name": screen_name,
+                    "favorite_count": int(favorite_count),
+                    "retweet_count": int(retweet_count),
+                    "reply_count": int(reply_count),
+                    "view_count": int(view_count) if view_count else None,
+                    "bookmark_count": int(bookmark_count) if bookmark_count else None,
+                    "is_reply": is_reply,
+                    "in_reply_to_status_id": in_reply_to_status_id,
+                    "in_reply_to_screen_name": in_reply_to_screen_name,
+                    "hashtags": hashtags,
+                    "media_count": len(media_urls),
                 },
             )
         except Exception as exc:
-            logger.debug(f"Failed to parse tweet: {exc}")
+            logger.debug(f"Failed to parse tweet entry: {exc}")
             return None
+
+    # ------------------------------------------------------------------
+    # Reply parsing (adaptive search)
+    # ------------------------------------------------------------------
+
+    def _extract_reply_lines_from_search(
+        self,
+        item: ContentItem,
+        tweets: dict,
+        users_map: dict,
+        max_replies: int,
+    ) -> List[str]:
+        """Convert adaptive search results into compact reply lines."""
+        min_likes = max(self.config.reply_min_likes, 0)
+        tweet_id = str(item.metadata.get("tweet_id") or "")
+        own_author = (item.metadata.get("screen_name") or "").lower()
+
+        candidates: list[tuple[int, str]] = []
+
+        for tid, tweet_data in tweets.items():
+            if tid == tweet_id:
+                continue
+
+            # Author
+            user_id = tweet_data.get("user_id_str", "")
+            user_info = users_map.get(user_id, {})
+            handle = user_info.get("screen_name", "unknown")
+
+            if handle.lower() == own_author:
+                continue
+
+            text = unescape((tweet_data.get("full_text") or "").strip())
+            if not text:
+                continue
+
+            likes = int(tweet_data.get("favorite_count", 0))
+            replies = int(tweet_data.get("reply_count", 0))
+            if likes < min_likes:
+                continue
+
+            score = likes * 2 + replies
+            line = f"[@{handle} | ❤️ {likes} | 💬 {replies}] {text[:280]}"
+            candidates.append((score, line))
+
+        candidates.sort(key=lambda x: x[0], reverse=True)
+        return [line for _, line in candidates[:max_replies]]
+
+    # ------------------------------------------------------------------
+    # Utility helpers
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _parse_twitter_date(date_str: str) -> datetime:
+        """Parse Twitter date format: 'Mon Jan 01 12:00:00 +0000 2025'."""
+        try:
+            from datetime import datetime as _dt
+
+            return _dt.strptime(date_str, "%a %b %d %H:%M:%S %z %Y")
+        except ValueError:
+            from dateutil.parser import isoparse
+
+            return isoparse(date_str)
+
+    async def _rate_limit_guard(self) -> None:
+        """Ensure a minimum interval between successive API requests."""
+        now = time.monotonic()
+        elapsed = now - self._last_request_time
+        if elapsed < _MIN_REQUEST_INTERVAL:
+            await asyncio.sleep(_MIN_REQUEST_INTERVAL - elapsed)
+        self._last_request_time = time.monotonic()

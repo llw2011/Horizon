@@ -148,8 +148,9 @@
     },
     "twitter": {
       "enabled": true,
-      "apify_token_env": "APIFY_TOKEN",
-      "actor_id": "altimis~scweet",
+      "ct0_env": "X_CT0",
+      "auth_token_env": "X_AUTH_TOKEN",
+      "bearer_env": "X_BEARER_TOKEN",
       "users": [
         "AndrewYNg",
         "kaboroevich",

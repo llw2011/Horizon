@@ -130,10 +130,11 @@ class TelegramConfig(BaseModel):
 
 
 class TwitterConfig(BaseModel):
-    """Twitter source configuration via Apify."""
+    """Twitter source configuration via X/Twitter GraphQL API."""
     enabled: bool = True
-    apify_token_env: str = "APIFY_TOKEN"
-    actor_id: str = "altimis~scweet"
+    ct0_env: str = "X_CT0"
+    auth_token_env: str = "X_AUTH_TOKEN"
+    bearer_env: str = "X_BEARER_TOKEN"
     users: List[str] = Field(default_factory=list)
     fetch_limit: int = 10
     fetch_reply_text: bool = False
