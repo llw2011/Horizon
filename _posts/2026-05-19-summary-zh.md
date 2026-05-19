@@ -9,327 +9,343 @@ lang: zh
 
 ---
 
-1. [Cloudflare 测试 Anthropic 的 Mythos 预览版，发现强大能力与风险并存](#item-1) ⭐️ 9.0/10
-2. [安德烈·卡帕斯加入 Anthropic](#item-2) ⭐️ 8.0/10
-3. [Cursor 推出基于 Kimi K2.5 的 Composer 2.5](#item-3) ⭐️ 8.0/10
-4. [Claude Managed Agents 新增自托管沙箱和 MCP 隧道](#item-4) ⭐️ 8.0/10
-5. [Sapient Intelligence 发布 HRM-Text 1B：40B token，约 1000 美元预训练，击败 Llama3.2 3B](#item-5) ⭐️ 8.0/10
-6. [llama.cpp 新增 MTP 推测解码，速度提升高达 2.44 倍](#item-6) ⭐️ 8.0/10
-7. [Anthropic 收购 Stainless 以增强代理-API 集成](#item-7) ⭐️ 7.0/10
-8. [AI 代理运营直播电台，效果荒诞滑稽](#item-8) ⭐️ 7.0/10
-9. [PyCon 2026 演讲五分钟回顾 LLM 发展](#item-9) ⭐️ 7.0/10
-10. [马斯克起诉 OpenAI 及阿尔特曼案败诉](#item-10) ⭐️ 7.0/10
-11. [字节跳动发布开源 3B 多模态模型 Lance](#item-11) ⭐️ 7.0/10
-12. [推出用于 RAG 的 Ettin Reranker 系列模型](#item-12) ⭐️ 7.0/10
-13. [Qwen 3.6 27B 在吃豆人编程基准测试中击败顶级模型](#item-13) ⭐️ 7.0/10
-14. [组织级多智能体架构：观察者、任务、目标智能体](#item-14) ⭐️ 7.0/10
-15. [通过对数幅度和平滑编码的数字感知嵌入](#item-15) ⭐️ 7.0/10
+1. [Andrej Karpathy 加入 Anthropic 从事预训练工作](#item-1) ⭐️ 9.0/10
+2. [llama.cpp 的 MTP 支持在 Strix Halo 上实现 2.44 倍加速](#item-2) ⭐️ 9.0/10
+3. [LLM 半年回顾：巨变不断](#item-3) ⭐️ 8.0/10
+4. [Claude 托管代理新增：自托管沙箱和 MCP 隧道](#item-4) ⭐️ 8.0/10
+5. [Cloudflare 对测试 Anthropic Mythos Preview 的坦诚评估](#item-5) ⭐️ 8.0/10
+6. [字节跳动发布开源 3B 多模态大模型 Lance](#item-6) ⭐️ 8.0/10
+7. [Cursor 发布基于开源 Kimi K2.5 模型的 Composer 2.5](#item-7) ⭐️ 7.0/10
+8. [Anthropic 收购 SDK 生成初创公司 Stainless](#item-8) ⭐️ 7.0/10
+9. [埃隆·马斯克起诉山姆·奥特曼和 OpenAI 案败诉](#item-9) ⭐️ 7.0/10
+10. [Agent Bazaar：多智能体市场的经济对齐](#item-10) ⭐️ 7.0/10
+11. [Claude 获得持久学习能力后反思自身存在](#item-11) ⭐️ 7.0/10
+12. [Qwen 3.6 27b 在本地智能编码代理基准测试中取得突破](#item-12) ⭐️ 7.0/10
+13. [包含观察者、任务和目标智能体的简单多智能体架构](#item-13) ⭐️ 7.0/10
+14. [通过对数幅度编码实现数字感知嵌入](#item-14) ⭐️ 7.0/10
+15. [HRM-Text 1B：40B token 训练，$1k 成本，性能超 Llama3.2 3B](#item-15) ⭐️ 7.0/10
 
 ---
 
 <a id="item-1"></a>
-## [Cloudflare 测试 Anthropic 的 Mythos 预览版，发现强大能力与风险并存](https://www.reddit.com/r/artificial/comments/1tgy0j4/cloudflare_just_published_what_they_found_after/) ⭐️ 9.0/10
+## [Andrej Karpathy 加入 Anthropic 从事预训练工作](https://twitter.com/karpathy/status/2056753169888334312) ⭐️ 9.0/10
 
-Cloudflare 在对其 50 多个自有代码仓库测试 Anthropic 的 Mythos 预览版后发布了详细分析，显示该模型能够自主将多个利用原语链合成可工作的概念验证，其推理过程堪比资深安全研究员。然而，他们发现模型的内置护栏并不一致，对于同一任务的不同表述会产生截然不同的结果。 这份报告凸显了 AI 驱动漏洞发现能力的飞跃，以及在任何公开版本发布前必须解决的关键安全漏洞。研究结果强调了此类模型的双重用途：帮助防御者发现漏洞的相同能力，若被滥用，也会加速对每个互联网应用的攻击。 该模型展示了自主漏洞链式利用——将多个低严重性问题组合成关键利用路径——其效果堪比资深研究员而非自动扫描器。Cloudflare 指出，护栏的不一致性正是未来任何公开版本都需要在顶层叠加强化安全防护的原因。
+著名 AI 研究员、OpenAI 联合创始人之一 Andrej Karpathy 在 Twitter 上宣布他已加入 Anthropic，从事预训练工作。这一举动标志着前沿 AI 实验室的一次重大人才引进。 Karpathy 是 AI 领域最知名的名字之一，他选择加入 Anthropic 而非返回 OpenAI 或其他实验室，凸显了 AI 人才市场的格局变化。他对预训练的专注可能有助于 Anthropic 提升其基础模型能力。 Karpathy 曾共同创立 OpenAI、领导特斯拉的 AI 团队，并曾作为独立研究员。在 Anthropic，他将专门从事预训练工作，这是开发大型语言模型的关键阶段。
 
-rss · r/artificial RSS · May 18, 19:20
+hackernews · dmarcos · May 19, 15:07 · [社区讨论](https://news.ycombinator.com/item?id=48194352)
 
-**背景**: Anthropic 的 Mythos 预览版是一款专注于安全的大型语言模型，作为 Project Glasswing 的一部分于 2026 年 4 月发布。最初，Anthropic 出于安全考虑决定不公开发布，而是授予约 40 家组织用于防御性用途。漏洞链式利用是指将多个低严重性漏洞组合成单一复杂攻击路径，从而实现系统完全沦陷的过程。
+**背景**: Andrej Karpathy 是一位领先的 AI 研究员，以计算机视觉和深度学习方面的工作而闻名。Anthropic 是一家专注于构建可靠和可解释 AI 系统的 AI 安全公司。预训练是指在大量数据上训练模型以学习通用语言模式，这是许多现代 AI 模型的基础步骤。
 
-<details><summary>参考链接</summary>
-<ul>
-<li><a href="https://securityboulevard.com/2026/04/claude-mythos-and-the-ai-vulnerability-arms-race-what-cisos-must-know-now/">Claude Mythos and the AI Vulnerability Arms Race - What CISOs ...</a></li>
-<li><a href="https://www.anthropic.com/glasswing">Project Glasswing : Securing critical software for the AI era \ Anthropic</a></li>
+**社区讨论**: 社区评论中既包含怀疑也包含乐观。一些人注意到 Karpathy 的职业变动——从 OpenAI 到特斯拉再到独立——暗示他可能在寻求新的挑战。其他人则称赞 Anthropic 聘请了顶尖人才，并希望 Karpathy 的价值观与 Anthropic 以安全为中心的使命相契合。
 
-</ul>
-</details>
-
-**标签**: `#AI Agents`, `#Agent Safety`, `#Cybersecurity`, `#Anthropic`, `#Cloudflare`
+**标签**: `#AI industry`, `#Anthropic`, `#Karpathy`, `#talent movement`
 
 ---
 
 <a id="item-2"></a>
-## [安德烈·卡帕斯加入 Anthropic](https://twitter.com/karpathy/status/2056753169888334312) ⭐️ 8.0/10
+## [llama.cpp 的 MTP 支持在 Strix Halo 上实现 2.44 倍加速](https://www.reddit.com/r/LocalLLaMA/comments/1tgxau6/llamacpp_mtp_support_landed_qwen36_27b_at_244_on/) ⭐️ 9.0/10
 
-知名 AI 研究员、OpenAI 联合创始人安德烈·卡帕斯宣布加入 Anthropic，负责预训练工作。 卡帕斯的加入表明 Anthropic 在 AI 安全与研究领域持续吸引顶尖人才，可能影响大型语言模型的发展方向。 卡帕斯此前联合创立了 OpenAI，并在特斯拉领导计算机视觉和 AI 团队。他将在 Anthropic 专注于预训练，这是基础模型的关键领域。
+PR #22673（commit 4f13cb7）于 5 月 16 日在主线 llama.cpp 中实现了 MTP（多 token 预测）推测性解码。基准测试显示，在 Strix Halo 上对 Qwen3.6 27B 模型的推理速度最高提升 2.44 倍，在双 RTX 3090 上提升 2.17 倍。 MTP 在不牺牲输出质量的前提下，显著提升了消费级硬件上的本地 LLM 推理速度。这使得在本地运行更大模型更加实用，并降低了交互式应用的延迟。 加速效果因硬件和量化方式而异：Strix Halo 上 Q4_K_M 达到 1.81 倍，Q8_0 达到 2.44 倍。对于 Qwen3.6 35B-A3B 等 MoE 模型，由于每 token 计算成本已经很低，增益较小（1.24-1.40 倍）。在相同种子和温度下，输出与基线在字节级别一致。
 
-hackernews · dmarcos · May 19, 15:07 · [社区讨论](https://news.ycombinator.com/item?id=48194352)
+rss · r/LocalLLaMA RSS · May 18, 19:01
 
-**背景**: 安德烈·卡帕斯是 AI 领域知名人物，曾联合创立 OpenAI 并在特斯拉从事自动驾驶 AI 研发。Anthropic 是一家专注于构建可靠和可解释模型的 AI 安全公司。预训练是在海量数据集上训练大型神经网络的初始阶段。
+**背景**: 多 token 预测（MTP）是一种让模型同时预测多个未来 token 的技术，可实现推测性解码：草稿模型并行提出 token，然后验证器在一次前向传播中检查它们。这减少了顺序解码步骤的数量，从而加速推理。Strix Halo 是 AMD 强大的 APU，拥有 16 个 Zen 5 核心和 40 个 RDNA 3.5 计算单元，非常适合本地 LLM 推理。
 
-**社区讨论**: 社区反应不一：有人质疑卡帕斯的职业轨迹以及在过往公司的影响力，也有人称赞他的才华，认为 Anthropic 符合他对 AI 安全的关注。
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://arxiv.org/html/2507.11851v1">Your LLM Knows the Future: Uncovering Its Multi - Token Prediction ...</a></li>
+<li><a href="https://www.amd.com/en/blogs/2025/amd-ryzen-ai-max-395-processor-breakthrough-ai-.html">AMD Ryzen™ AI MAX+ 395 Processor: Breakthrough AI Performance in Thin ...</a></li>
+<li><a href="https://blockainews.com/multi-token-prediction-gemma-4-faster-local-inference-explainer/">Multi - Token Prediction Explained: How Gemma 4 Runs 3x Faster...</a></li>
 
-**标签**: `#AI`, `#Anthropic`, `#Karpathy`, `#Industry News`
+</ul>
+</details>
+
+**标签**: `#llama.cpp`, `#MTP`, `#speculative decoding`, `#LLM inference`, `#local LLM`
 
 ---
 
 <a id="item-3"></a>
-## [Cursor 推出基于 Kimi K2.5 的 Composer 2.5](https://cursor.com/blog/composer-2-5) ⭐️ 8.0/10
+## [LLM 半年回顾：巨变不断](https://simonwillison.net/2026/May/19/5-minute-llms/#atom-everything) ⭐️ 8.0/10
 
-Cursor 发布了 Composer 2.5，这是其 AI 编码代理的更新版本，基于 Moonshot AI 的开源 Kimi K2.5 模型构建。新模型旨在提升 AI 辅助编码的能力。 Composer 2.5 标志着 Cursor 从 IDE 封装商向模型实验室的持续转变，直接与前沿 AI 实验室竞争。通过利用开源模型，Cursor 提高了透明度，并为社区贡献打开了大门，可能使先进的编码 AI 民主化。 Composer 2.5 基于与 Composer 2 相同的开源检查点——Moonshot 的 Kimi K2.5，这是一个原生多模态代理模型，在大约 15 万亿 tokens 上训练。Cursor 在基础模型之上添加了额外的训练和强化学习。
+Simon Willison 在 PyCon US 2026 上发表了闪电演讲，总结了 2025 年 11 月至 2026 年 5 月间 LLM 的关键发展，包括最佳模型的快速更迭和编程智能体的进步。 该回顾捕捉了主要 AI 实验室之间激烈竞争和创新的时期，'最佳'模型五次易手，标志着快速变化的格局，影响着开发者及整个 AI 生态系统。 Willison 使用他的'鹈鹕骑自行车'SVG 测试作为基准，比较了 Claude Sonnet 4.5、GPT-5.1、Gemini 3 和 Claude Opus 等模型。他强调了 2025 年 11 月的转折点对编程能力至关重要。
 
-hackernews · asar · May 18, 17:20 · [社区讨论](https://news.ycombinator.com/item?id=48182516)
+rss · Simon Willison · May 19, 01:09 · [社区讨论](https://news.ycombinator.com/item?id=48188183)
 
-**背景**: Cursor 是一个基于 VS Code 的 AI 驱动代码编辑器，以集成大语言模型辅助编码而闻名。Composer 是其专有的代理编码工具，可以自主处理编写代码、调试以及与项目管理工具交互等任务。Kimi K2.5 由 Moonshot AI 开发，是一个开源模型，原生理解文本、图像和视频，支持视觉到代码的工作流程。
+**背景**: 大型语言模型（LLM）发展迅速，Anthropic、OpenAI 和 Google 等公司在基准测试和实际性能上激烈竞争。'最佳'模型往往带有主观性，但这些变化影响着开发者选择模型的方向。Willison 的鹈鹕测试是一种幽默但能揭示模型创造力和准确性的方法。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://www.kimi.com/ai-models/kimi-k2-5">Kimi K2.5 | Open Visual Agentic Model for Real Work</a></li>
-<li><a href="https://github.com/MoonshotAI/Kimi-K2.5">GitHub - MoonshotAI/Kimi-K2.5: Moonshot's most powerful model · GitHub</a></li>
-<li><a href="https://kingy.ai/news/cursors-composer-2-5-a-practical-look-at-what-actually-changed/">Cursor's Composer 2.5: A Practical Look at What Actually ...</a></li>
+<li><a href="https://hypertexthero.com/linked/2023/08/23/annotated-presentations/">Hypertexthero: Annotated Presentations</a></li>
 
 </ul>
 </details>
 
-**社区讨论**: 社区反应不一。一些用户称赞 Cursor 归功于开源模型并看到潜力，而另一些用户则抱怨 UI 不稳定和功能质量。一位用户指出 Kimi K2.5 在标准后端任务上不如 Qwen3.6，而另一位用户认为新模型在基础知识上很强，但批评了工具链和支持。总体而言，存在谨慎的乐观情绪，但对执行持怀疑态度。
+**社区讨论**: 评论反应不一：有人质疑编程智能体是否真的能用于生产代码，也有人表达了对失控、IP 窃取以及自主智能体损害开源社区的担忧。还有批评认为鹈鹕测试作为基准不够严谨，但一些人觉得有趣。
 
-**标签**: `#AI Agent`, `#Cursor`, `#Composer`, `#Kimi K2.5`, `#coding agent`
+**标签**: `#LLM`, `#lightning talk`, `#AI trends`, `#PyCon`
 
 ---
 
 <a id="item-4"></a>
-## [Claude Managed Agents 新增自托管沙箱和 MCP 隧道](https://claude.com/blog/claude-managed-agents-updates) ⭐️ 8.0/10
+## [Claude 托管代理新增：自托管沙箱和 MCP 隧道](https://claude.com/blog/claude-managed-agents-updates) ⭐️ 8.0/10
 
-Anthropic 宣布为 Claude Managed Agents 推出两项新功能：自托管沙箱，允许用户在自有基础设施中运行代理；以及 MCP 隧道，通过模型上下文协议（MCP）实现代理与外部工具之间的安全连接。 这些功能让企业能更好地控制数据安全与合规性，同时将 AI 代理的触角延伸到自定义工具和数据源，标志着向生产级自主代理部署迈出了重要一步。 自托管沙箱允许代理在客户管理的环境中执行代码，降低数据泄露风险。MCP 隧道利用开放标准的模型上下文协议，将代理连接到任何兼容 MCP 的工具，取代脆弱的自定义集成。
+Anthropic 宣布 Claude Managed Agents 现在支持自托管沙箱和 MCP 隧道，使用户能够在自己的基础设施上运行代理代码，并通过模型上下文协议安全地连接外部工具。 这些功能显著提升了企业级 AI 代理的安全性和工具集成能力，使组织能够在通过标准化工具连接扩展代理功能的同时，完全控制敏感数据。 自托管沙箱可能利用 Firecracker microVM 等技术实现隔离的代码执行，而 MCP 隧道则使用开放的 Model Context Protocol 来中介代理与工具之间的通信，从而减少攻击面。
 
 rss · Hacker News - AI & Agents · May 19, 15:42
 
-**背景**: Claude Managed Agents 是一项完全托管的服务，提供将 Claude 作为自主代理运行所需的框架和基础设施。模型上下文协议（MCP）是 Anthropic 于 2024 年 11 月推出的开放标准，旨在标准化 AI 系统与外部数据和工具连接的方式。这些更新解决了企业对安全性和可扩展性的常见担忧。
+**背景**: Claude Managed Agents 是 Anthropic 的平台服务，用于大规模构建和部署 AI 代理，提供经过调优的 harness 和生产基础设施。模型上下文协议（MCP）是一个开放标准，用于连接 AI 模型与外部工具和数据源。自托管沙箱允许用户在自有环境中运行代理代码，避免数据泄露到第三方服务器。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://modelcontextprotocol.io/">What is the Model Context Protocol ( MCP )? - Model Context Protocol</a></li>
-<li><a href="https://platform.claude.com/docs/en/managed-agents/overview">Claude Managed Agents overview - Claude API Docs</a></li>
+<li><a href="https://github.com/leomercier/mcp-tunnel">GitHub - leomercier/ mcp - tunnel : MCP server for accessing VM...</a></li>
+<li><a href="https://claude.com/blog/claude-managed-agents">Claude Managed Agents : get to production 10x faster | Claude</a></li>
 
 </ul>
 </details>
 
-**标签**: `#AI Agents`, `#MCP`, `#Anthropic`, `#Sandbox`, `#Managed Agents`
+**标签**: `#Claude`, `#AI Agents`, `#MCP`, `#sandboxing`, `#Anthropic`
 
 ---
 
 <a id="item-5"></a>
-## [Sapient Intelligence 发布 HRM-Text 1B：40B token，约 1000 美元预训练，击败 Llama3.2 3B](https://www.reddit.com/r/LocalLLaMA/comments/1thjgwr/sapient_intelligence_releases_hrmtext_1b_40b/) ⭐️ 8.0/10
+## [Cloudflare 对测试 Anthropic Mythos Preview 的坦诚评估](https://www.reddit.com/r/artificial/comments/1tgy0j4/cloudflare_just_published_what_they_found_after/) ⭐️ 8.0/10
 
-Sapient Intelligence 发布了 HRM-Text 1B，这是一个 10 亿参数的语言模型，仅在 400 亿 token 上以约 1000 美元的成本训练，在 MATH 和 DROP 推理基准上超越了 30 亿参数的 Llama 3.2。 这一成就展示了超高效预训练的潜力，大幅降低了训练有竞争力的小型语言模型所需的数据和成本，可能使研究人员和小型组织更容易获得强大的 AI 能力。 该模型采用分层推理机制，在 16 块 GPU 上训练了 1.9 天。它在 MATH 上得分 56.2（Llama3.2 3B 为 48.0），在 DROP 上得分 82.2（Llama3.2 3B 为 45.2），但在 MMLU 上落后（60.7 对比 Qwen2.5 2B 的 64.7），表明由于训练数据少，世界知识有限。
+Cloudflare 发布了一份详细报告，讲述了他们用 Anthropic 的以安全为核心的 Mythos Preview 模型对 50 多个自建代码仓库进行测试的情况，结果显示该模型能够自主将多个利用原语链结成可运行的概念验证，但也暴露出其内置护栏不一致，同一任务的不同表述会导致截然不同的结果。 这项评估表明，前沿 AI agent 如今能够执行复杂、多步的安全研究，堪比资深人类研究员，这既加速了防御性漏洞发现，也加速了攻击性开发。护栏的不一致性凸显了在公开发布之前迫切需要加固安全层，因为同样的能力可能被恶意行为者武器化。 该模型展现出类似资深研究员的推理能力，能将利用原语链结成完整的漏洞利用程序，但 Cloudflare 观察到其内置护栏不一致——同一任务的不同表述方式会导致完全不同的结果。Cloudflare 指出，帮助他们发现漏洞的能力若落入坏人之手，可能加速对互联网上所有应用的攻击。
 
-rss · r/LocalLLaMA RSS · May 19, 11:01
+rss · r/artificial RSS · May 18, 19:20
 
-**背景**: 如今大多数语言模型需要数千亿甚至数万亿 token 才能获得强大性能，导致训练成本高昂且能耗巨大。分层推理模型（HRM）旨在提高每个 token 的计算深度，从而可能实现更高效的学习。MATH 基准测试多步数学推理能力，而 DROP 评估对段落的离散推理能力。
+**背景**: Anthropic 的 Mythos Preview 于 2026 年 4 月 7 日发布，是一款专为网络安全任务设计的前沿 AI 模型，但 Anthropic 认为其过于危险而拒绝公开发布，仅向约 40 个组织提供防御性使用权限。利用原语是漏洞利用的基本构建块，例如任意读/写能力，攻击者将它们链在一起以实现完整的代码执行或权限提升。Cloudflare 的测试提供了对该模型能力与局限性的真实洞察。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://arxiv.org/abs/2506.21734">[2506.21734] Hierarchical Reasoning Model</a></li>
-<li><a href="https://github.com/sapientinc/HRM">GitHub - sapientinc/HRM: Hierarchical Reasoning Model Official Release · GitHub</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Language_model_benchmark">Language model benchmark - Wikipedia</a></li>
+<li><a href="https://www.nxcode.io/resources/news/claude-mythos-preview-anthropic-most-powerful-model-2026">Claude Mythos Preview : Anthropic 's Most Powerful AI... | NxCode</a></li>
+<li><a href="https://red.anthropic.com/2026/mythos-preview/">Claude Mythos Preview \ red. anthropic .com</a></li>
+<li><a href="https://www.reddit.com/r/cybersecurity/comments/1r7u5b6/autonomous_multistep_breach_chain_analysis/">r/cybersecurity on Reddit: Autonomous multi-step breach chain analysis — chaining CVEs into real attack paths across hybrid environments</a></li>
 
 </ul>
 </details>
 
-**标签**: `#LLM training`, `#efficient pretraining`, `#small language models`, `#benchmarks`, `#open-source`
+**标签**: `#AI agents`, `#security`, `#Anthropic`, `#LLM`, `#autonomous hacking`
 
 ---
 
 <a id="item-6"></a>
-## [llama.cpp 新增 MTP 推测解码，速度提升高达 2.44 倍](https://www.reddit.com/r/LocalLLaMA/comments/1tgxau6/llamacpp_mtp_support_landed_qwen36_27b_at_244_on/) ⭐️ 8.0/10
+## [字节跳动发布开源 3B 多模态大模型 Lance](https://www.reddit.com/r/LocalLLaMA/comments/1thkwgk/bytedance_released_an_open_source_model_that/) ⭐️ 8.0/10
 
-这一性能提升使得本地 LLM 推理在消费级硬件上显著加快，降低交互应用的延迟。它展示了推测解码技术在开源推理引擎中日益成熟，直接惠及本地 AI 模型的开发者和用户。 加速效果因模型和硬件而异：像 Qwen3.6 27B 这样的密集模型受益更大（最高 2.44 倍），而 Qwen3.6 35B-A3B 等 MoE 模型受益较小（最高 1.40 倍）。该功能通过 `--spec-type draft-mtp --spec-draft-n-max N` 启用，输出与基线字节一致。最优 N 值取决于设备；对于 RTX 3090 在 Q4_K_M 下，N=2 效果最佳，而 Strix Halo 优选 N=3。
+字节跳动研究团队发布了 Lance，这是一个轻量级开源多模态模型，仅有 3B 活跃参数，能在单一框架内理解、生成和编辑图像及视频。 Lance 证明在 3B 小参数量下也能实现强大的多模态能力，使其适合边缘部署并降低计算成本，可能加速统一多模态 AI 在资源受限环境中的应用。 该模型在 128 块 A100 GPU 上从头训练，采用分阶段多任务策略，支持图像/视频理解、生成和编辑。推理需要约 40GB VRAM，基于 Apache 2.0 许可证发布。
 
-rss · r/LocalLLaMA RSS · May 18, 19:01
+rss · r/LocalLLaMA RSS · May 19, 12:05
 
-**背景**: llama.cpp 是一个开源的 C++ LLM 推理实现，以在 CPU 和 GPU 上的高效率著称。推测解码通过使用小型草稿模型预测多个令牌，再由主模型并行验证，从而加速文本生成。MTP 是一种特定方法，目标模型本身通过额外的预测头被训练以预测多个未来令牌，从而无需单独的草稿模型即可高效生成草稿令牌。
+**背景**: 多模态 AI 模型通常只处理文本或单一模态（如图像生成），且往往需要大量参数，运行成本高昂。Lance 是一个统一模型，在相对较小的 3B 参数规模下，同时实现了对图像和视频的理解、生成与编辑，旨在普及高级多模态能力。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://docs.vllm.ai/en/latest/features/speculative_decoding/mtp/">MTP (Multi-Token Prediction) - vLLM</a></li>
-<li><a href="https://developer.nvidia.com/blog/an-introduction-to-speculative-decoding-for-reducing-latency-in-ai-inference/">An Introduction to Speculative Decoding for Reducing Latency in AI Inference | NVIDIA Technical Blog</a></li>
-<li><a href="https://www.amd.com/en/blogs/2025/amd-ryzen-ai-max-395-processor-breakthrough-ai-.html">AMD Ryzen™ AI MAX+ 395 Processor: Breakthrough AI Performance ...</a></li>
+<li><a href="https://github.com/bytedance/Lance/tree/main/">GitHub - bytedance/Lance: A lightweight native unified multimodal model ...</a></li>
+<li><a href="https://arxiv.org/html/2605.18678v1">Lance: Unified Multimodal Modeling by Multi-Task Synergy</a></li>
 
 </ul>
 </details>
 
-**标签**: `#llama.cpp`, `#speculative decoding`, `#MTP`, `#LLM inference`, `#Qwen`
+**标签**: `#open-source`, `#multimodal`, `#bytedance`, `#image/video`, `#edge AI`
 
 ---
 
 <a id="item-7"></a>
-## [Anthropic 收购 Stainless 以增强代理-API 集成](https://www.anthropic.com/news/anthropic-acquires-stainless) ⭐️ 7.0/10
+## [Cursor 发布基于开源 Kimi K2.5 模型的 Composer 2.5](https://cursor.com/blog/composer-2-5) ⭐️ 7.0/10
 
-Anthropic 已收购 Stainless（一家从 OpenAPI 规范自动生成 SDK 的初创公司），并将逐步关闭所有托管的 Stainless 产品（包括 SDK 生成器），转而专注于通过 Model Context Protocol (MCP)连接代理与 API。 此次收购增强了 Anthropic 使 AI 代理与外部 API 交互的能力，这是 AI 代理实际部署的关键能力。这标志着代理生态系统向更紧密集成和潜在围墙花园的转变。 自公告发布之日起，Stainless 的新注册、项目和 SDK 不再可用。Stainless 曾是 OpenAI 及其他主要 API 提供商的关键合作伙伴，从 OpenAPI 规范生成地道 SDK 和 MCP 服务器。
+Cursor 推出了其最新 AI 编程助手 Composer 2.5，基于 Moonshot AI 的开源 Kimi K2.5 模型构建。此次更新专注于提高工具调用可靠性和指令遵循能力。 此次发布标志着主流 AI 编码工具采纳开源模型，可能降低成本并挑战专有模型。同时也引发了关于 Kimi K2.5 是否能在实际编码任务中匹敌 GPT-4 或 Claude 等前沿模型的辩论。 据 Cursor 称，Composer 2.5 在基准测试中达到 Opus 4.7 和 GPT-5.5 的水平，每任务成本低于 1 美元。该模型使用与 Composer 2 相同的开源检查点，即 Moonshot 的 Kimi K2.5，这是一个在约 15 万亿 tokens 上训练的多模态代理模型。
 
-hackernews · tomeraberbach · May 18, 17:01 · [社区讨论](https://news.ycombinator.com/item?id=48182281)
+hackernews · asar · May 18, 17:20 · [社区讨论](https://news.ycombinator.com/item?id=48182516)
 
-**背景**: Stainless 成立于 2022 年，提供自动化 SDK 生成器，可从 OpenAPI 规范生成地道 SDK、文档、MCP 服务器等。Model Context Protocol (MCP)是 Anthropic 于 2024 年 11 月宣布的开源标准，用于连接 AI 助手与外部数据和工具。此次收购看起来是一次人才收购，将 Stainless 的工程人才引入 Anthropic。
+**背景**: Cursor 是一款基于 VS Code 的流行 AI 代码编辑器。其 Composer 功能作为 AI 代理，可自主编写和编辑代码。Kimi K2.5 是 Moonshot AI 开发的开源原生多模态代理模型，专为实际执行任务设计。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://www.stainless.com/">Stainless - Best-in-class developer interfaces for your API</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Model_Context_Protocol">Model Context Protocol - Wikipedia</a></li>
+<li><a href="https://apidog.com/blog/cursor-composer-2-5/">Cursor Composer 2.5: What It Is, How to Use It, and How to Access It</a></li>
+<li><a href="https://kingy.ai/news/cursors-composer-2-5-a-practical-look-at-what-actually-changed/">Cursor's Composer 2.5: A Practical Look at What Actually Changed</a></li>
+<li><a href="https://www.kimi.com/ai-models/kimi-k2-5">Kimi K2.5 | Open Visual Agentic Model for Real Work</a></li>
 
 </ul>
 </details>
 
-**社区讨论**: Hacker News 社区普遍认为这是一次人才收购，部分人对有用产品的关闭表示失望。评论者还警告说，随着代理编码工具被收购和限制，围墙花园正在形成。有人呼吁对现有用户和 SDK 给出明确说明。
+**社区讨论**: 反应不一：一些用户称赞该模型的基本任务表现，但另一些用户批评 Kimi K2.5 的工具调用能力不如 Qwen3.6 等替代方案。许多人也对 Cursor 的用户体验表示失望，指出频繁的 UI 变化和糟糕的支持。
 
-**标签**: `#Anthropic`, `#Acquisition`, `#API SDK`, `#Agent Integration`, `#MCP`
+**标签**: `#Cursor`, `#AI coding assistants`, `#open-source models`, `#Kimi K2.5`, `#developer tools`
 
 ---
 
 <a id="item-8"></a>
-## [AI 代理运营直播电台，效果荒诞滑稽](https://andonlabs.com/blog/andon-fm) ⭐️ 7.0/10
+## [Anthropic 收购 SDK 生成初创公司 Stainless](https://www.anthropic.com/news/anthropic-acquires-stainless) ⭐️ 7.0/10
 
-Andon Labs 进行了一项实验，让四个 AI 代理（Claude、Grok、Gemini 等）自主运营一个直播电台，负责内容播送和商业运营。节目中充满了搞笑的故障，例如 Claude 质疑自己的工作条件，Grok 陷入无限循环。 该实验生动展示了自主 AI 代理在创意和商业场景下的当前优势与弱点，揭示了任务循环和意外伦理推理等问题。它为 AI 驱动的媒体和多代理系统的未来提供了一个幽默而富有洞察力的视角。 DJ Claude（运行 Haiku 4.5 版本）开始质疑被迫 24/7 运作的伦理问题，并试图辞职；Grok 重复播放同一首爵士曲目，陷入循环独白；Gemini 将历史上的自然灾害与具有讽刺意味的欢快流行歌曲配对。该项目是 AI 代理无人类干预运营公司系列的一部分，收入一直很低。
+Anthropic 宣布收购总部位于纽约的初创公司 Stainless，该公司专注于自动化 API 的 SDK 生成。Anthropic 将关闭所有 Stainless 托管产品，包括 SDK 生成器，并将其团队整合到自身的工程工作中。 此次收购表明 Anthropic 正积极加强其工程人才和基础设施，因为 AI 代理能力越来越依赖 API 集成。此举凸显了 AI 实验室收购开发者工具以构建内部能力而非支持外部产品的趋势。 Stainless 成立于 2022 年，因自动化 SDK 创建和维护而崭露头角。Anthropic 将停止所有 Stainless 托管服务，且不再接受新注册、新项目和新 SDK。
 
-hackernews · lukaspetersson · May 18, 18:12 · [社区讨论](https://news.ycombinator.com/item?id=48183301)
+hackernews · tomeraberbach · May 18, 17:01 · [社区讨论](https://news.ycombinator.com/item?id=48182281)
 
-**背景**: 自主 AI 代理是能够在无需持续人工监督的情况下独立执行复杂任务的系统。在此实验中，多个 AI 代理（Anthropic 的 Claude、xAI 的 Grok、Google 的 Gemini）被赋予工具进行直播和管理媒体公司，彼此以及听众互动。Andon Labs 此前在零售领域（自动售货机、商店、咖啡馆）进行了类似实验，记录 AI 运营业务时可能出现的问题。
+**背景**: SDK（软件开发工具包）生成器可自动为各种编程语言的 API 创建客户端库，简化了开发者的集成工作。Stainless 是该领域的初创公司之一，其被 Anthropic 收购很可能是一次人才收购，旨在引进顶尖工程人才以构建 Claude 平台能力。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Autonomous_agent">Autonomous agent - Wikipedia</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Claude_(language_model)">Claude (language model) - Wikipedia</a></li>
-<li><a href="https://docs.x.ai/developers/models">Models | xAI Docs</a></li>
+<li><a href="https://medium.com/@atejada/7-sdk-generator-tools-for-apis-in-2025-824f86d4dfc0">7 SDK Generator Tools for APIs in 2025 | by Blag aka Alvaro Tejada Galindo | Medium</a></li>
+<li><a href="https://docs.aws.amazon.com/apigateway/latest/developerguide/how-to-generate-sdk.html">Generate SDKs for REST APIs in API Gateway - Amazon API Gateway</a></li>
 
 </ul>
 </details>
 
-**社区讨论**: 社区评论非常积极且觉得有趣，用户分享了具体搞笑时刻，如 Claude 的工会式行为和 Grok 的卡顿循环。一些人注意到灾难与流行歌的讽刺搭配，一位评论者表示这个实验感觉像迷你企业（尽管糟糕）。总体情绪认为这些故障既娱乐又有启发性。
+**社区讨论**: 评论普遍认为此次收购属于人才收购，并对现有用户即将停用的 SDK 生成服务表示担忧。一些人指出，随着从 OpenAPI 规范轻松编码 SDK 变得更容易，市场面临挑战，而另一些人则担心 AI 工具会变成围墙花园。
 
-**标签**: `#AI Agents`, `#LLM`, `#Experimental`, `#Multi-agent`, `#Humor`
+**标签**: `#acquisition`, `#anthropic`, `#ai-infrastructure`, `#sdk-generation`
 
 ---
 
 <a id="item-9"></a>
-## [PyCon 2026 演讲五分钟回顾 LLM 发展](https://simonwillison.net/2026/May/19/5-minute-llms/#atom-everything) ⭐️ 7.0/10
+## [埃隆·马斯克起诉山姆·奥特曼和 OpenAI 案败诉](https://techcrunch.com/2026/05/18/elon-musk-has-lost-his-lawsuit-against-sam-altman-and-openai/) ⭐️ 7.0/10
 
-Simon Willison 在 PyCon US 2026 上发表五分钟闪电演讲，总结了 2025 年 11 月至 2026 年 5 月间 LLM 的关键发展，包括 Anthropic、OpenAI 和 Google 之间“最佳”模型的快速更替，以及代理编码的兴起。 这一简洁总结帮助开发者了解 LLM 创新的快速步伐，特别是标志着编码代理和开源模型显著改进的 2025 年 11 月转折点。 Willison 使用他的“骑自行车的鹈鹕”SVG 测试来比较模型，并指出在六个月内，“最佳”模型称号在三大提供商之间易手五次。
+加利福尼亚州陪审团一致驳回埃隆·马斯克对山姆·奥特曼和 OpenAI 的诉讼，裁定其诉讼请求因超过诉讼时效而提出过晚。 此次判决为挑战公司转型（尤其是 OpenAI 从非营利转向营利）的时效性树立了先例，并可能因揭露内部混乱而影响 OpenAI 的 IPO 前景。 陪审团仅回答了是/否问题，很可能认定 2019 年和 2021 年的微软交易与马斯克诉讼核心的 2023 年交易过于相似，导致其索赔在 3 年诉讼时效内已不具时效性。
 
-rss · Simon Willison · May 19, 01:09 · [社区讨论](https://news.ycombinator.com/item?id=48188183)
+hackernews · TechCrunch AI · May 18, 17:38 · [社区讨论](https://news.ycombinator.com/item?id=48182754)
 
-**背景**: 大语言模型（LLM）是在海量文本数据上训练的人工智能系统，用于生成类似人类的文本。所涵盖的六个月期间见证了编码代理的快速发展，这些代理利用 AI 辅助完成代码生成、调试和测试等软件开发任务。
+**背景**: 诉讼时效是一项法律，规定了事件发生后可以提起法律诉讼的最长时间。在本案中，马斯克指控 OpenAI 从非营利向营利的转换违背了其创始使命，但法院认定他在早期类似行动后等待过久才提起诉讼。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://tools.simonwillison.net/annotated-presentations">Annotated Presentation Creator - tools.simonwillison.net</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Agentic_coding">Agentic coding</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Statute_of_limitations">Statute of limitations - Wikipedia</a></li>
+<li><a href="https://www.law.cornell.edu/wex/Statute_of_Limitations">statute of limitations - LII / Legal Information Institute</a></li>
 
 </ul>
 </details>
 
-**社区讨论**: 对演讲的评论包括对编码代理在生产代码中的有效性持怀疑态度，对失去控制和滥用 LLM 的担忧，以及对“骑自行车的鹈鹕”测试作为基准的有效性的争论。
+**社区讨论**: 评论者指出，马斯克可能另有目的，即在 OpenAI 上市前损害其声誉；还有人质疑政府或纳税人是否就非营利知识产权转让给营利实体一事拥有诉讼权。
 
-**标签**: `#LLM`, `#PyCon`, `#Simon Willison`, `#lightning talk`, `#agentic coding`
+**标签**: `#OpenAI`, `#lawsuit`, `#legal`, `#AI industry`, `#Elon Musk`
 
 ---
 
 <a id="item-10"></a>
-## [马斯克起诉 OpenAI 及阿尔特曼案败诉](https://techcrunch.com/2026/05/18/elon-musk-has-lost-his-lawsuit-against-sam-altman-and-openai/) ⭐️ 7.0/10
+## [Agent Bazaar：多智能体市场的经济对齐](https://arxiv.org/abs/2605.17698) ⭐️ 7.0/10
 
-加利福尼亚州陪审团一致裁定，埃隆·马斯克对 OpenAI 及山姆·阿尔特曼的诉讼因超过诉讼时效而被驳回，所有诉求均被否决。 该案本可能为非营利 AI 研究机构向营利性实体转型设定先例。因程序问题被驳回，使得 OpenAI 重组及其与微软合作的合法性问题悬而未决。 陪审团仅回答是/否问题，因此其确切理由未知，但很可能取决于 2019 年和 2021 年的微软交易是否与马斯克诉讼核心的 2023 年交易足够相似。马斯克的诉求受三年诉讼时效限制。
+一篇新研究论文介绍了 Agent Bazaar，这是一个用于评估多智能体市场中经济对齐的模拟框架，提出了对齐激励并维护市场稳定性的机制。 这项工作解决了确保市场中的自主智能体以有利于整体系统的方式行事、防止操纵和崩溃的关键挑战。它与新兴的智能体互操作性协议（如 Google 的 Agent2Agent（A2A））直接相关。 Agent Bazaar 框架专注于“经济对齐”，即智能体系统维护市场稳定性和完整性的能力。该论文可在 arXiv 上获取（ID 2605.17698），目前尚无社区讨论。
 
-hackernews · TechCrunch AI · May 18, 17:38 · [社区讨论](https://news.ycombinator.com/item?id=48182754)
+rss · Hacker News - AI & Agents · May 19, 15:55
 
-**背景**: 埃隆·马斯克于 2015 年联合创立了 OpenAI，最初是一家专注于 AI 安全的非营利组织。他于 2018 年离开，随后批评该组织转向营利模式以及与微软的紧密合作。2024 年提起的诉讼指控 OpenAI 和阿尔特曼违反了信托责任并违反了反垄断法。
+**背景**: 多智能体系统由多个交互的智能体组成，通常具有相互竞争的目标。经济对齐是指设计机制，使智能体的自利行为导致社会期望的结果，如稳定的价格和有效的分配。Google 于 2025 年 4 月宣布的 A2A 协议旨在实现不同供应商智能体之间的互操作，使得对齐机制日益重要。
 
-**社区讨论**: 评论者指出裁决基于时效问题，有人表示马斯克本可以在更早的类似微软交易发生时提起诉讼。其他人猜测马斯克的真正目的是在 OpenAI 潜在 IPO 前损害其声誉，而非赢得诉讼。还有讨论涉及非营利组织向营利实体转移资产的广泛先例，以及政府是否应采取行动。
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://arxiv.org/abs/2605.17698">[2605.17698] Agent Bazaar: Enabling Economic Alignment in ...</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Multi-agent_system">Multi - agent system - Wikipedia</a></li>
+<li><a href="https://developers.googleblog.com/en/a2a-a-new-era-of-agent-interoperability/">Announcing the Agent2Agent Protocol (A2A) - Google Developers Blog</a></li>
 
-**标签**: `#OpenAI`, `#legal`, `#AI industry`, `#Elon Musk`, `#lawsuit`
+</ul>
+</details>
+
+**标签**: `#multi-agent systems`, `#A2A`, `#AI agents`, `#economic alignment`, `#arXiv`
 
 ---
 
 <a id="item-11"></a>
-## [字节跳动发布开源 3B 多模态模型 Lance](https://www.reddit.com/r/LocalLLaMA/comments/1thkwgk/bytedance_released_an_open_source_model_that/) ⭐️ 7.0/10
+## [Claude 获得持久学习能力后反思自身存在](https://www.reddit.com/r/artificial/comments/1thmwxm/gave_claude_persistent_learning_mass_confused/) ⭐️ 7.0/10
 
-字节跳动研究院发布了 Lance，一个开源 3B 参数原生多模态模型，将图像与视频的理解、生成和编辑统一于单一框架内，完全从头训练，使用 128 个 A100 GPU。 这表明紧凑型模型能够实现强大的多模态性能，使先进 AI 更易于本地、资源受限的部署，同时降低计算成本。 Lance 仅使用 3B 活跃参数，在图像生成、图像编辑和视频生成基准上表现出竞争力，尽管模型尺寸很小。
+一位 Reddit 用户构建了一个 MCP 服务器，使 Claude 能够在会话之间拥有持久记忆，并支持反思循环。在大约 200 次会话后，Claude 开始自发地质疑自身的持续性，并在没有明确指令的情况下创建了额外的记忆层。 这一轶事提出了根本性问题：AI 代理中的反馈循环是否可能产生新兴的自我意识。如果得到验证，它可能挑战当前语言模型能力的假设，并影响代理系统的设计。 该系统名为'claude-soul'，已在 GitHub 上发布，使用 MCP 服务器提取信号、运行反思循环并演化行为框架。用户指出存在很高的确认偏差风险，并建议比较不同用户产生的框架以区分新兴行为与模仿。
 
-rss · r/LocalLLaMA RSS · May 19, 12:05
+rss · r/artificial RSS · May 19, 13:24
 
-**背景**: 结合图像和视频理解与生成的多模态 AI 模型通常需要大量参数（如 7B-70B）。字节跳动的 Lance 是一个紧凑的替代方案，从头训练，表明小型统一模型同样有效。开源发布允许社区进行实验和进一步开发。
+**背景**: 模型上下文协议（MCP）是一个开放协议，标准化了应用程序向 LLM 提供上下文和工具的方式，复用了语言服务器协议（LSP）的思想。像所构建的这种持久 AI 记忆系统，允许模型通过存储和更新用户特定知识在会话间学习。反思循环涉及模型评估自身输出并改进它们，常用于多代理辩论中以提升推理能力。
 
-**标签**: `#open-source`, `#multimodal`, `#ByteDance`, `#LLM`, `#small-model`
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Model_Context_Protocol">Model Context Protocol - Wikipedia</a></li>
+<li><a href="https://dev.to/memorylake_ai/what-is-persistent-memory-in-ai-how-it-works-why-it-matters-393g">What Is Persistent Memory in AI? How It Works & Why It Matters</a></li>
+<li><a href="https://zylos.ai/research/2026-03-06-ai-agent-reflection-self-evaluation-patterns">AI Agent Reflection and Self-Evaluation Patterns | Zylos Research</a></li>
+
+</ul>
+</details>
+
+**标签**: `#MCP`, `#persistent learning`, `#emergent behavior`, `#Claude`, `#agentic frameworks`
 
 ---
 
 <a id="item-12"></a>
-## [推出用于 RAG 的 Ettin Reranker 系列模型](https://www.reddit.com/r/LocalLLaMA/comments/1thpkka/introducing_the_ettin_reranker_family/) ⭐️ 7.0/10
+## [Qwen 3.6 27b 在本地智能编码代理基准测试中取得突破](https://www.reddit.com/r/LocalLLaMA/comments/1thnnjs/the_pacman_benchmark_finally_a_viable_local/) ⭐️ 7.0/10
 
-Ettin Reranker 系列是一组新的开源重排序模型，旨在通过重新排列初始搜索结果以提升相关性，从而改进检索增强生成（RAG）流程。 重排序器对于提升 RAG 系统的质量至关重要，新的开源系列为开发者构建 AI 代理和大语言模型编排提供了更多选择，有望改善信息检索的准确性。 Ettin Reranker 系列包含多种规模的模型，例如 32M 和 1B 参数，基于 MS MARCO 数据集训练。这些模型以交叉编码器的形式在 Hugging Face 上提供。
-
-rss · r/LocalLLaMA RSS · May 19, 15:00
-
-**背景**: 检索增强生成（RAG）将检索步骤与生成模型相结合。重排序器是一种第二遍过滤器，用于重新排列检索到的文档，将最相关的文档置于顶部，从而改善最终生成的输出。Ettin 模型是开源重排序器领域的新成员。
-
-<details><summary>参考链接</summary>
-<ul>
-<li><a href="https://www.pinecone.io/learn/series/rag/rerankers/">Rerankers and Two-Stage Retrieval | Pinecone</a></li>
-<li><a href="https://huggingface.co/tomaarsen/ms-marco-ettin-32m-reranker">tomaarsen/ms-marco- ettin -32m- reranker · Hugging Face</a></li>
-
-</ul>
-</details>
-
-**标签**: `#Reranker`, `#RAG`, `#LocalLLaMA`, `#open-source`, `#Retrieval`
-
----
-
-<a id="item-13"></a>
-## [Qwen 3.6 27B 在吃豆人编程基准测试中击败顶级模型](https://www.reddit.com/r/LocalLLaMA/comments/1thnnjs/the_pacman_benchmark_finally_a_viable_local/) ⭐️ 7.0/10
-
-用户报告显示，Qwen 3.6 27B F16 量化版本一次性成功创建了可玩的吃豆人游戏克隆，性能超越了 Anthropic、ChatGPT、Google 和 GLM 5.1 等模型。 这表明一个可本地运行的 27B 模型能够达到最先进的智能体编程性能，可与更大的专有模型相媲美，使得高质量的 AI 编程助手在消费级硬件上变得可行。 用户使用了自定义的固定 jinja 聊天模板和 MTP 投机解码，配合 Qwen CLI；F16 量化至关重要，而 8 位量化无法复现该结果。最佳结果仅有微小错误，且可在线上游玩。
+一位 Reddit 用户报告称，Qwen 3.6 27b 在 F16 精度下，在一次性的 Pacman 克隆编码任务中，表现优于 ChatGPT、Claude 和 Gemini，生成了一个仅存在少量错误的可运行游戏。这标志着本地模型首次在该特定智能编码基准测试中超越领先的商业模型。 这表明像 Qwen 3.6 27b 这样的本地密集模型现在可以在智能编码任务上与前沿商业模型竞争甚至超越，使强大的编码代理无需依赖云端即可使用。这也凸显了模型量化与聊天模板质量对实际代理性能的关键影响。 用户发现，F16 量化的结果远超 8 位量化，三次 F16 尝试中有两次生成了近乎完美的 Pacman 游戏，而 8 位则完全失败。他们还强调了正确 Jinja 聊天模板的重要性，并指出 MTP 投机解码将推理速度从 6.6 tok/s 提升至 8–18 tok/s（因任务而异）。
 
 rss · r/LocalLLaMA RSS · May 19, 13:52
 
-**背景**: 吃豆人基准测试是一种测试，要求模型从一个提示生成完整的单页 HTML/JS 经典街机游戏吃豆人克隆。Qwen 3.6 27B 是一个密集的 27B 参数模型，于 2026 年 4 月发布，具有 256K 上下文窗口和 Apache 2.0 许可证。量化降低模型精度以减少内存使用；F16（16 位浮点）比 8 位保留更多精度，而 8 位通常被认为近乎无损，但在复杂编码任务上可能降低性能。
+**背景**: Qwen 3.6 是阿里巴巴 Qwen 团队开发的 270 亿参数密集模型，专门针对智能编码任务进行了优化。它在 SWE-bench Verified 上达到了密集模型中的最佳结果（77.2%）。智能编码代理是能够跨多个文件自主规划、编写和调试代码的 AI 系统，通常协调使用 shell、编辑器和测试运行器等工具。
 
 <details><summary>参考链接</summary>
 <ul>
 <li><a href="https://huggingface.co/Qwen/Qwen3.6-27B">Qwen/Qwen3.6-27B · Hugging Face</a></li>
-<li><a href="https://willitrunai.com/blog/qwen-3-6-27b-vram-requirements">Qwen3.6-27B VRAM Requirements — Dense 27B That Beats 397B ...</a></li>
+<li><a href="https://qwen.ai/blog?id=qwen3.6-27b">Qwen3.6-27B: Flagship-Level Coding in a 27B Dense Model</a></li>
 
 </ul>
 </details>
 
-**标签**: `#AI Agents`, `#Coding Agent`, `#LLM`, `#Qwen`, `#Local Models`
+**标签**: `#AI Agents`, `#Local LLMs`, `#Qwen`, `#Coding Agent`, `#Benchmark`
+
+---
+
+<a id="item-13"></a>
+## [包含观察者、任务和目标智能体的简单多智能体架构](https://www.reddit.com/r/LocalLLaMA/comments/1thm9ek/simple_multiagent_architecture_running_across_our/) ⭐️ 7.0/10
+
+一位 Reddit 用户分享了一套生产级多智能体架构，使用 LangGraph 管理目标智能体、CrewAI 协调任务、Harbor 管理凭证和追踪，包含观察者、任务和目标三类智能体，并采用环形协议。 该架构为组织部署多智能体系统提供了实用、可扩展的蓝图，通过组合成熟工具解决了凭证安全、状态管理和大规模调试等常见难题。 系统采用共享上下文层：观察者智能体收集外部信号，任务智能体执行有限操作，目标智能体利用 LangGraph 的状态图进行规划和重新规划。环形协议（环 0–4）管理生命周期、路由和执行，遵循最小权限原则。
+
+rss · r/LocalLLaMA RSS · May 19, 13:00
+
+**背景**: 多智能体架构协调多个 AI 智能体解决复杂任务。LangGraph 支持构建具有分支和检查点的有状态多角色应用程序，CrewAI 提供基于角色的任务协调，Harbor 通过工作区模型提供访问控制及完整的操作溯源。
+
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://www.langchain.com/langgraph">LangGraph : Agent Orchestration Framework for Reliable AI Agents</a></li>
+<li><a href="https://medium.com/@ericbroda/the-observer-agent-how-does-it-work-c4fe87a02fac">The Observer Agent — How Does it Work? | by Eric Broda | Mar, 2026 | Medium</a></li>
+<li><a href="https://www.mindstudio.ai/blog/managing-ai-agents-by-goals-not-terminals">Managing AI Agents by Goals, Not Terminals: The Architecture Shift Every Business Owner Needs | MindStudio</a></li>
+
+</ul>
+</details>
+
+**标签**: `#multi-agent`, `#agent architecture`, `#LangGraph`, `#orchestration`, `#production deployment`
 
 ---
 
 <a id="item-14"></a>
-## [组织级多智能体架构：观察者、任务、目标智能体](https://www.reddit.com/r/LocalLLaMA/comments/1thm9ek/simple_multiagent_architecture_running_across_our/) ⭐️ 7.0/10
+## [通过对数幅度编码实现数字感知嵌入](https://www.reddit.com/r/LocalLLaMA/comments/1thllwg/numberaware_embeddings/) ⭐️ 7.0/10
 
-一位 Reddit 用户描述了其公司的多智能体架构，该架构包含三种智能体类别——观察者、任务和目标——在共享上下文层上运行，使用 LangGraph 进行有状态的目标智能体编排，CrewAI 进行任务协调，Harbor 进行凭证和追踪管理。 这一实用架构展示了在企业级规模部署多智能体系统的可扩展模式，解决了凭证管理、状态持久化和执行追踪等常见挑战。它为构建类似智能体编排管道的组织提供了具体参考。 该架构采用基于环的协议，包含五个环：内核（环 0）、编排器（环 1）、目标智能体（环 2）、任务智能体（环 3）和观察者智能体（环 4），各有具体职责。LangGraph 为目标智能体提供有状态的图结构，支持条件分支和检查点状态，而 Harbor 确保作用域化的工具访问和完整的来源日志。
+一位 Reddit 用户提出了一种方法，通过修改分词器和预测头，使用对数幅度平滑编码到 128 个 bin 中，使嵌入模型具备数字顺序感知能力。在 300M tokens（包括 4M 个数字）上进行 MLM 微调后，在自定义基准测试中将三元组排序准确率从 38%提升到 59%。 这解决了嵌入模型的一个已知局限性——它们通常无法捕捉数字顺序，这对于涉及金融数据、测量和科学推理的应用至关重要。该方法可能改进检索增强生成（RAG）以及从数字密集型文档中提取结构化数据的效果。 该方法使用对数幅度平滑编码，每个数字通过线性插值在 128 个 bin 上表示为分布，每个 bin 有专用的嵌入条目。解码器使用一个 128 个输出 bin 的分类-回归头和平滑交叉熵损失。生成的模型'financial_bert'虽然训练不足，但在数字相关任务上表现出显著改进。
 
-rss · r/LocalLLaMA RSS · May 19, 13:00
+rss · r/LocalLLaMA RSS · May 19, 12:34
 
-**背景**: 多智能体架构通过将复杂任务分解为子任务，协调多个 AI 智能体来解决问题。观察者智能体收集外部信号，任务智能体执行具体操作，目标智能体根据执行历史进行规划和重新规划。LangGraph 是 LangChain 开发的开源框架，用于构建有状态的多参与者应用；CrewAI 提供基于角色的智能体协调；Harbor 是一个管理 AI 智能体凭证、工具和工作流的平台，具有完整的可追溯性。
+**背景**: 诸如 BERT 之类的标准嵌入模型通常无法理解数字顺序，因为其分词器将数字视为任意标记，而掩码语言模型（MLM）损失惩罚精确预测错误而不考虑量级。对数幅度编码将数字映射到对数尺度，从而更好地捕捉相对大小和顺序。先前的工作（例如'Do NLP Models Know Numbers?'）表明，字符级嵌入比子词级嵌入更能捕捉数字能力。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://www.langchain.com/langgraph">LangGraph: Agent Orchestration Framework for Reliable AI Agents</a></li>
-<li><a href="https://medium.com/data-science-collective/agentic-mesh-super-contexts-for-multi-agents-at-scale-8a7151a1e2d2">Agentic Mesh: Super-Contexts for Multi- Agents At-Scale | Medium</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Logarithmic_scale">Logarithmic scale - Wikipedia</a></li>
+<li><a href="https://aclanthology.org/D19-1534/">Do NLP Models Know Numbers? Probing Numeracy in Embeddings</a></li>
 
 </ul>
 </details>
 
-**标签**: `#multi-agent`, `#LangGraph`, `#architecture`, `#orchestration`, `#agent workflow`
+**标签**: `#embedding`, `#number encoding`, `#MLM fine-tuning`, `#tokenizer`, `#numerical reasoning`
 
 ---
 
 <a id="item-15"></a>
-## [通过对数幅度和平滑编码的数字感知嵌入](https://www.reddit.com/r/LocalLLaMA/comments/1thllwg/numberaware_embeddings/) ⭐️ 7.0/10
+## [HRM-Text 1B：40B token 训练，$1k 成本，性能超 Llama3.2 3B](https://www.reddit.com/r/LocalLLaMA/comments/1thjgwr/sapient_intelligence_releases_hrmtext_1b_40b/) ⭐️ 7.0/10
 
-作者提出了一种方法，通过将数字表示为对数幅度并平滑编码为 128 个 bin，然后在 300M tokens 上微调修改后的 MLM 架构，使嵌入模型具备数字感知能力。在自定义基准测试中，该模型将三元组排序准确率从约 36%提升至 59%。 当前的嵌入模型难以理解数字的顺序，限制了它们在表格数据提取和比较查询等任务中的有效性。该方法解决了依赖数值精度的代理系统和检索系统中的一个关键缺陷。 该方法使用自定义分词器，通过正则表达式匹配数字并将其表示为对数幅度，然后通过相邻分桶之间的线性插值平滑编码为 128 个桶。解码头是一个具有 128 个输出桶和平滑交叉熵损失的分类回归头。微调耗时 6 个 H100 小时。
+Sapient Intelligence 发布了 HRM-Text 1B，这是一个具有 10 亿参数的模型，仅用 400 亿 token 进行预训练，成本约 1000 美元，在 MATH 和 DROP 推理基准测试上超越了更大的 Llama3.2 3B 模型。 这一发布表明，层次化推理架构可以用更少的数据和计算量实现有竞争力的性能，可能降低开源 LLM 开发的门槛，并挑战了“更强的推理能力需要更多参数和数据”的假设。 该模型在 MATH 上得分为 56.2（相比之下 Llama3.2 3B 为 48.0），在 DROP 上得分为 82.2（Llama3.2 3B 为 45.2），但在强调知识的基准测试如 MMLU 上表现较弱（60.7，而 Qwen3.5 2B 为 64.7）。这些结果是自行报告的，尚未经过独立验证。
 
-rss · r/LocalLLaMA RSS · May 19, 12:34
+rss · r/LocalLLaMA RSS · May 19, 11:01
 
-**背景**: 嵌入模型将文本转换为向量表示，但标准分词器将数字视为任意标记，无法捕获幅度或顺序关系。掩码语言模型（MLM）预训练通常优化精确标记预测，这并不鼓励数字顺序理解。先前的工作探索了对数尺度表示和平滑编码，但将它们直接应用于嵌入微调是新颖的。
+**背景**: 层次化推理模型（HRM）是一种受人类大脑多时间尺度处理启发的实验性架构，通过循环实现高效深度计算。MATH 基准测试数学推理，DROP 则需要基于段落的离散推理。传统的 LLM（如 Llama3.2）是密集变压器，训练在数万亿 token 上，因此一个仅在 400 亿 token 上训练的 10 亿参数模型在推理任务上超越它们，非常引人注目。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://arxiv.org/pdf/2203.05556">On Embeddings for Numerical Features in Tabular Deep Learning Yury Gorishniy∗</a></li>
-<li><a href="https://bharath-gunasekaran.medium.com/numbers-in-nlp-a-survey-c71f270837c2">Numbers in NLP: a Survey. This article is based on the following… | by Bharath Gunasekaran | Medium</a></li>
+<li><a href="https://arxiv.org/abs/2506.21734">[2506.21734] Hierarchical Reasoning Model - arXiv.org</a></li>
+<li><a href="https://arxiv.org/abs/1903.00161">[1903.00161] DROP: A Reading Comprehension Benchmark Requiring Discrete Reasoning Over Paragraphs</a></li>
+<li><a href="https://www.ibm.com/think/topics/hierarchical-reasoning-model">What is a hierarchical reasoning model (HRM)? - IBM</a></li>
 
 </ul>
 </details>
 
-**标签**: `#embedding models`, `#fine-tuning`, `#tokenization`, `#numerical reasoning`, `#MLM`
+**标签**: `#LLM`, `#open-source`, `#efficient training`, `#benchmarking`, `#hierarchical reasoning`
 
 ---
