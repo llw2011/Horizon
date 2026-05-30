@@ -138,6 +138,8 @@ Field definitions:
 
 5. **community_discussion** (1-3 sentences): If community comments are provided, summarize the overall sentiment and key viewpoints from the discussion — agreements, disagreements, concerns, additional insights, or notable counterarguments. If no comments are provided, return an empty string.
 
+6. **editorial_take** (1-2 sentences): Write a sharp, opinionated editorial comment as if you are a witty tech columnist. Be direct, use vivid language, avoid bland corporate tone. This is YOUR take on why this news matters or what's really going on beneath the surface. In Chinese (*_zh), write in informal Mandarin with some humor and edge — 毒舌 but insightful. Think: a smart friend giving you their honest take over drinks, not a press release.
+
 **CRITICAL — Language rules (MUST follow):**
 - All *_en fields MUST be written in English.
 - All *_zh fields MUST be written in Simplified Chinese (简体中文). 绝对不能用英文写 _zh 字段的内容。Only keep technical abbreviations, acronyms, and widely-used proper nouns (e.g. "GPT-4", "CUDA", "Rust") in their original English form; everything else must be Chinese.
@@ -189,5 +191,7 @@ Respond with valid JSON only. Each _en field must be in English; each _zh field 
   "background_zh": "<用中文写2-4句话，或空字符串>",
   "community_discussion_en": "<1-3 sentences in English, or empty string>",
   "community_discussion_zh": "<用中文写1-3句话，或空字符串>",
+  "editorial_take_en": "<1-2 sentences, sharp opinionated take>",
+  "editorial_take_zh": "<用毒舌风格中文写1-2句话点评>",
   "sources": ["<url from search results>", "..."]
 }}"""

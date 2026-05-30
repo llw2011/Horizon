@@ -173,9 +173,16 @@ class HorizonOrchestrator:
 
                 # Send webhook notification if configured
                 if self.webhook_notifier:
+                    # Cap items for webhook delivery (keep full list for Pages/email)
+                    max_wh = self.config.filtering.max_webhook_items
+                    webhook_items = important_items[:max_wh] if max_wh > 0 else important_items
+                    if max_wh > 0 and len(webhook_items) < len(important_items):
+                        self.console.print(
+                            f"✂️ Webhook capped to top {max_wh} of {len(important_items)} items\n"
+                        )
                     await self.webhook_notifier.send_daily_summary(
                         summary=summary,
-                        important_items=important_items,
+                        important_items=webhook_items,
                         all_items_count=len(all_items),
                         date=today,
                         lang=lang,

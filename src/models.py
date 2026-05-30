@@ -188,6 +188,7 @@ class FilteringConfig(BaseModel):
 
     ai_score_threshold: float = 7.0
     time_window_hours: int = 24
+    max_webhook_items: int = 0  # 0 = no limit; >0 caps items sent to webhook
 
 
 class Config(BaseModel):

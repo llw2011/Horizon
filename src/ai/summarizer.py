@@ -123,15 +123,13 @@ class DailySummarizer:
 
         if language == "zh":
             header = (
-                f"# {labels['header']} - {date}\n\n"
-                f"> 从 {total_fetched} 条内容中筛选出 {len(items)} 条重要资讯。\n\n"
-                "下面会按新闻逐条发送详情，你可以只看感兴趣的标题。\n\n"
+                f"📰 *Horizon 每日精选* - {date}\n\n"
+                f"从 {total_fetched} 条资讯中挑出 {len(items)} 条最有料的，下面逐条发：\n\n"
             )
         else:
             header = (
-                f"# {labels['header']} - {date}\n\n"
-                f"> Selected {len(items)} important items from {total_fetched} fetched items.\n\n"
-                "Details will be sent item by item so you can read only the topics you care about.\n\n"
+                f"📰 *Horizon Daily Picks* - {date}\n\n"
+                f"Selected {len(items)} top stories from {total_fetched} items:\n\n"
             )
 
         entries = []
@@ -140,7 +138,14 @@ class DailySummarizer:
             if language == "zh":
                 title = _pangu(title)
             score = item.ai_score or "?"
-            entries.append(f"{i}. [{title}]({item.url}) \u2b50\ufe0f {score}/10")
+            # Add one-line hook from enrichment if available
+            hook = ""
+            if language == "zh":
+                hook = str(item.metadata.get("whats_new_zh") or item.metadata.get("whats_new_en") or "").strip()
+            else:
+                hook = str(item.metadata.get("whats_new_en") or "").strip()
+            hook_line = f"\n  _{hook}_" if hook else ""
+            entries.append(f"{i}. [{title}]({item.url}) ⭐️ {score}/10{hook_line}")
 
         return header + "\n".join(entries)
 
@@ -176,12 +181,18 @@ class DailySummarizer:
             or meta.get("community_discussion")
             or ""
         )
+        editorial = (
+            meta.get(f"editorial_take_{language}")
+            or meta.get("editorial_take")
+            or ""
+        )
 
         if language == "zh":
             title = _pangu(title)
             summary = _pangu(summary)
             background = _pangu(background)
             discussion = _pangu(discussion)
+            editorial = _pangu(editorial)
 
         # Source line with parts joined by " · ", link appended at end
         source_type = item.source_type.value
@@ -227,6 +238,11 @@ class DailySummarizer:
         if discussion:
             lines.append("")
             lines.append(f"**{labels['discussion']}**: {discussion}")
+
+        if editorial:
+            lines.append("")
+            take_label = "💬 点评" if language == "zh" else "💬 Take"
+            lines.append(f"**{take_label}**: {editorial}")
 
         if item.ai_tags:
             tags_str = ", ".join([f"`#{t}`" for t in item.ai_tags])
