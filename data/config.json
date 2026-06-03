@@ -2,8 +2,8 @@
   "version": "1.0",
   "ai": {
     "provider": "openai",
-    "model": "deepseek-v4-flash",
-    "base_url": "https://api.deepseek.com",
+    "model": "glm-5.1",
+    "base_url": "https://api.z.ai/api/coding/paas/v4",
     "api_key_env": "OPENAI_API_KEY",
     "temperature": 0.3,
     "max_tokens": 8192,
@@ -171,7 +171,7 @@
     }
   },
   "filtering": {
-    "ai_score_threshold": 8.0,
+    "ai_score_threshold": 6.5,
     "time_window_hours": 24,
     "max_webhook_items": 5
   },
