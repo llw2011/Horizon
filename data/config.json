@@ -1,9 +1,9 @@
 {
   "version": "1.0",
   "ai": {
-    "provider": "openai",
-    "model": "glm-5.1",
-    "base_url": "https://api.z.ai/api/coding/paas/v4",
+    "provider": "anthropic",
+    "model": "claude-opus-4-7",
+    "base_url": "https://all-api.ccode.dev",
     "api_key_env": "OPENAI_API_KEY",
     "temperature": 0.3,
     "max_tokens": 8192,
