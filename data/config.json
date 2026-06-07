@@ -176,7 +176,7 @@
     "max_webhook_items": 5
   },
   "webhook": {
-    "enabled": true,
+    "enabled": false,
     "url_env": "HORIZON_WEBHOOK_URL",
     "delivery": "summary_and_items",
     "overview_position": "last",
