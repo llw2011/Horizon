@@ -5,194 +5,144 @@ date: 2026-06-07
 lang: en
 ---
 
-> From 94 items, 9 important content pieces were selected
+> From 92 items, 7 important content pieces were selected
 
 ---
 
-1. [Simon Willison releases micropython-wasm: a sandbox for AI agent code execution](#item-1) ⭐️ 8.0/10
-2. [DeepSeek V4 Flash is amazing! (WIP llama.cpp PR #24162)](#item-2) ⭐️ 8.0/10
-3. [Gaia2: Benchmarking LLM Agents on Dynamic and Asynchronous Environments](#item-3) ⭐️ 7.0/10
-4. [OpenAI launches Lockdown Mode in ChatGPT to curb prompt injection data leaks](#item-4) ⭐️ 7.0/10
-5. [Cohere drops early-access coding model BLS-Mini-Code on LocalLLaMA](#item-5) ⭐️ 7.0/10
-6. [BeeLlama's KVarN KV cache quant: 6-bit matches q8_0, 4-bit matches q5_0](#item-6) ⭐️ 7.0/10
-7. [dvlt.cu: a from-scratch CUDA/C++ inference engine for NVIDIA's DVLT 3D model](#item-7) ⭐️ 7.0/10
-8. [MoQ and GSQ Promise Sharper Low-Bit GGUF Quantization for Local LLMs](#item-8) ⭐️ 7.0/10
-9. [Domino: Decoupling Causal Modeling from Autoregressive Drafting in Speculative Decoding](#item-9) ⭐️ 7.0/10
+1. [DeepSeek V4 Flash gets early llama.cpp support, impresses local users](#item-1) ⭐️ 8.0/10
+2. [Tokenomics: Quantifying Where Tokens Are Used in Agentic Software Engineering](#item-2) ⭐️ 7.0/10
+3. [Gaia2: A Benchmark for LLM Agents in Dynamic, Asynchronous Environments](#item-3) ⭐️ 7.0/10
+4. [OpenAI launches Lockdown Mode to curb ChatGPT prompt injection risks](#item-4) ⭐️ 7.0/10
+5. [Cohere's unreleased coding model (early access for localllama)](#item-5) ⭐️ 7.0/10
+6. [KVarN KV cache quant in BeeLlama matches llama.cpp quants one bit higher](#item-6) ⭐️ 7.0/10
+7. [MoQ GGUFs and GSQ: Low-Bit GGUFs Are About to Get Much Better](#item-7) ⭐️ 7.0/10
 
 ---
 
 <a id="item-1"></a>
-## [Simon Willison releases micropython-wasm: a sandbox for AI agent code execution](https://simonwillison.net/2026/Jun/6/micropython-in-a-sandbox/#atom-everything) ⭐️ 8.0/10
+## [DeepSeek V4 Flash gets early llama.cpp support, impresses local users](https://www.reddit.com/r/LocalLLaMA/comments/1tyb3np/deepseek_v4_flash_is_amazing_wip_llamacpp_pr_24162/) ⭐️ 8.0/10
 
-Simon Willison has released micropython-wasm (alpha 0.1a1), a Python package that bundles a customized MicroPython build compiled to WebAssembly and runs it via wasmtime to provide a secure code execution sandbox. He's also shipped datasette-agent-micropython, a plugin that wires this sandbox into Datasette Agent so LLM-driven agents can execute Python code safely. Sandboxed code execution is one of the most critical and most overlooked primitives for AI agents, since LLMs routinely generate code that needs to run with strict memory, CPU, filesystem, and network limits. Willison's approach offers a pip-installable, cross-platform sandbox that doesn't require Docker or a separate runtime, lowering the bar for any Python tool that wants to safely execute untrusted or model-generated code. The package combines a lightly customized MicroPython WASM build with a Python wrapper that uses wasmtime to enforce memory and CPU limits, control file access, and block network calls. Because it uses MicroPython rather than CPython, the sandbox supports a subset of Python and the standard library, which is a tradeoff for getting a small, embeddable, easily-sandboxed runtime that installs cleanly from PyPI without binary-wheel headaches.
+A Reddit user tested DeepSeek V4 Flash through the work-in-progress llama.cpp PR #24162 using a custom 3-bit quantization, reporting frontier-comparable intelligence at a locally runnable size despite slow speeds of 5-6 tokens per second and incomplete GPU/Flash Attention support. If V4 Flash truly delivers frontier-level quality in the 80-140GB range with strong quantization resilience and efficient KV cache scaling, it could redefine what's achievable on consumer and prosumer hardware, pressuring competitors like Qwen and MiniMax in the local-LLM space. DeepSeek V4 Flash is a 284B-parameter Mixture-of-Experts model with 13B active parameters and a 1M-token context window, natively trained as an FP4-FP8 hybrid which makes it more robust to aggressive quantization than typical FP16-trained models. The PR builds on prior DeepSeek Sparse Attention (DSA) work by fairydreaming and is being driven forward by contributors am17an and pwilkin.
 
-rss · Simon Willison · Jun 6, 03:53
+rss · r/LocalLLaMA RSS · Jun 6, 07:56
 
-**Background**: MicroPython is a lean reimplementation of Python 3 originally designed for microcontrollers, and it has an official WebAssembly port used by projects like PyScript. WebAssembly (WASM) provides a portable, sandboxed execution model where memory, syscalls, and capabilities are tightly controlled by the host, making it a popular foundation for safe code execution. Datasette is Simon Willison's open-source tool for exploring and publishing SQLite data, and Datasette Agent is its newer LLM-powered conversational interface that uses plugins to extend agent capabilities.
+**Background**: llama.cpp is the dominant open-source C/C++ engine for running LLMs locally, and new model architectures typically need explicit PRs to add support for their attention and MoE patterns. Quantization compresses model weights to lower bit widths (e.g., 3-bit, 4-bit) so large models can fit into limited VRAM or RAM, with the tradeoff that aggressive quantization usually degrades quality. Models trained natively in low precision (like FP4-FP8 hybrids) tend to survive quantization much better than FP16-trained ones, which is why this property matters so much for the local-inference crowd.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://github.com/simonw">simonw (Simon Willison) · GitHub</a></li>
-<li><a href="https://datasette.io/blog/2026/datasette-agent/">Datasette Agent, an extensible AI assistant for Datasette - Datasette Blog</a></li>
-<li><a href="https://www.npmjs.com/package/@micropython/micropython-webassembly-pyscript">@micropython/micropython-webassembly-pyscript - npm</a></li>
+<li><a href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash">deepseek -ai/ DeepSeek - V 4 - Flash · Hugging Face</a></li>
+<li><a href="https://openrouter.ai/deepseek/deepseek-v4-flash">DeepSeek V 4 Flash - API Pricing & Benchmarks | OpenRouter</a></li>
 
 </ul>
 </details>
 
-**💬 Take**: Willison keeps quietly building the unsexy plumbing that the AI agent hype cycle desperately needs, and a pip-installable Python sandbox is exactly the kind of primitive that makes 'agents that write code' feel less like a recipe for disaster. The MicroPython tradeoff is real, you're not getting NumPy here, but for the 90% of agent tasks that boil down to string-mangling and JSON, that's a perfectly fair price.
+**💬 Take**: Take the 'frontier-level' claim with a grain of salt since it's one user with a homemade 3-bit quant on an unfinished PR, but if even half of it holds up, DeepSeek has quietly done what most labs only tweet about: shipped a model that's actually built for the hardware people own.
 
-**Tags**: `#sandbox`, `#webassembly`, `#ai-agents`, `#python`, `#datasette`
+**Tags**: `#DeepSeek`, `#llama.cpp`, `#local-inference`, `#quantization`, `#open-source-models`
 
 ---
 
 <a id="item-2"></a>
-## [DeepSeek V4 Flash is amazing! (WIP llama.cpp PR #24162)](https://www.reddit.com/r/LocalLLaMA/comments/1tyb3np/deepseek_v4_flash_is_amazing_wip_llamacpp_pr_24162/) ⭐️ 8.0/10
+## [Tokenomics: Quantifying Where Tokens Are Used in Agentic Software Engineering](https://arxiv.org/abs/2601.14470) ⭐️ 7.0/10
 
-Early hands-on report of DeepSeek V4 Flash running on llama.cpp via WIP PR #24162, with custom 3-bit quantization showing frontier-comparable intelligence at local-friendly size despite slow speeds.
+An arXiv paper analyzing and quantifying where tokens are consumed in agentic software engineering workflows.
 
-rss · r/LocalLLaMA RSS · Jun 6, 07:56
+rss · Hacker News - AI & Agents · Jun 7, 01:37
 
-**Tags**: `#DeepSeek`, `#llama.cpp`, `#Local LLM`, `#Quantization`, `#Open Source`
+**Tags**: `#agentic-engineering`, `#tokenomics`, `#llm-cost`, `#research`, `#ai-agents`
 
 ---
 
 <a id="item-3"></a>
-## [Gaia2: Benchmarking LLM Agents on Dynamic and Asynchronous Environments](https://arxiv.org/abs/2602.11964) ⭐️ 7.0/10
+## [Gaia2: A Benchmark for LLM Agents in Dynamic, Asynchronous Environments](https://arxiv.org/abs/2602.11964) ⭐️ 7.0/10
 
-Gaia2 introduces a benchmark for evaluating LLM agents operating in dynamic and asynchronous environments.
+Researchers have released Gaia2, a benchmark of 1,120 human-annotated scenarios in a smartphone-like environment that evaluates LLM agents on temporal awareness, adaptability to dynamic events, noise robustness, ambiguity resolution, and multi-agent collaboration. It is paired with ARE, a research platform offering abstractions (apps, events, notifications, scenarios) for building simulated asynchronous environments suitable for reinforcement learning from verifiable rewards (RLVR). Most existing agent benchmarks are static or synchronous and don't reflect the messy reality where environments keep evolving regardless of what the agent does, so Gaia2 fills a real evaluation gap as the field pushes toward production-grade autonomous agents. By exposing trade-offs between reasoning quality and efficiency under time pressure, it gives model developers a sharper signal than yet another single-turn task suite. Gaia2 introduces a write-action verifier enabling action-level verification suitable for RLVR training, and explicitly tests multi-agent collaboration scenarios. The accompanying ARE platform is designed for reproducibility, but the benchmark is built around a smartphone-like simulated environment, so generalization to other domains (browsers, OS-level tasks, robotics) remains an open question.
 
 rss · Hacker News - AI & Agents · Jun 7, 01:36
 
-**Tags**: `#AI agents`, `#benchmark`, `#LLM evaluation`, `#research`, `#arXiv`
+**Background**: GAIA, the original benchmark from Meta and Hugging Face, became influential by testing whether LLM agents could solve real-world questions requiring tool use, web browsing, and multi-step reasoning, with humans scoring ~92% versus GPT-4 with plugins at ~15%. However, GAIA tasks are essentially static: the world waits patiently while the agent thinks. Real deployments involve asynchronous events, notifications arriving mid-task, and other agents acting in parallel, which is exactly what Gaia2 attempts to simulate. RLVR (reinforcement learning from verifiable rewards) is a training paradigm where rewards come from programmatic checks rather than human preference, and it has gained traction since DeepSeek-R1.
+
+<details><summary>References</summary>
+<ul>
+<li><a href="https://arxiv.org/abs/2602.11964">[2602.11964] Gaia2: Benchmarking LLM Agents on Dynamic and Asynchronous Environments</a></li>
+<li><a href="https://huggingface.co/papers/2602.11964">Paper page - Gaia 2: Benchmarking LLM Agents on Dynamic and...</a></li>
+<li><a href="https://www.opennovelty.org/papers/9gw03JpKK4/gaia2-benchmarking-llm-agents-on-dynamic-and-asynchronous-environments">Gaia2: Benchmarking LLM Agents on Dynamic and Asynchronous Environments | Novelty Validation</a></li>
+
+</ul>
+</details>
+
+**💬 Take**: Static agent benchmarks are starting to feel like testing a self-driving car in a parking lot at 3am, so Gaia2's insistence that the world keeps moving while the agent dithers is overdue. The real test will be whether labs actually report Gaia2 numbers or quietly stick with whichever benchmark makes their model look smartest this quarter.
+
+**Tags**: `#LLM-agents`, `#benchmarking`, `#agent-evaluation`, `#research`, `#arxiv`
 
 ---
 
 <a id="item-4"></a>
-## [OpenAI launches Lockdown Mode in ChatGPT to curb prompt injection data leaks](https://techcrunch.com/2026/06/06/openai-unveils-lockdown-mode-to-protect-sensitive-data-from-prompt-injection-attacks/) ⭐️ 7.0/10
+## [OpenAI launches Lockdown Mode to curb ChatGPT prompt injection risks](https://techcrunch.com/2026/06/06/openai-unveils-lockdown-mode-to-protect-sensitive-data-from-prompt-injection-attacks/) ⭐️ 7.0/10
 
-OpenAI has introduced Lockdown Mode for ChatGPT, a new security feature aimed at reducing the risk that sensitive data gets exfiltrated through prompt injection attacks. The rollout starts with ChatGPT Enterprise, Edu, Healthcare, and Teachers tiers, with consumer availability promised in the coming months. Prompt injection is widely considered the top unsolved security problem for LLM agents, especially as ChatGPT increasingly browses the web, reads emails, and takes actions on behalf of users. A built-in hardened mode signals that OpenAI now treats agentic data leakage as a first-class threat worth shipping defenses for, not just a research curiosity. OpenAI explicitly admits that Lockdown Mode does not eliminate prompt injection — ChatGPT can still be tricked — but the feature aims to reduce the chance that the model actually surrenders sensitive data when it is. It pairs with new Elevated Risk labels in ChatGPT, suggesting a layered approach where the model warns users about high-risk contexts in addition to restricting its own behavior.
+OpenAI has introduced Lockdown Mode for ChatGPT, a stricter security setting designed to reduce the likelihood that prompt injection attacks can exfiltrate sensitive data. The feature is rolling out first to ChatGPT Enterprise, Edu, Healthcare, and Teachers tiers, with consumer availability planned for the coming months. As ChatGPT increasingly connects to email, documents, and internal tools through agentic workflows, prompt injection has become the single most dangerous attack class in production AI systems. A vendor-level mitigation from OpenAI signals that the industry is moving past denial and starting to ship real defenses for enterprises that handle regulated or confidential data. OpenAI explicitly acknowledges that Lockdown Mode does not eliminate prompt injection — it only reduces the probability of sensitive data being shared during an attack. The release is paired with new Elevated Risk labels in ChatGPT to flag higher-risk activities for users and admins.
 
 rss · TechCrunch AI · Jun 6, 20:32
 
-**Background**: Prompt injection is an attack where malicious instructions hidden in untrusted content (a webpage, document, or email) hijack an LLM's behavior, potentially making it ignore its original instructions or exfiltrate data it has access to. As LLMs evolve from chatbots into agents that read external content and call tools, indirect prompt injection has become the AI equivalent of SQL injection, with no fully reliable defense yet known. OWASP currently ranks prompt injection as the #1 risk in its Gen AI security top-10 list.
+**Background**: Prompt injection is an attack technique where malicious instructions hidden in user input, web pages, emails, or documents trick an LLM into ignoring its original instructions and performing the attacker's bidding — for example, leaking private data or sending unauthorized emails. OWASP ranks it as the number one security risk for LLM applications (LLM01:2025) precisely because models cannot reliably distinguish trusted developer instructions from untrusted content they ingest. As ChatGPT gains tools like browsing, connectors, and agent mode, the attack surface expands significantly: a single poisoned webpage or shared document can become an exfiltration vector.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Prompt_injection">Prompt injection - Wikipedia</a></li>
-<li><a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">LLM 01:2025 Prompt Injection - OWASP Gen AI Security Project</a></li>
 <li><a href="https://www.gend.co/blog/chatgpt-lockdown-mode-security">ChatGPT Lockdown Mode : Reduce Prompt Injection Risk</a></li>
+<li><a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">LLM01:2025 Prompt Injection - OWASP Gen AI Security Project</a></li>
+<li><a href="https://www.ibm.com/think/topics/prompt-injection">What Is a Prompt Injection Attack? | IBM</a></li>
 
 </ul>
 </details>
 
-**💬 Take**: Calling it 'Lockdown Mode' is great branding and a quiet admission that normal mode is, well, not locked down — OpenAI is essentially shipping a seatbelt while still insisting the car is safe. Until someone actually solves indirect prompt injection (no one has), every agentic AI rollout is a calculated bet that the convenience outruns the leaks.
+**💬 Take**: Calling it 'Lockdown Mode' is a clever borrow from Apple's playbook, but the quiet part is loud: OpenAI is admitting prompt injection isn't solvable, only survivable. Shipping a kill-switch for paranoid enterprises is the honest move, even if it's also a tacit confession that the rest of ChatGPT remains a leaky boat in a storm of untrusted text.
 
-**Tags**: `#OpenAI`, `#ChatGPT`, `#prompt-injection`, `#AI-security`, `#LLM-safety`
+**Tags**: `#OpenAI`, `#security`, `#prompt-injection`, `#ChatGPT`, `#AI-safety`
 
 ---
 
 <a id="item-5"></a>
-## [Cohere drops early-access coding model BLS-Mini-Code on LocalLLaMA](https://www.reddit.com/r/LocalLLaMA/comments/1tylzy2/coheres_unreleased_coding_model_early_access_for/) ⭐️ 7.0/10
+## [Cohere's unreleased coding model (early access for localllama)](https://www.reddit.com/r/LocalLLaMA/comments/1tylzy2/coheres_unreleased_coding_model_early_access_for/) ⭐️ 7.0/10
 
-Cohere co-founder Nick Frosst posted directly to r/LocalLLaMA offering early access to the company's first coding model, BLS-Mini-Code-1.0, a 30B-parameter Mixture-of-Experts model with 3B active parameters, with weights now available on Hugging Face ahead of an official launch. It marks Cohere's first dedicated coding model and a notable shift toward courting the open-weights enthusiast community directly, signaling that an enterprise-focused lab sees value in grassroots feedback before a polished launch. The 3B-active MoE design also fits comfortably on consumer hardware, putting it in direct competition with Qwen-Coder and similar small coding specialists. Frosst notes the model isn't fully ready and encourages testers to push it on real workloads, with output speed reportedly competitive within its size class; weights live at CohereLabs/BLS-Mini-Code-1.0 on Hugging Face, with broader platform availability coming at official launch.
+Cohere's Nick Frosst announces early access to their first unreleased coding model for the LocalLLaMA Reddit community ahead of public release.
 
 rss · r/LocalLLaMA RSS · Jun 6, 16:36
 
-**Background**: Cohere is a Toronto-based AI lab known for enterprise-grade LLMs, with its flagship Command A+ being a 218B-parameter sparse MoE with 25B active parameters aimed at agentic and multilingual workloads. The r/LocalLLaMA subreddit is the de facto hub for self-hosted open-weight model enthusiasts, where releases from Meta, Mistral, Qwen, and DeepSeek are dissected in real time. A 30B/3B-active MoE refers to a model with 30 billion total parameters where only about 3 billion are activated per token, allowing larger model capacity while keeping inference cheap enough for local GPUs.
-
-<details><summary>References</summary>
-<ul>
-<li><a href="https://cohere.com/command">Cohere Command Models : AI-Powered Solutions for Enterprise</a></li>
-<li><a href="https://huggingface.co/CohereLabs/command-a-plus-05-2026-w4a4">CohereLabs/ command -a-plus-05-2026-w4a4 · Hugging Face</a></li>
-
-</ul>
-</details>
-
-**💬 Take**: Cohere walking into r/LocalLLaMA with a half-baked coding model and asking for feedback is a refreshing flex of humility from a lab that usually speaks in enterprise-deck dialect. The real test isn't the Reddit goodwill but whether 3B active params can actually keep up with Qwen3-Coder, which has been quietly eating everyone's lunch in this weight class.
-
-**Tags**: `#cohere`, `#coding-llm`, `#model-release`, `#localllama`, `#early-access`
+**Tags**: `#cohere`, `#coding-model`, `#llm`, `#early-access`, `#localllama`
 
 ---
 
 <a id="item-6"></a>
-## [BeeLlama's KVarN KV cache quant: 6-bit matches q8_0, 4-bit matches q5_0](https://www.reddit.com/r/LocalLLaMA/comments/1tyockn/kv_cache_quant_benchmarks_kvarn_6bit_matches_q8_0/) ⭐️ 7.0/10
+## [KVarN KV cache quant in BeeLlama matches llama.cpp quants one bit higher](https://www.reddit.com/r/LocalLLaMA/comments/1tyockn/kv_cache_quant_benchmarks_kvarn_6bit_matches_q8_0/) ⭐️ 7.0/10
 
-Anbeeld's BeeLlama v0.3.2 Preview, a llama.cpp fork, has rolled out KVarN KV cache quantization across all bit widths, and long-context KLD benchmarks on Qwen 3.6 27B Q5_K_S with 64k context show every KVarN tier matching the precision of standard llama.cpp quants one bit higher. In practical terms, kvarn6 lands on par with q8_0, kvarn4 with q5_0, and asymmetric K/V combos like 6/5-bit deliver near-q8_0 quality at roughly 5.5-bit memory cost. KV cache memory is the main bottleneck for long-context local inference, so a clean one-bit precision win across the board means VRAM-constrained users can run longer contexts or bigger models without the usual quality cliff. If the results hold up under independent testing and get upstreamed, this could shift the default recommendation for KV cache quantization in the llama.cpp ecosystem. The benchmark uses mean and 99.9% KLD against a bf16 baseline, and KVarN tiers cluster tightly with their one-bit-higher standard counterparts (e.g., kvarn8-kvarn8 at 0.0024 mean KLD vs q8_0 at 0.0023). The trade-off is throughput: prompt processing is noticeably slower (around 634-689 tok/s versus 850 tok/s for bf16 and q8_0), and the author notes the implementation is raw and likely has optimization headroom.
+BeeLlama v0.3.2 Preview, a llama.cpp fork, ships KVarN KV cache quantization that, per long-context KLD benchmarks on Qwen 3.6 27B with 64k context, delivers precision matching llama.cpp's standard quants one bit higher: 6-bit KVarN ≈ q8_0, and 4-bit KVarN ≈ q5_0. The author also reports that asymmetric pairings like 6/5-bit yield near-q8_0 quality at roughly 5.5 bits per element. KV cache size is often the binding constraint for long-context local inference, so squeezing q8_0-level fidelity into 6-bit memory directly translates to longer contexts or more concurrent requests on the same VRAM. If the results hold up under independent testing, KVarN could become the default KV quant choice for VRAM-constrained llama.cpp users. Benchmarks use KL divergence against bf16 on Qwen 3.6 27B with Q5_K_S weights and a 64k context; kvarn6-kvarn6 reaches mean precision 99.80% versus q8_0's 99.80%, while consuming about 40.4% of the bf16 cache size versus q8_0's 53.1%. The trade-off is slower prompt processing (roughly 643 vs 851 tok/s for q8_0), and the author cautions the implementation is raw and v0.3.2 release binaries are stale, so users must build from source.
 
 rss · r/LocalLLaMA RSS · Jun 6, 18:06
 
-**Background**: KV cache stores the key and value tensors from previous tokens during inference, and at long contexts it can dwarf the model weights in memory footprint, which is why llama.cpp ships quants like q8_0, q5_1 and q4_0 for it. KVarN (Variance-Normalized KV-Cache Quantization) is a research technique that normalizes per-tile variance before quantization to suppress error accumulation in autoregressive decoding, originally proposed for vLLM. KLD (Kullback-Leibler Divergence) against a high-precision baseline is the sensitive metric the community uses to detect subtle quality loss that benchmarks like MMLU miss. BeeLlama.cpp is a performance-focused llama.cpp fork that bundles features like DFlash speculative decoding and TurboQuant/TCQ KV-cache compression.
+**Background**: KV cache stores the key/value tensors of every past token during generation, and at long contexts it can dwarf the model weights in memory; llama.cpp already exposes KV quantization via --cache-type-k/--cache-type-v with options like q8_0, q5_1, and q4_0. KL divergence (KLD) measures how far a quantized model's token probability distribution drifts from the full-precision baseline, making it a finer-grained quality metric than perplexity. KVarN, originally proposed by Huawei researchers as a variance-normalized KV cache quantization scheme for vLLM, aims to preserve accuracy by normalizing per-channel variance before quantizing. BeeLlama is an independent llama.cpp fork (focused on a feature called DFlash) that has now ported the KVarN idea into the GGUF/llama.cpp world.
 
 <details><summary>References</summary>
 <ul>
-<li><a href="https://github.com/Anbeeld/beellama.cpp">GitHub - Anbeeld/beellama.cpp: DFlash & TurboQuant in llama ...</a></li>
+<li><a href="https://anbeeld.com/articles/kvarn-kv-cache-implementation-and-benchmarks">KVarN KV Cache : Implementation and Benchmarks - Anbeeld</a></li>
 <li><a href="https://github.com/huawei-csl/KVarN">huawei-csl/ KVarN : KVarN is a native vLLM KV - cache quantization ...</a></li>
-<li><a href="https://anbeeld.com/projects/beellama-cpp">Anbeeld's BeeLlama.cpp</a></li>
+<li><a href="https://www.techplained.com/kv-cache-quantization">KV Cache Quantization : Q 8 vs FP16 (and Q4 Pitfalls) | TechPlained</a></li>
 
 </ul>
 </details>
 
-**💬 Take**: A solo dev's fork claiming a free bit of precision across the entire KV quant ladder is the kind of result that's either genuinely brilliant or hiding a benchmark artifact, and right now we don't know which. Worth watching, but I'd hold off on rewiring your inference stack until someone outside the BeeLlama orbit reproduces those KLD numbers and the prompt-processing penalty gets sorted.
+**💬 Take**: Free fidelity isn't really free here, you're paying with prompt-processing throughput and the joys of running an unoptimized fork built from source, but if the numbers replicate, llama.cpp's default KV quants suddenly look a generation behind. Worth watching whether upstream absorbs the idea or whether KVarN stays a BeeLlama curiosity.
 
-**Tags**: `#llama.cpp`, `#quantization`, `#kv-cache`, `#llm-inference`, `#local-llm`
+**Tags**: `#llama.cpp`, `#kv-cache`, `#quantization`, `#llm-inference`, `#local-llm`
 
 ---
 
 <a id="item-7"></a>
-## [dvlt.cu: a from-scratch CUDA/C++ inference engine for NVIDIA's DVLT 3D model](https://www.reddit.com/r/LocalLLaMA/comments/1tyu79c/dvltcu_inference_engine_written_from_scratch_in/) ⭐️ 7.0/10
+## [MoQ GGUFs and GSQ: Low-Bit GGUFs Are About to Get Much Better](https://www.reddit.com/r/LocalLLaMA/comments/1tyjkfh/moq_ggufs_and_gsq_lowbit_ggufs_are_about_to_get/) ⭐️ 7.0/10
 
-Developer yassa9 released dvlt.cu, a single 5MB binary inference engine written from scratch in CUDA/C++ for NVIDIA's 117M-parameter DVLT (Déjà View Looping Transformer) 3D reconstruction model. It strips out Python, PyTorch, ONNX, and llama.cpp-style runtimes, depending only on cuBLASLt and the header-only cuTLASS library. It demonstrates that modern transformer inference can be packaged as a tiny, dependency-free native binary instead of a multi-gigabyte Python stack, which matters for deployment, reproducibility, and HPC use cases. It's also a rare end-to-end CUDA implementation of a 3D reconstruction transformer, an area usually dominated by research-grade PyTorch code. The engine uses mmap'd bf16 weights with a single bulk GPU upload, static dimensions, a one-shot memory arena, and deterministic execution; output point clouds and camera poses can be dropped into a single-file HTML viewer with no install. The DVLT weights themselves are NVIDIA's non-commercial release and must be fetched separately at setup.
-
-rss · r/LocalLLaMA RSS · Jun 6, 22:04
-
-**Background**: DVLT (Déjà View Looping Transformer) is NVIDIA's feed-forward 3D reconstruction model that takes unposed RGB images or video and predicts per-pixel depth, ray maps, 3D points, and camera intrinsics/extrinsics in a single pass. cuBLASLt is NVIDIA's lightweight GEMM library with tensor-core support, while CUTLASS is a header-only C++ template library for high-performance matrix multiplication on CUDA GPUs. Most ML inference today runs through PyTorch, ONNX Runtime, or specialized servers like vLLM, so writing a model-specific engine directly against these low-level libraries is unusual and labor-intensive.
-
-<details><summary>References</summary>
-<ul>
-<li><a href="https://huggingface.co/nvidia/dvlt">nvidia / dvlt · Hugging Face</a></li>
-<li><a href="https://github.com/NVIDIA/cutlass">GitHub - NVIDIA/ cutlass : CUDA Templates and Python DSLs for...</a></li>
-<li><a href="https://www.corsix.org/content/cublaslt-notes">cuBLASLt notes</a></li>
-
-</ul>
-</details>
-
-**💬 Take**: In an era where 'inference engine' usually means downloading 8GB of Python wheels to run a 200MB model, a 5MB single binary feels almost subversive. It won't displace vLLM, but as a teaching artifact and a reminder of how lean GPU inference can actually be, it's the kind of side project the field needs more of.
-
-**Tags**: `#CUDA`, `#inference-engine`, `#3D-reconstruction`, `#HPC`, `#NVIDIA`
-
----
-
-<a id="item-8"></a>
-## [MoQ and GSQ Promise Sharper Low-Bit GGUF Quantization for Local LLMs](https://www.reddit.com/r/LocalLLaMA/comments/1tyjkfh/moq_ggufs_and_gsq_lowbit_ggufs_are_about_to_get/) ⭐️ 7.0/10
-
-A new write-up on r/LocalLLaMA highlights two emerging quantization techniques — Mixture of Quantization (MoQ) GGUFs and Gumbel-Softmax Quantization (GSQ) — that aim to substantially improve the quality of low-bit GGUF models used in llama.cpp. Together they target the long-standing accuracy cliff that occurs when models are pushed to 2- to 4-bit precision. GGUF is the de facto format for running LLMs locally on consumer hardware, so any quality bump at 2–4 bit translates directly into bigger or smarter models fitting on the same GPU or CPU. If MoQ and GSQ deliver as promised, hobbyists and edge deployments can run frontier-class models with noticeably less degradation. MoQ applies mixed precision across different parts of the model (echoing DeepSpeed's earlier Mixture-of-Quantization idea) so sensitive weights keep more bits while resilient ones go lower, while GSQ uses a Gumbel-Softmax relaxation over a small grid to find near-optimal scalar quantization points for ternary and 2-bit regimes. Both approaches are still rolling out into the GGUF/llama.cpp ecosystem rather than being a single shipped release.
+New MoQ GGUFs and GSQ quantization techniques promise significant quality improvements for low-bit GGUF model formats used in local LLM inference.
 
 rss · r/LocalLLaMA RSS · Jun 6, 15:01
 
-**Background**: GGUF (GPT-Generated Unified Format) is the file format used by llama.cpp to store quantized LLM weights for efficient local inference, and it supports a range of bit-widths from 8-bit down to 2-bit. Lower bit-widths shrink memory and speed up inference but historically cause quality loss, especially below 4-bit. Quantization research has therefore focused on smarter bit allocation (mixed precision) and better mappings from float weights to discrete levels, which is exactly the territory MoQ and GSQ stake out.
-
-<details><summary>References</summary>
-<ul>
-<li><a href="https://www.deepspeed.ai/tutorials/MoQ-tutorial/">DeepSpeed Mixture-of-Quantization (MoQ)</a></li>
-<li><a href="https://arxiv.org/html/2604.18556">GSQ : Highly-Accurate Low -Precision Scalar Quantization for LLMs...</a></li>
-<li><a href="https://github.com/ggml-org/llama.cpp/blob/master/tools/quantize/README.md">llama.cpp/tools/quantize/README.md at master · ggml ... - GitHub</a></li>
-
-</ul>
-</details>
-
-**💬 Take**: Every few months the local LLM crowd gets another quantization miracle pitch, and most deliver maybe half of what the blog post promised — but the cumulative drift is real, and 2-bit models that were unusable a year ago now answer coherently. MoQ plus GSQ is the latest brick in that wall, and if it lands cleanly in llama.cpp, your 24GB card just got a free upgrade.
-
-**Tags**: `#quantization`, `#gguf`, `#local-llm`, `#llm-inference`, `#llama.cpp`
-
----
-
-<a id="item-9"></a>
-## [Domino: Decoupling Causal Modeling from Autoregressive Drafting in Speculative Decoding](https://www.reddit.com/r/LocalLLaMA/comments/1tyfqmp/domino_decoupling_causal_modeling_from/) ⭐️ 7.0/10
-
-Domino introduces a speculative decoding method that decouples causal modeling from autoregressive drafting, claiming up to 5.8x throughput speedup on Qwen3.
-
-rss · r/LocalLLaMA RSS · Jun 6, 12:16
-
-**Tags**: `#speculative-decoding`, `#llm-inference`, `#qwen3`, `#optimization`, `#research`
+**Tags**: `#quantization`, `#GGUF`, `#LLM-inference`, `#local-LLM`, `#llama.cpp`
 
 ---

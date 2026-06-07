@@ -5,194 +5,144 @@ date: 2026-06-07
 lang: zh
 ---
 
-> From 94 items, 9 important content pieces were selected
+> From 92 items, 7 important content pieces were selected
 
 ---
 
-1. [Simon Willison 发布 micropython-wasm：为 AI 智能体打造的代码执行沙箱](#item-1) ⭐️ 8.0/10
-2. [DeepSeek V4 Flash is amazing! (WIP llama.cpp PR #24162)](#item-2) ⭐️ 8.0/10
-3. [Gaia2: Benchmarking LLM Agents on Dynamic and Asynchronous Environments](#item-3) ⭐️ 7.0/10
-4. [OpenAI 在 ChatGPT 推出 Lockdown Mode，遏制提示注入导致的数据泄露](#item-4) ⭐️ 7.0/10
-5. [Cohere 在 LocalLLaMA 抢先发布编程模型 BLS-Mini-Code](#item-5) ⭐️ 7.0/10
-6. [BeeLlama 的 KVarN KV 缓存量化：6-bit 媲美 q8_0，4-bit 媲美 q5_0](#item-6) ⭐️ 7.0/10
-7. [dvlt.cu：为 NVIDIA DVLT 3D 模型从零手写的 CUDA/C++ 推理引擎](#item-7) ⭐️ 7.0/10
-8. [MoQ 与 GSQ：低比特 GGUF 量化质量将迎来大幅提升](#item-8) ⭐️ 7.0/10
-9. [Domino: Decoupling Causal Modeling from Autoregressive Drafting in Speculative Decoding](#item-9) ⭐️ 7.0/10
+1. [DeepSeek V4 Flash 初步登陆 llama.cpp，本地推理用户大呼惊艳](#item-1) ⭐️ 8.0/10
+2. [Tokenomics: Quantifying Where Tokens Are Used in Agentic Software Engineering](#item-2) ⭐️ 7.0/10
+3. [Gaia2：面向动态异步环境的大模型智能体基准测试](#item-3) ⭐️ 7.0/10
+4. [OpenAI 推出 Lockdown Mode，遏制 ChatGPT 提示注入风险](#item-4) ⭐️ 7.0/10
+5. [Cohere's unreleased coding model (early access for localllama)](#item-5) ⭐️ 7.0/10
+6. [BeeLlama 的 KVarN KV 缓存量化精度比 llama.cpp 同档高出一档](#item-6) ⭐️ 7.0/10
+7. [MoQ GGUFs and GSQ: Low-Bit GGUFs Are About to Get Much Better](#item-7) ⭐️ 7.0/10
 
 ---
 
 <a id="item-1"></a>
-## [Simon Willison 发布 micropython-wasm：为 AI 智能体打造的代码执行沙箱](https://simonwillison.net/2026/Jun/6/micropython-in-a-sandbox/#atom-everything) ⭐️ 8.0/10
+## [DeepSeek V4 Flash 初步登陆 llama.cpp，本地推理用户大呼惊艳](https://www.reddit.com/r/LocalLLaMA/comments/1tyb3np/deepseek_v4_flash_is_amazing_wip_llamacpp_pr_24162/) ⭐️ 8.0/10
 
-Simon Willison 发布了 micropython-wasm（alpha 0.1a1），这个 Python 包打包了一份定制的 MicroPython WebAssembly 构建，并通过 wasmtime 运行，提供安全的代码执行沙箱。他同时推出了 datasette-agent-micropython 插件，将该沙箱接入 Datasette Agent，让 LLM 驱动的智能体可以安全地执行 Python 代码。 沙箱化的代码执行是 AI 智能体最关键也最容易被忽视的基础能力之一，因为 LLM 经常生成需要在严格内存、CPU、文件系统和网络限制下运行的代码。Willison 的方案提供了一个可通过 pip 安装、跨平台的沙箱，无需 Docker 或独立运行时，降低了任何想安全执行不可信或模型生成代码的 Python 工具的门槛。 该包将一份轻度定制的 MicroPython WASM 构建与一个 Python 封装层结合，通过 wasmtime 来强制内存和 CPU 限制、控制文件访问并阻止网络调用。由于使用的是 MicroPython 而非 CPython，沙箱仅支持 Python 及其标准库的一个子集，这是为了换取一个体积小、易嵌入、易沙箱化、能从 PyPI 干净安装且无需为各平台二进制 wheel 头疼的运行时所做的取舍。
+一位 Reddit 用户通过仍在开发中的 llama.cpp PR #24162 测试了 DeepSeek V4 Flash，并自制了 3-bit 量化版本，反馈称该模型在本地可运行的体量下展现出可媲美前沿模型的智能水平，尽管目前速度仅为 5-6 tokens/秒，且 GPU 与 Flash Attention 支持尚未完善。 如果 V4 Flash 真能在 80-140GB 体量下提供前沿级智能，加上抗量化能力强、KV 缓存占用低，那么它可能重新定义消费级和专业级硬件上的可行边界，对 Qwen、MiniMax 等本地 LLM 竞争对手构成实质压力。 DeepSeek V4 Flash 是一个 284B 参数的 MoE 模型，激活参数 13B，支持 1M token 上下文窗口，原生采用 FP4-FP8 混合精度训练，因此比典型 FP16 训练的模型更能抵抗激进量化带来的精度损失。该 PR 基于 fairydreaming 此前在 DeepSeek Sparse Attention（DSA）方面的工作，由 am17an 和 pwilkin 接手推进。
 
-rss · Simon Willison · Jun 6, 03:53
+rss · r/LocalLLaMA RSS · Jun 6, 07:56
 
-**背景**: MicroPython 是 Python 3 的精简重实现，最初为微控制器设计，并有一个被 PyScript 等项目使用的官方 WebAssembly 移植版。WebAssembly（WASM）提供了一种可移植的沙箱化执行模型，宿主可以严格控制内存、系统调用和能力授予，因此成为安全代码执行的热门基础。Datasette 是 Simon Willison 的开源工具，用于探索和发布 SQLite 数据，而 Datasette Agent 则是其较新推出的 LLM 驱动的对话界面，通过插件扩展智能体能力。
+**背景**: llama.cpp 是目前最主流的开源 C/C++ LLM 本地推理引擎，新的模型架构通常需要专门提交 PR 来支持其特有的注意力机制和 MoE 结构。量化技术将模型权重压缩到更低的比特宽度（如 3-bit、4-bit），使大模型能装进有限的显存或内存，但代价通常是质量下降，量化越激进掉点越明显。原生采用低精度（如 FP4-FP8 混合）训练的模型对量化的容忍度远高于 FP16 训练的模型，这也是本地推理社区如此看重这一特性的原因。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://github.com/simonw">simonw (Simon Willison) · GitHub</a></li>
-<li><a href="https://datasette.io/blog/2026/datasette-agent/">Datasette Agent, an extensible AI assistant for Datasette - Datasette Blog</a></li>
-<li><a href="https://www.npmjs.com/package/@micropython/micropython-webassembly-pyscript">@micropython/micropython-webassembly-pyscript - npm</a></li>
+<li><a href="https://huggingface.co/deepseek-ai/DeepSeek-V4-Flash">deepseek -ai/ DeepSeek - V 4 - Flash · Hugging Face</a></li>
+<li><a href="https://openrouter.ai/deepseek/deepseek-v4-flash">DeepSeek V 4 Flash - API Pricing & Benchmarks | OpenRouter</a></li>
 
 </ul>
 </details>
 
-**💬 点评**: 在 AI 智能体的喧嚣热潮中，Willison 一直在默默搭建那些不性感但极其关键的基础设施，一个 pip 就能装的 Python 沙箱正是让「会写代码的智能体」不至于变成灾难配方的关键零件。用 MicroPython 的代价当然是真的，别想着跑 NumPy，但对于 90% 那些本质上就是搓字符串和 JSON 的智能体任务来说，这点代价完全划算。
+**💬 点评**: 所谓「媲美前沿」目前只是一个网友用自制 3-bit 量化跑半成品 PR 得出的体感，水分得自己掂量；但如果哪怕一半属实，DeepSeek 就悄悄干了别家只会发推吹的事——做出一个真正为普通人手里那点显卡设计的模型。
 
-**标签**: `#sandbox`, `#webassembly`, `#ai-agents`, `#python`, `#datasette`
+**标签**: `#DeepSeek`, `#llama.cpp`, `#local-inference`, `#quantization`, `#open-source-models`
 
 ---
 
 <a id="item-2"></a>
-## [DeepSeek V4 Flash is amazing! (WIP llama.cpp PR #24162)](https://www.reddit.com/r/LocalLLaMA/comments/1tyb3np/deepseek_v4_flash_is_amazing_wip_llamacpp_pr_24162/) ⭐️ 8.0/10
+## [Tokenomics: Quantifying Where Tokens Are Used in Agentic Software Engineering](https://arxiv.org/abs/2601.14470) ⭐️ 7.0/10
 
-Early hands-on report of DeepSeek V4 Flash running on llama.cpp via WIP PR #24162, with custom 3-bit quantization showing frontier-comparable intelligence at local-friendly size despite slow speeds.
+An arXiv paper analyzing and quantifying where tokens are consumed in agentic software engineering workflows.
 
-rss · r/LocalLLaMA RSS · Jun 6, 07:56
+rss · Hacker News - AI & Agents · Jun 7, 01:37
 
-**标签**: `#DeepSeek`, `#llama.cpp`, `#Local LLM`, `#Quantization`, `#Open Source`
+**标签**: `#agentic-engineering`, `#tokenomics`, `#llm-cost`, `#research`, `#ai-agents`
 
 ---
 
 <a id="item-3"></a>
-## [Gaia2: Benchmarking LLM Agents on Dynamic and Asynchronous Environments](https://arxiv.org/abs/2602.11964) ⭐️ 7.0/10
+## [Gaia2：面向动态异步环境的大模型智能体基准测试](https://arxiv.org/abs/2602.11964) ⭐️ 7.0/10
 
-Gaia2 introduces a benchmark for evaluating LLM agents operating in dynamic and asynchronous environments.
+研究人员发布了 Gaia2 基准，包含 1,120 个人工标注的场景，模拟智能手机式环境，从时间感知、动态事件适应性、噪声鲁棒性、歧义消解和多智能体协作等维度评估 LLM 智能体。它还配套发布了 ARE 研究平台，通过应用、事件、通知、场景等抽象搭建仿真异步环境，并支持基于可验证奖励的强化学习（RLVR）。 目前主流的智能体基准多为静态或同步式，无法反映环境会独立于智能体动作持续演化的真实世界，而 Gaia2 正好补上了这一空白，对追求生产级自主智能体的研究意义重大。它揭示了在时间压力下推理质量与执行效率之间的权衡，相比再多一个单轮任务集，能给模型开发者更有价值的反馈信号。 Gaia2 引入了写操作验证器（write-action verifier），可在动作级别进行验证，适合 RLVR 训练，并明确加入了多智能体协作场景的考察。配套的 ARE 平台主打可复现性，但基准本身基于类智能手机的仿真环境，能否泛化到浏览器、操作系统级任务或机器人等其他领域仍有待观察。
 
 rss · Hacker News - AI & Agents · Jun 7, 01:36
 
-**标签**: `#AI agents`, `#benchmark`, `#LLM evaluation`, `#research`, `#arXiv`
+**背景**: 原版 GAIA 由 Meta 与 Hugging Face 推出，因考察 LLM 智能体在真实问题中调用工具、浏览网页和多步推理的能力而广受关注，人类得分约 92%，而带插件的 GPT-4 仅约 15%。但 GAIA 的任务本质上是静态的——世界会耐心等智能体思考完。真实部署中却充满异步事件、任务执行中途到达的通知，以及其他并行行动的智能体，而这正是 Gaia2 想要模拟的场景。RLVR（基于可验证奖励的强化学习）是一种通过程序化校验而非人类偏好来给奖励的训练范式，自 DeepSeek-R1 走红后越来越受关注。
+
+<details><summary>参考链接</summary>
+<ul>
+<li><a href="https://arxiv.org/abs/2602.11964">[2602.11964] Gaia2: Benchmarking LLM Agents on Dynamic and Asynchronous Environments</a></li>
+<li><a href="https://huggingface.co/papers/2602.11964">Paper page - Gaia 2: Benchmarking LLM Agents on Dynamic and...</a></li>
+<li><a href="https://www.opennovelty.org/papers/9gw03JpKK4/gaia2-benchmarking-llm-agents-on-dynamic-and-asynchronous-environments">Gaia2: Benchmarking LLM Agents on Dynamic and Asynchronous Environments | Novelty Validation</a></li>
+
+</ul>
+</details>
+
+**💬 点评**: 静态智能体基准已经像是凌晨三点在空停车场测试自动驾驶——Gaia2 坚持让环境在智能体磨蹭时继续往前走，这事早该有人做了。真正的考验是各大实验室会不会老老实实公布 Gaia2 成绩，还是继续挑那个能让自家模型这季度看起来最聪明的基准刷榜。
+
+**标签**: `#LLM-agents`, `#benchmarking`, `#agent-evaluation`, `#research`, `#arxiv`
 
 ---
 
 <a id="item-4"></a>
-## [OpenAI 在 ChatGPT 推出 Lockdown Mode，遏制提示注入导致的数据泄露](https://techcrunch.com/2026/06/06/openai-unveils-lockdown-mode-to-protect-sensitive-data-from-prompt-injection-attacks/) ⭐️ 7.0/10
+## [OpenAI 推出 Lockdown Mode，遏制 ChatGPT 提示注入风险](https://techcrunch.com/2026/06/06/openai-unveils-lockdown-mode-to-protect-sensitive-data-from-prompt-injection-attacks/) ⭐️ 7.0/10
 
-OpenAI 为 ChatGPT 推出了名为 Lockdown Mode 的新安全功能，目的是降低敏感数据通过提示注入攻击被泄露的风险。该功能首先面向 ChatGPT Enterprise、Edu、Healthcare 和 Teachers 等高风险版本开放，消费级版本预计在未来几个月跟进。 提示注入被普遍视为 LLM 智能体目前最棘手的安全难题，尤其是当 ChatGPT 越来越多地代用户浏览网页、读邮件、执行操作时，风险陡增。内置的强化模式说明 OpenAI 已经把智能体数据泄露当作必须交付防御方案的一线威胁，而不再只是研究层面的话题。 OpenAI 直白承认 Lockdown Mode 并不能根除提示注入，ChatGPT 依然可能被诱骗，但该功能的目标是降低模型在被骗时真正交出敏感数据的概率。它还与新引入的 Elevated Risk 风险标识配套使用，形成分层防御：模型既会限制自身行为，也会主动提示用户当前处于高风险场景。
+OpenAI 为 ChatGPT 推出了 Lockdown Mode，这是一项更严格的安全设置，旨在降低提示注入攻击窃取敏感数据的可能性。该功能将首先在 ChatGPT Enterprise、Edu、Healthcare 和 Teachers 版本中上线，面向普通消费者的版本预计将在未来几个月推出。 随着 ChatGPT 通过 agent 工作流越来越多地接入邮箱、文档和企业内部工具，提示注入已成为生产级 AI 系统中最危险的攻击类型。OpenAI 在产品层面提供缓解措施，意味着行业开始正视这一问题，并为处理受监管或机密数据的企业提供真正可用的防御手段。 OpenAI 明确承认，Lockdown Mode 并不能彻底消除提示注入风险，只能降低攻击过程中敏感数据被泄露的概率。此次发布还配套推出了 ChatGPT 中的 Elevated Risk 高风险标签，用于向用户和管理员标识风险较高的操作。
 
 rss · TechCrunch AI · Jun 6, 20:32
 
-**背景**: 提示注入是一种攻击手法：攻击者把恶意指令藏在不可信的内容里（网页、文档、邮件等），从而劫持 LLM 的行为，让它忽略原有指令或泄露其能访问到的数据。随着 LLM 从聊天机器人演变为能读取外部内容、调用工具的智能体，间接提示注入已经成为 AI 时代的 SQL 注入，目前业界还没有一种完全可靠的防御方案。OWASP 在其生成式 AI 十大安全风险榜单中，把提示注入列为第一名。
+**背景**: 提示注入是一种攻击手段：攻击者把恶意指令藏在用户输入、网页、邮件或文档里，诱导大模型忽略原有指令、转而执行攻击者的命令，例如泄露隐私数据或发送未授权邮件。OWASP 将其列为大模型应用的头号安全风险（LLM01:2025），原因正是模型无法可靠区分受信任的开发者指令与从外部摄入的不可信内容。随着 ChatGPT 接入浏览、连接器和 agent 模式等工具，攻击面急剧扩大，一个被投毒的网页或共享文档就可能成为数据外泄的通道。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://en.wikipedia.org/wiki/Prompt_injection">Prompt injection - Wikipedia</a></li>
-<li><a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">LLM 01:2025 Prompt Injection - OWASP Gen AI Security Project</a></li>
 <li><a href="https://www.gend.co/blog/chatgpt-lockdown-mode-security">ChatGPT Lockdown Mode : Reduce Prompt Injection Risk</a></li>
+<li><a href="https://genai.owasp.org/llmrisk/llm01-prompt-injection/">LLM01:2025 Prompt Injection - OWASP Gen AI Security Project</a></li>
+<li><a href="https://www.ibm.com/think/topics/prompt-injection">What Is a Prompt Injection Attack? | IBM</a></li>
 
 </ul>
 </details>
 
-**💬 点评**: 起名叫 Lockdown Mode 很会营销，但也等于悄悄承认默认模式其实没锁——OpenAI 一边给你系安全带，一边还坚称车是安全的。在真正解决间接提示注入之前（目前没人做到），每一次 Agent 化的产品发布，本质上都是在赌便利性能跑赢泄露风险。
+**💬 点评**: 把功能起名叫 Lockdown Mode，明显是抄了 Apple 的作业，但潜台词其实很响亮：OpenAI 已经承认提示注入这事儿根本治不好，只能尽量扛着活下去。给那些神经紧绷的企业用户递上一个紧急刹车键，算是难得的诚实，但反过来也等于默认——ChatGPT 的其他部分仍然是一艘在不可信文本风暴里漏水的船。
 
-**标签**: `#OpenAI`, `#ChatGPT`, `#prompt-injection`, `#AI-security`, `#LLM-safety`
+**标签**: `#OpenAI`, `#security`, `#prompt-injection`, `#ChatGPT`, `#AI-safety`
 
 ---
 
 <a id="item-5"></a>
-## [Cohere 在 LocalLLaMA 抢先发布编程模型 BLS-Mini-Code](https://www.reddit.com/r/LocalLLaMA/comments/1tylzy2/coheres_unreleased_coding_model_early_access_for/) ⭐️ 7.0/10
+## [Cohere's unreleased coding model (early access for localllama)](https://www.reddit.com/r/LocalLLaMA/comments/1tylzy2/coheres_unreleased_coding_model_early_access_for/) ⭐️ 7.0/10
 
-Cohere 联合创始人 Nick Frosst 直接在 r/LocalLLaMA 发帖，邀请社区抢先试用公司的首个编程模型 BLS-Mini-Code-1.0；这是一款总参数 30B、激活参数 3B 的混合专家模型，权重已先行上线 Hugging Face，正式发布在即。 这是 Cohere 首款专门的编程模型，也代表了一个一向以企业市场为主的实验室开始主动拉拢开源权重爱好者社区，承认正式发布前的草根反馈有价值。3B 激活参数的 MoE 设计能轻松跑在消费级硬件上，将直接与 Qwen-Coder 等小型编程模型同台竞争。 Frosst 坦言模型尚未完全就绪，鼓励测试者用实际任务来压测；据称推理速度与同尺寸模型相当；权重目前托管在 Hugging Face 的 CohereLabs/BLS-Mini-Code-1.0 仓库，正式发布时会上架更多平台。
+Cohere's Nick Frosst announces early access to their first unreleased coding model for the LocalLLaMA Reddit community ahead of public release.
 
 rss · r/LocalLLaMA RSS · Jun 6, 16:36
 
-**背景**: Cohere 是总部位于多伦多的 AI 实验室，以面向企业的大语言模型著称，其旗舰 Command A+ 是总参数 218B、激活参数 25B 的稀疏 MoE 模型，主打智能体和多语言任务。r/LocalLLaMA 子版块则是本地部署开源权重模型爱好者的聚集地，Meta、Mistral、Qwen、DeepSeek 等家的新模型都会在这里被实时拆解。所谓 30B/3B 激活的 MoE，指的是总参数 30 亿但每个 token 只激活约 3B 参数，从而在保持模型容量的同时让本地 GPU 也能跑得动。
-
-<details><summary>参考链接</summary>
-<ul>
-<li><a href="https://cohere.com/command">Cohere Command Models : AI-Powered Solutions for Enterprise</a></li>
-<li><a href="https://huggingface.co/CohereLabs/command-a-plus-05-2026-w4a4">CohereLabs/ command -a-plus-05-2026-w4a4 · Hugging Face</a></li>
-
-</ul>
-</details>
-
-**💬 点评**: Cohere 这家平时只会讲企业 PPT 黑话的实验室，居然带着半成品编程模型跑到 r/LocalLLaMA 求反馈，这波放低姿态还挺意外。不过 Reddit 上刷到的好感不算数，3B 激活参数能不能打得过在这个量级里悄悄横扫一切的 Qwen3-Coder，才是真正的考题。
-
-**标签**: `#cohere`, `#coding-llm`, `#model-release`, `#localllama`, `#early-access`
+**标签**: `#cohere`, `#coding-model`, `#llm`, `#early-access`, `#localllama`
 
 ---
 
 <a id="item-6"></a>
-## [BeeLlama 的 KVarN KV 缓存量化：6-bit 媲美 q8_0，4-bit 媲美 q5_0](https://www.reddit.com/r/LocalLLaMA/comments/1tyockn/kv_cache_quant_benchmarks_kvarn_6bit_matches_q8_0/) ⭐️ 7.0/10
+## [BeeLlama 的 KVarN KV 缓存量化精度比 llama.cpp 同档高出一档](https://www.reddit.com/r/LocalLLaMA/comments/1tyockn/kv_cache_quant_benchmarks_kvarn_6bit_matches_q8_0/) ⭐️ 7.0/10
 
-Anbeeld 在 llama.cpp 分支 BeeLlama v0.3.2 Preview 中把 KVarN KV 缓存量化扩展到全部位宽，基于 Qwen 3.6 27B Q5_K_S + 64k 上下文的长上下文 KLD 基准显示，每一档 KVarN 的精度都能对标高一位的标准 llama.cpp 量化。具体来说，kvarn6 持平 q8_0，kvarn4 持平 q5_0，而 6/5-bit 这类非对称 K/V 组合可以用约 5.5-bit 的显存代价拿到接近 q8_0 的质量。 KV 缓存内存是长上下文本地推理的主要瓶颈，全档位省下整整一位精度意味着显存吃紧的用户可以跑更长的上下文或更大的模型，而不必再忍受常见的质量塌方。如果结果经得起独立验证并被合入主线，llama.cpp 生态里 KV 缓存量化的默认推荐可能会就此改写。 基准以 bf16 为基线，统计 mean KLD 和 99.9% KLD，KVarN 各档位与高一位的标准量化结果几乎贴合（例如 kvarn8-kvarn8 mean KLD 为 0.0024，q8_0 为 0.0023）。代价在吞吐：prompt 处理速度明显偏慢（约 634-689 tok/s，对照 bf16 和 q8_0 的 850 tok/s），作者也强调实现还很粗糙，仍有优化空间。
+llama.cpp 的分支 BeeLlama v0.3.2 Preview 加入了 KVarN KV 缓存量化方案。在 Qwen 3.6 27B、64k 上下文的长文 KLD 基准里，KVarN 的精度比 llama.cpp 同位宽的标准量化高一档：6-bit KVarN 大致等同于 q8_0，4-bit KVarN 大致等同于 q5_0；作者还指出 6/5-bit 的非对称组合能以约 5.5 bit/元素的开销逼近 q8_0 的画质。 在本地长上下文推理里，KV 缓存常常是显存瓶颈，因此用 6-bit 内存换到 q8_0 级别的精度，意味着同样的显存可以跑更长的上下文或更多并发请求。如果第三方复测能站住，KVarN 很可能成为显存受限的 llama.cpp 用户的默认 KV 量化方案。 测试以 bf16 为基线、用 KL 散度衡量，模型为 Qwen 3.6 27B（权重 Q5_K_S），上下文 64k；kvarn6-kvarn6 平均精度 99.80%，与 q8_0 的 99.80% 持平，但只占 bf16 缓存的约 40.4%（q8_0 为 53.1%）。代价是 prompt 处理变慢，约 643 tok/s 对比 q8_0 的 851 tok/s，作者也提示当前实现未经优化，v0.3.2 发布二进制过时，需自行从源码编译。
 
 rss · r/LocalLLaMA RSS · Jun 6, 18:06
 
-**背景**: KV 缓存保存推理过程中前序 token 的 key 和 value 张量，长上下文下其内存占用甚至会超过模型权重，所以 llama.cpp 提供了 q8_0、q5_1、q4_0 等专门的量化格式。KVarN（方差归一化 KV 缓存量化）是一种研究方法，在量化前先对每个 tile 做方差归一化，以抑制自回归解码中的误差累积，最初是为 vLLM 提出的。KLD（KL 散度）相对高精度基线的差值是社区用来捕捉 MMLU 等粗粒度基准发现不了的细微质量损失的敏感指标。BeeLlama.cpp 是一个偏性能优化的 llama.cpp 分支，集成了 DFlash 投机解码、TurboQuant/TCQ KV 缓存压缩等特性。
+**背景**: KV 缓存存放生成过程中所有历史 token 的 key/value 张量，在长上下文场景下其显存占用甚至会超过模型权重本身；llama.cpp 已通过 --cache-type-k/--cache-type-v 提供 q8_0、q5_1、q4_0 等 KV 量化选项。KL 散度（KLD）衡量量化模型相对全精度基线的 token 概率分布偏移，比困惑度更细致。KVarN 最初由华为研究人员针对 vLLM 提出，是一种基于方差归一化的 KV 缓存量化方法，通过先按通道归一化再量化来保住精度。BeeLlama 是一个独立的 llama.cpp 分支（以 DFlash 特性为主），现在把 KVarN 思路移植到了 GGUF/llama.cpp 生态。
 
 <details><summary>参考链接</summary>
 <ul>
-<li><a href="https://github.com/Anbeeld/beellama.cpp">GitHub - Anbeeld/beellama.cpp: DFlash & TurboQuant in llama ...</a></li>
+<li><a href="https://anbeeld.com/articles/kvarn-kv-cache-implementation-and-benchmarks">KVarN KV Cache : Implementation and Benchmarks - Anbeeld</a></li>
 <li><a href="https://github.com/huawei-csl/KVarN">huawei-csl/ KVarN : KVarN is a native vLLM KV - cache quantization ...</a></li>
-<li><a href="https://anbeeld.com/projects/beellama-cpp">Anbeeld's BeeLlama.cpp</a></li>
+<li><a href="https://www.techplained.com/kv-cache-quantization">KV Cache Quantization : Q 8 vs FP16 (and Q4 Pitfalls) | TechPlained</a></li>
 
 </ul>
 </details>
 
-**💬 点评**: 一个独立开发者的分支号称在整条 KV 量化阶梯上白送一位精度，这种结果要么是真神来之笔，要么背后藏着 benchmark 的小猫腻，目前还分不清。值得围观，但在 BeeLlama 圈外有人复现 KLD 数据、prompt 处理速度也补上之前，先别急着把自家推理栈推倒重来。
+**💬 点评**: 天上不会掉馅饼，省下来的显存是用 prompt 处理速度和『请自行从源码编译』的折腾换的；但如果数据顶得住复测，llama.cpp 的官方 KV 量化方案瞬间就显得老一辈了。接下来的看点是上游会不会下场把 KVarN 招安，还是它就一直在 BeeLlama 这个分支里当个民间偏方。
 
-**标签**: `#llama.cpp`, `#quantization`, `#kv-cache`, `#llm-inference`, `#local-llm`
+**标签**: `#llama.cpp`, `#kv-cache`, `#quantization`, `#llm-inference`, `#local-llm`
 
 ---
 
 <a id="item-7"></a>
-## [dvlt.cu：为 NVIDIA DVLT 3D 模型从零手写的 CUDA/C++ 推理引擎](https://www.reddit.com/r/LocalLLaMA/comments/1tyu79c/dvltcu_inference_engine_written_from_scratch_in/) ⭐️ 7.0/10
+## [MoQ GGUFs and GSQ: Low-Bit GGUFs Are About to Get Much Better](https://www.reddit.com/r/LocalLLaMA/comments/1tyjkfh/moq_ggufs_and_gsq_lowbit_ggufs_are_about_to_get/) ⭐️ 7.0/10
 
-开发者 yassa9 发布了 dvlt.cu，一个用 CUDA/C++ 从零手写、仅 5MB 单文件二进制的推理引擎，专门用于 NVIDIA 的 1.17 亿参数 DVLT（Déjà View Looping Transformer）3D 重建模型。它完全不依赖 Python、PyTorch、ONNX 或 llama.cpp 等运行时，只用了 cuBLASLt 和头文件库 cuTLASS。 它证明了现代 Transformer 推理可以打包成一个极小、零依赖的原生二进制文件，而不必拖着几个 GB 的 Python 环境，这对部署、可复现性和 HPC 场景意义重大。同时，这也是 3D 重建 Transformer 领域罕见的端到端 CUDA 实现，该领域通常被研究性的 PyTorch 代码主导。 引擎采用 mmap 映射的 bf16 权重、一次性批量上传到 GPU、静态维度、一次性内存 arena 以及确定性执行；输出的点云和相机位姿可直接拖进一个单文件 HTML 查看器，无需安装任何东西。DVLT 权重本身是 NVIDIA 的非商用许可版本，需要在配置时单独下载。
-
-rss · r/LocalLLaMA RSS · Jun 6, 22:04
-
-**背景**: DVLT（Déjà View Looping Transformer）是 NVIDIA 的前馈式 3D 重建模型，输入未标定位姿的 RGB 图像或视频，一次前向就能预测出逐像素深度、光线图、3D 点以及相机内外参。cuBLASLt 是 NVIDIA 的轻量级 GEMM 库，支持 Tensor Core；CUTLASS 则是一个只含头文件的 C++ 模板库，用于在 CUDA GPU 上实现高性能矩阵乘法。如今绝大多数 ML 推理都跑在 PyTorch、ONNX Runtime 或 vLLM 这类专用服务上，因此直接基于这些底层库为单个模型手写引擎相当少见，也很费工。
-
-<details><summary>参考链接</summary>
-<ul>
-<li><a href="https://huggingface.co/nvidia/dvlt">nvidia / dvlt · Hugging Face</a></li>
-<li><a href="https://github.com/NVIDIA/cutlass">GitHub - NVIDIA/ cutlass : CUDA Templates and Python DSLs for...</a></li>
-<li><a href="https://www.corsix.org/content/cublaslt-notes">cuBLASLt notes</a></li>
-
-</ul>
-</details>
-
-**💬 点评**: 在这个动不动下载 8GB Python 依赖只为跑一个 200MB 模型的年代，一个 5MB 的单文件二进制简直有点叛逆的味道。它当然替代不了 vLLM，但作为教学样本，提醒大家 GPU 推理其实可以多苗条，这种业余项目这个行业还是多多益善。
-
-**标签**: `#CUDA`, `#inference-engine`, `#3D-reconstruction`, `#HPC`, `#NVIDIA`
-
----
-
-<a id="item-8"></a>
-## [MoQ 与 GSQ：低比特 GGUF 量化质量将迎来大幅提升](https://www.reddit.com/r/LocalLLaMA/comments/1tyjkfh/moq_ggufs_and_gsq_lowbit_ggufs_are_about_to_get/) ⭐️ 7.0/10
-
-r/LocalLLaMA 上的一篇文章介绍了两种新兴量化方法：Mixture of Quantization（MoQ）GGUFs 和 Gumbel-Softmax 量化（GSQ），它们旨在显著提升 llama.cpp 中低比特 GGUF 模型的质量。两者共同瞄准的是模型压到 2 到 4 比特时出现的精度断崖问题。 GGUF 已经是消费级硬件本地跑大模型的事实标准，因此 2 到 4 比特上的任何质量提升，都意味着同样的 GPU 或 CPU 能塞下更大或更聪明的模型。如果 MoQ 和 GSQ 真能兑现承诺，发烧友和边缘部署就能以更小的精度损失跑上前沿级模型。 MoQ 在模型不同部分应用混合精度（思路与 DeepSpeed 早期的 Mixture-of-Quantization 一脉相承），让敏感权重保留更多比特、抗压权重降到更低；而 GSQ 则利用 Gumbel-Softmax 松弛在小型网格上搜索近最优的标量量化点，特别适用于三值和 2 比特场景。两种方法目前还在逐步并入 GGUF/llama.cpp 生态，并不是某一次性发布的版本。
+New MoQ GGUFs and GSQ quantization techniques promise significant quality improvements for low-bit GGUF model formats used in local LLM inference.
 
 rss · r/LocalLLaMA RSS · Jun 6, 15:01
 
-**背景**: GGUF（GPT-Generated Unified Format）是 llama.cpp 用来存放量化大模型权重的文件格式，支持从 8 比特到 2 比特的多种位宽。位宽越低，显存占用越小、推理越快，但传统上质量也会明显下滑，4 比特以下尤其严重。因此量化研究的重点一直是更聪明的比特分配（混合精度）和更优的浮点到离散值的映射方式，而 MoQ 与 GSQ 恰好正中这两条主线。
-
-<details><summary>参考链接</summary>
-<ul>
-<li><a href="https://www.deepspeed.ai/tutorials/MoQ-tutorial/">DeepSpeed Mixture-of-Quantization (MoQ)</a></li>
-<li><a href="https://arxiv.org/html/2604.18556">GSQ : Highly-Accurate Low -Precision Scalar Quantization for LLMs...</a></li>
-<li><a href="https://github.com/ggml-org/llama.cpp/blob/master/tools/quantize/README.md">llama.cpp/tools/quantize/README.md at master · ggml ... - GitHub</a></li>
-
-</ul>
-</details>
-
-**💬 点评**: 本地大模型圈每隔几个月就要冒出一个号称封神的量化新方法，真到手往往只兑现一半——但日拱一卒的累积是真的，一年前根本没法用的 2 比特模型现在已经能正经说话了。MoQ 配上 GSQ 就是这堵墙上最新的一块砖，要是顺利落地进 llama.cpp，你那张 24G 显卡相当于白嫖了一次升级。
-
-**标签**: `#quantization`, `#gguf`, `#local-llm`, `#llm-inference`, `#llama.cpp`
-
----
-
-<a id="item-9"></a>
-## [Domino: Decoupling Causal Modeling from Autoregressive Drafting in Speculative Decoding](https://www.reddit.com/r/LocalLLaMA/comments/1tyfqmp/domino_decoupling_causal_modeling_from/) ⭐️ 7.0/10
-
-Domino introduces a speculative decoding method that decouples causal modeling from autoregressive drafting, claiming up to 5.8x throughput speedup on Qwen3.
-
-rss · r/LocalLLaMA RSS · Jun 6, 12:16
-
-**标签**: `#speculative-decoding`, `#llm-inference`, `#qwen3`, `#optimization`, `#research`
+**标签**: `#quantization`, `#GGUF`, `#LLM-inference`, `#local-LLM`, `#llama.cpp`
 
 ---
