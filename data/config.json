@@ -126,21 +126,64 @@
       {
         "name": "r/artificial RSS",
         "url": "https://www.reddit.com/r/artificial/.rss",
-        "enabled": true,
+        "enabled": false,
         "category": "ai-reddit"
       },
       {
         "name": "r/LocalLLaMA RSS",
         "url": "https://www.reddit.com/r/LocalLLaMA/.rss",
-        "enabled": true,
+        "enabled": false,
         "category": "ai-reddit"
       }
     ],
     "reddit": {
-      "enabled": false,
-      "subreddits": [],
+      "enabled": true,
+      "subreddits": [
+        {
+          "subreddit": "LocalLLaMA",
+          "enabled": true,
+          "sort": "hot",
+          "fetch_limit": 25,
+          "min_score": 50
+        },
+        {
+          "subreddit": "MachineLearning",
+          "enabled": true,
+          "sort": "hot",
+          "fetch_limit": 25,
+          "min_score": 50
+        },
+        {
+          "subreddit": "ClaudeAI",
+          "enabled": true,
+          "sort": "hot",
+          "fetch_limit": 20,
+          "min_score": 30
+        },
+        {
+          "subreddit": "OpenAI",
+          "enabled": true,
+          "sort": "hot",
+          "fetch_limit": 20,
+          "min_score": 50
+        },
+        {
+          "subreddit": "singularity",
+          "enabled": true,
+          "sort": "hot",
+          "fetch_limit": 20,
+          "min_score": 100
+        },
+        {
+          "subreddit": "selfhosted",
+          "enabled": true,
+          "sort": "hot",
+          "fetch_limit": 20,
+          "min_score": 50
+        }
+      ],
       "users": [],
-      "fetch_comments": 10
+      "fetch_comments": 5
     },
     "telegram": {
       "enabled": false,
@@ -152,16 +195,16 @@
       "auth_token_env": "X_AUTH_TOKEN",
       "bearer_env": "X_BEARER_TOKEN",
       "users": [
-        "AndrewYNg",
-        "kaboroevich",
-        "swyx",
-        "Laboradoodle",
-        "alexalbert__",
         "sama",
-        "ylecun",
-        "goodabith",
-        "araborchardt",
-        "emaborevkov"
+        "karpathy",
+        "simonw",
+        "swyx",
+        "alexalbert__",
+        "dotey",
+        "op7418",
+        "karminski3",
+        "idoubi",
+        "vikingmute"
       ],
       "fetch_limit": 20,
       "fetch_reply_text": false,
